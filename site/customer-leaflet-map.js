@@ -1,21 +1,30 @@
-/* Furniverse v2.2: one OpenStreetMap/Leaflet canvas with country and GPS customer layers.
- * Never invent a location: only address-level checked OSM coordinates become markers.
- * ISO association uses explicit address text, not the sales-market field. */
+/* Furniverse customer map: exact addresses plus clearly identified approximate
+ * street or administrative reference locations. No falsely precise office pins.
+ * All points come from cached one-time OSM research, never client-side geocoding. */
 (() => {
     'use strict';
     const $ = id => document.getElementById(id);
     const entries = Array.isArray(window.ATLAS_CUSTOMER_ADDRESSES) ? window.ATLAS_CUSTOMER_ADDRESSES : [];
     const rawPoints = Array.isArray(window.ATLAS_VERIFIED_CUSTOMER_POINTS) ? window.ATLAS_VERIFIED_CUSTOMER_POINTS : [];
+    const researchedPoints = Array.isArray(window.ATLAS_RESEARCHED_CUSTOMER_POINTS) ? window.ATLAS_RESEARCHED_CUSTOMER_POINTS : [];
     const isoResolver = window.FURNIVERSE_COUNTRY_ISO;
     const entryById = new Map(entries.map(row => [row.id, row]));
     const valid = point => point && entryById.has(point.id) &&
         Number.isFinite(point.lat) && Math.abs(point.lat) <= 90 &&
         Number.isFinite(point.lon) && Math.abs(point.lon) <= 180 &&
-        point.verificationLevel === 'address' &&
+        (point.verificationLevel === 'address' ||
+            (['street','postal','administrative'].includes(point.verificationLevel) &&
+             point.verificationSource === 'OpenStreetMap Nominatim (one-time research)')) &&
         point.checkedAddress === entryById.get(point.id).address &&
         ['node','way','relation'].includes(point.osmType) &&
         Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0;
-    const pointById = new Map(rawPoints.filter(valid).map(point => [point.id,point]));
+    // Existing manually audited exact matches take precedence over newer research.
+    const pointById = new Map([
+        ...researchedPoints.filter(valid).map(point => [point.id,point]),
+        ...rawPoints.filter(valid).map(point => [point.id,point])
+    ]);
+    const preciseCount = [...pointById.values()].filter(p => p.verificationLevel === 'address').length;
+    const areaCount = pointById.size - preciseCount;
     const mapCanvas = $('leaflet-map-canvas');
     const pane = $('atlas-customer-pane');
     const countryToggle = $('layer-countries');
@@ -75,7 +84,8 @@
     }
     function updateMapStatus() {
         if(!mapStatus) return;
-        mapStatus.textContent = fmt(pointById.size) + ' điểm khách hàng trên bản đồ';
+        mapStatus.textContent = fmt(preciseCount) + ' địa chỉ chính xác · ' +
+            fmt(areaCount) + ' vị trí tham chiếu khu vực';
     }
     function popupFor(rows,point) {
         const container = el('div','','atlas-leaflet-popup');
@@ -83,6 +93,16 @@
             if(index) container.appendChild(document.createElement('hr'));
             container.appendChild(el('strong',row.name));
             container.appendChild(el('p',row.address));
+            const rowPoint = pointById.get(row.id);
+            if (rowPoint) {
+                const label = rowPoint.verificationLevel === 'address'
+                    ? 'Vị trí địa chỉ (số nhà/tòa nhà)' :
+                    (rowPoint.precisionLabel || 'Vị trí tham chiếu khu vực');
+                container.appendChild(el('small',label,'customer-popup-precision'));
+                if (rowPoint.verificationLevel !== 'address') {
+                    container.appendChild(el('small','Điểm đại diện khu vực, không xác nhận vị trí chính xác của doanh nghiệp.','customer-popup-precision-note'));
+                }
+            }
             const country = isoFor(row);
             const metadata = [isoLabel(country),sizeLabels[row.sizeCategory]].filter(Boolean).join(' · ');
             if(metadata) container.appendChild(el('small',metadata,'customer-popup-iso'));
@@ -111,12 +131,16 @@
                 fillColor:'#ef4444',fillOpacity:0.001,interactive:true
             }).addTo(customersLayer);
             const radius = Math.max(...group.rows.map(row => sizeRadius[row.sizeCategory] || 3));
+            const exact = point.verificationLevel === 'address';
             window.L.circleMarker(coords,{
-                pane:'atlasCustomerPane',radius,weight:1,color:'#fff',
-                fillColor:'#ef4444',fillOpacity:1,interactive:false
+                pane:'atlasCustomerPane',radius:exact ? radius : radius + 2,
+                weight:exact ? 1 : 2,color:exact ? '#fff' : '#d97706',
+                fillColor:exact ? '#ef4444' : '#fbbf24',
+                fillOpacity:exact ? 1 : 0.25,interactive:false
             }).addTo(customersLayer);
             hit.bindPopup(popupFor(group.rows,point),{maxWidth:300,closeButton:true});
-            const tooltip = el('span',group.rows.map(row => row.name).join(' · '));
+            const tooltip = el('span',group.rows.map(row => row.name).join(' · ') +
+                (point.verificationLevel === 'address' ? '' : ' · khu vực tham chiếu'));
             hit.bindTooltip(tooltip,{direction:'top',offset:[0,-12]});
             group.rows.forEach(row => markerById.set(row.id,hit));
         }
@@ -179,7 +203,7 @@
         const label = $('map-layer-status');
         if(!label) return;
         label.textContent = (countriesLayer ? 'Biên giới sẵn sàng' : 'Đang tải biên giới') +
-            ' · ' + fmt(pointById.size) + ' GPS';
+            ' · ' + fmt(preciseCount) + ' địa chỉ · ' + fmt(areaCount) + ' khu vực';
     }
     function applyLayerVisibility() {
         if(!map) return;
@@ -216,7 +240,9 @@
         const point = pointById.get(row.id), marker = markerById.get(row.id);
         if(!point || !map || !marker) return false;
         if(!customerToggle.checked) { customerToggle.checked = true; applyLayerVisibility(); }
-        map.setView([point.lat,point.lon],Math.max(13,map.getZoom()));
+        const maxDetail = point.verificationLevel === 'address' ? 15 :
+            point.verificationLevel === 'street' ? 12 : 9;
+        map.setView([point.lat,point.lon],maxDetail);
         marker.openPopup();
         if(window.matchMedia('(max-width: 900px)').matches && directory &&
             !directory.classList.contains('is-collapsed') && toggleDirectory) toggleDirectory.click();
@@ -238,7 +264,10 @@
         item.appendChild(head);
         item.appendChild(el('span',row.address,'customer-address-text'));
         const location = row.locationType || 'Địa chỉ';
-        const meta = [sizeLabels[row.sizeCategory],location,located ? 'GPS OSM' : ''].filter(Boolean).join(' · ');
+        const point = pointById.get(row.id);
+        const precision = point ? point.verificationLevel === 'address' ?
+            'Địa chỉ chính xác' : 'Khu vực tham chiếu' : '';
+        const meta = [sizeLabels[row.sizeCategory],location,precision].filter(Boolean).join(' · ');
         if(meta) item.appendChild(el('small',meta,'customer-card-meta'));
         const actions = el('div','','customer-list-actions');
         if(located) {
@@ -272,7 +301,7 @@
         unverifiedList.replaceChildren(...missing.map(row=>makeItem(row,false)));
         verifiedCount.textContent = fmt(located.length);
         unverifiedCount.textContent = fmt(missing.length);
-        pinCount.textContent = fmt(pointById.size) + ' / ' + fmt(entries.length) + ' GPS';
+        pinCount.textContent = fmt(pointById.size) + ' / ' + fmt(entries.length) + ' có vị trí';
         verifiedDetails.hidden = selectedStatus === 'missing' || !located.length;
         unverifiedDetails.hidden = selectedStatus === 'gps' || !missing.length;
         if(needle || selectedISO || selectedStatus !== 'all') {
@@ -416,7 +445,7 @@
     setupMap();
     window.FurniverseMap = Object.freeze({
         focusCountry,resetView,refreshCountryStyles,showCustomersForCountry,
-        getStats:()=>({total:entries.length,verified:pointById.size,countryFeatures:loadedFeatureCount}),
+        getStats:()=>({total:entries.length,verified:preciseCount,located:pointById.size,approximate:areaCount,countryFeatures:loadedFeatureCount}),
         hasMap:()=>!!map
     });
 })();
