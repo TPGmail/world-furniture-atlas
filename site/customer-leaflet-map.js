@@ -298,14 +298,18 @@
     function setBasemapTheme() {
         if (!map || !window.L) return;
         const dark = document.documentElement.dataset.theme === 'dark';
-        // OSM data in both modes. CARTO Dark Matter supplies readable dark-mode tiles.
-        const url = dark
-          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-          : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' +
-          (dark ? ' &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>' : '');
+        // Use OSM tiles in both modes; recolor only the tile layer for dark mode.
+        // This needs no API key and leaves country/customer overlays unchanged.
+        const url = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>';
         const next = window.L.tileLayer(url,{maxZoom:19,attribution});
         next.addTo(map);
+        const tileContainer = next.getContainer();
+        if (tileContainer) {
+            tileContainer.style.filter = dark
+              ? 'invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9)'
+              : '';
+        }
         if (baseTiles) map.removeLayer(baseTiles);
         baseTiles = next;
         refreshCountryStyles();
