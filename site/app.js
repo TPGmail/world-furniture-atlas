@@ -942,7 +942,6 @@ function handleCountryClick(event, d) {
     const name = d.properties.name;
     viewedCountry = { id, name };
     tooltip.classList.add('hidden');
-    pinnedCustomerId = null;
     currentSelection = [{ id, name }];
     renderChips();
     noteInput.value = savedNotes[id]?.text || '';
