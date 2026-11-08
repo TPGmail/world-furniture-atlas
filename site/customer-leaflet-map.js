@@ -61,7 +61,7 @@
     };
     function isoFor(row) { return isoResolver ? isoResolver.forCustomer(row) : null; }
     function isoLabel(code) {
-        if(!code) return 'Chưa xác định';
+        if(!code) return '';
         try {
             if(typeof Intl.DisplayNames === 'function') {
                 return new Intl.DisplayNames(['vi'],{type:'region'}).of(code) || code;
@@ -75,8 +75,7 @@
     }
     function updateMapStatus() {
         if(!mapStatus) return;
-        mapStatus.textContent = fmt(pointById.size) + '/' + fmt(entries.length) +
-            ' địa chỉ có GPS đối chiếu với OSM. Địa chỉ còn lại vẫn tra cứu được, nhưng không đặt chấm giả.';
+        mapStatus.textContent = fmt(pointById.size) + ' điểm khách hàng trên bản đồ';
     }
     function popupFor(rows,point) {
         const container = el('div','','atlas-leaflet-popup');
@@ -85,11 +84,8 @@
             container.appendChild(el('strong',row.name));
             container.appendChild(el('p',row.address));
             const country = isoFor(row);
-            container.appendChild(el('small',(country || 'ISO chưa rõ') + ' · ' +
-                (sizeLabels[row.sizeCategory] || 'Chưa phân loại'),'customer-popup-iso'));
-            container.appendChild(el('small',row.addressSource === 'user_excel'
-                ? 'Địa chỉ từ dữ liệu khách hàng, chưa xác minh hiện trạng doanh nghiệp'
-                : 'Địa chỉ tham khảo nguồn công khai'));
+            const metadata = [isoLabel(country),sizeLabels[row.sizeCategory]].filter(Boolean).join(' · ');
+            if(metadata) container.appendChild(el('small',metadata,'customer-popup-iso'));
         });
         const actions = el('div');
         actions.appendChild(link('Bản ghi GPS OSM',osmLink(point)));
@@ -231,19 +227,19 @@
             isoLabel(a).localeCompare(isoLabel(b),'vi'));
         isoFilter.replaceChildren(new Option('Tất cả quốc gia',''));
         all.forEach(code => isoFilter.add(new Option(isoLabel(code) + ' · ' + code,code)));
-        isoFilter.add(new Option('Chưa rõ ISO','__unknown'));
+        // Only countries with a resolved ISO code are offered.
     }
     function makeItem(row,located) {
         const item = el('li','','customer-card');
         const head = el('div','','customer-card-head');
         head.appendChild(el('strong',row.name));
         const code = isoFor(row);
-        head.appendChild(el('span',code || 'ISO ?', 'customer-iso-tag' + (code ? '' : ' unknown')));
+        if(code) head.appendChild(el('span',code,'customer-iso-tag'));
         item.appendChild(head);
         item.appendChild(el('span',row.address,'customer-address-text'));
         const location = row.locationType || 'Địa chỉ';
-        item.appendChild(el('small',(sizeLabels[row.sizeCategory] || 'Chưa rõ') + ' · ' +
-            location + (located ? ' · GPS OSM' : ' · Chưa có GPS'),'customer-card-meta'));
+        const meta = [sizeLabels[row.sizeCategory],location,located ? 'GPS OSM' : ''].filter(Boolean).join(' · ');
+        if(meta) item.appendChild(el('small',meta,'customer-card-meta'));
         const actions = el('div','','customer-list-actions');
         if(located) {
             const button = el('button','Xem trên bản đồ');
