@@ -1,179 +1,354 @@
-/* World Furniture Atlas v2.0: OpenStreetMap + Leaflet, only validated real address points.
- * No browser geocoding, no guessed coordinates, no legacy offsets, no Google APIs.
- * Geocoding is a one-time audited data-preparation step, not a production search API. */
+/* Furniverse v2.2: one OpenStreetMap/Leaflet canvas with country and GPS customer layers.
+ * Never invent a location: only address-level checked OSM coordinates become markers.
+ * ISO association uses explicit address text, not the sales-market field. */
 (() => {
-  'use strict';
-  const $ = id => document.getElementById(id);
-  const entries = Array.isArray(window.ATLAS_CUSTOMER_ADDRESSES) ? window.ATLAS_CUSTOMER_ADDRESSES : [];
-  const rawPoints = Array.isArray(window.ATLAS_VERIFIED_CUSTOMER_POINTS) ? window.ATLAS_VERIFIED_CUSTOMER_POINTS : [];
-  const entryById = new Map(entries.map(row => [row.id, row]));
-  const valid = point => point && entryById.has(point.id) &&
-      Number.isFinite(point.lat) && Math.abs(point.lat) <= 90 &&
-      Number.isFinite(point.lon) && Math.abs(point.lon) <= 180 &&
-      point.verificationLevel === 'address' &&
-      point.checkedAddress === entryById.get(point.id).address &&
-      ['node','way','relation'].includes(point.osmType) &&
-      Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0;
-  // Never silently coerce city/street-level matches into a pin.
-  const pointById = new Map(rawPoints.filter(valid).map(p => [p.id, p]));
-  const countriesBtn = $('map-mode-countries');
-  const customersBtn = $('map-mode-customers');
-  const pane = $('atlas-customer-pane');
-  const countryMap = $('map-container');
-  const fallback = $('map-fallback');
-  const legend = document.querySelector('.map-legend');
-  const statusCountry = $('map-status');
-  const reset = $('reset-map-btn');
-  const mapStatus = $('customer-osm-status');
-  const mapCanvas = $('leaflet-map-canvas');
-  const search = $('customer-address-search');
-  const verifiedList = $('customer-verified-list');
-  const unverifiedList = $('customer-unverified-list');
-  const verifiedDetails = $('customer-verified-directory');
-  const unverifiedDetails = $('customer-unverified-directory');
-  const verifiedCount = $('customer-verified-count');
-  const unverifiedCount = $('customer-unverified-count');
-  const pinCount = $('customer-pin-count');
-  const sizeNames = {large:'Chuỗi / lớn',medium:'Trading / vừa',small:'Nhỏ / cá nhân'};
-  const radii = {large:2,medium:1.2,small:0.8};
-  const osmLink = point => `https://www.openstreetmap.org/${point.osmType}/${point.osmId}`;
-  const osmSearch = address => 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(address);
-  const fmtCount = n => n.toLocaleString('vi-VN');
-  let map = null;
-  const markerById = new Map();
-  let currentMode = 'customers';
+    'use strict';
+    const $ = id => document.getElementById(id);
+    const entries = Array.isArray(window.ATLAS_CUSTOMER_ADDRESSES) ? window.ATLAS_CUSTOMER_ADDRESSES : [];
+    const rawPoints = Array.isArray(window.ATLAS_VERIFIED_CUSTOMER_POINTS) ? window.ATLAS_VERIFIED_CUSTOMER_POINTS : [];
+    const isoResolver = window.FURNIVERSE_COUNTRY_ISO;
+    const entryById = new Map(entries.map(row => [row.id, row]));
+    const valid = point => point && entryById.has(point.id) &&
+        Number.isFinite(point.lat) && Math.abs(point.lat) <= 90 &&
+        Number.isFinite(point.lon) && Math.abs(point.lon) <= 180 &&
+        point.verificationLevel === 'address' &&
+        point.checkedAddress === entryById.get(point.id).address &&
+        ['node','way','relation'].includes(point.osmType) &&
+        Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0;
+    const pointById = new Map(rawPoints.filter(valid).map(point => [point.id,point]));
+    const mapCanvas = $('leaflet-map-canvas');
+    const pane = $('atlas-customer-pane');
+    const countryToggle = $('layer-countries');
+    const customerToggle = $('layer-customers');
+    const directory = document.querySelector('.customer-osm-controls');
+    const toggleDirectory = $('customer-directory-toggle');
+    const search = $('customer-address-search');
+    const isoFilter = $('customer-country-filter');
+    const statusFilter = $('customer-status-filter');
+    const verifiedList = $('customer-verified-list');
+    const unverifiedList = $('customer-unverified-list');
+    const verifiedDetails = $('customer-verified-directory');
+    const unverifiedDetails = $('customer-unverified-directory');
+    const verifiedCount = $('customer-verified-count');
+    const unverifiedCount = $('customer-unverified-count');
+    const pinCount = $('customer-pin-count');
+    const mapStatus = $('customer-osm-status');
+    const sizeLabels = {large:'Chuỗi / lớn',medium:'Trading / vừa',small:'Nhỏ / cá nhân'};
+    const sizeRadius = {large:5,medium:4,small:3};
+    const osmLink = point => 'https://www.openstreetmap.org/' + point.osmType + '/' + point.osmId;
+    const osmSearch = address => 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(address);
+    const fmt = n => n.toLocaleString('vi-VN');
+    const markerById = new Map();
+    const countryById = new Map();
+    const initialCenter = [18,10];
+    let map = null;
+    let customersLayer = null;
+    let countriesLayer = null;
+    let loadedFeatureCount = 0;
+    let selectedCountryId = '';
 
-  const el = (tag, value='', cls='') => {
-    const node = document.createElement(tag);
-    if (value) node.textContent = value;
-    if (cls) node.className = cls;
-    return node;
-  };
-  function makeLink(text, href) {
-    const link = el('a',text);
-    link.href=href;
-    link.target='_blank';
-    link.rel='noopener noreferrer';
-    return link;
-  }
-  function popupFor(rows, point) {
-    const container=el('div','','atlas-leaflet-popup');
-    rows.forEach((r,index)=>{
-      if(index)container.appendChild(document.createElement('hr'));
-      container.appendChild(el('strong',r.name));
-      container.appendChild(el('p',r.address));
-      container.appendChild(el('small',sizeNames[r.sizeCategory] || 'Chưa rõ'));
-      container.appendChild(el('small',r.addressSource==='user_excel' ? 'Nguồn địa chỉ: Excel khách hàng (chưa xác minh hiện trạng doanh nghiệp)' : 'Nguồn địa chỉ: website/đăng ký doanh nghiệp'));
+    const el = (tag,value='',cls='') => {
+        const node = document.createElement(tag);
+        if(value) node.textContent = value;
+        if(cls) node.className = cls;
+        return node;
+    };
+    const link = (text,href) => {
+        const node = el('a',text);
+        node.href = href; node.target = '_blank'; node.rel = 'noopener noreferrer';
+        return node;
+    };
+    function isoFor(row) { return isoResolver ? isoResolver.forCustomer(row) : null; }
+    function isoLabel(code) {
+        if(!code) return 'Chưa xác định';
+        try {
+            if(typeof Intl.DisplayNames === 'function') {
+                return new Intl.DisplayNames(['vi'],{type:'region'}).of(code) || code;
+            }
+        } catch (_) {}
+        return code;
+    }
+    function normalized(value) {
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+            .replace(/đ/gi,'d').toLocaleLowerCase('vi');
+    }
+    function updateMapStatus() {
+        if(!mapStatus) return;
+        mapStatus.textContent = fmt(pointById.size) + '/' + fmt(entries.length) +
+            ' địa chỉ có GPS đối chiếu với OSM. Địa chỉ còn lại vẫn tra cứu được, nhưng không đặt chấm giả.';
+    }
+    function popupFor(rows,point) {
+        const container = el('div','','atlas-leaflet-popup');
+        rows.forEach((row,index) => {
+            if(index) container.appendChild(document.createElement('hr'));
+            container.appendChild(el('strong',row.name));
+            container.appendChild(el('p',row.address));
+            const country = isoFor(row);
+            container.appendChild(el('small',(country || 'ISO chưa rõ') + ' · ' +
+                (sizeLabels[row.sizeCategory] || 'Chưa phân loại'),'customer-popup-iso'));
+            container.appendChild(el('small',row.addressSource === 'user_excel'
+                ? 'Địa chỉ từ dữ liệu khách hàng, chưa xác minh hiện trạng doanh nghiệp'
+                : 'Địa chỉ tham khảo nguồn công khai'));
+        });
+        const actions = el('div');
+        actions.appendChild(link('Bản ghi GPS OSM',osmLink(point)));
+        if(rows[0].sourceUrl && /^https:\/\//i.test(rows[0].sourceUrl))
+            actions.appendChild(link('Nguồn địa chỉ',rows[0].sourceUrl));
+        container.appendChild(actions);
+        return container;
+    }
+    function buildMarkers() {
+        const groups = new Map();
+        for(const [id,point] of pointById) {
+            const row = entryById.get(id);
+            const key = point.lat.toFixed(7) + ',' + point.lon.toFixed(7);
+            const group = groups.get(key) || {point,rows:[]};
+            group.rows.push(row); groups.set(key,group);
+        }
+        for(const group of groups.values()) {
+            const point = group.point;
+            const coords = [point.lat,point.lon];
+            // The transparent touch target does NOT shift the verified point.
+            const hit = window.L.circleMarker(coords,{
+                pane:'atlasCustomerPane',radius:18,stroke:false,
+                fillColor:'#ef4444',fillOpacity:0.001,interactive:true
+            }).addTo(customersLayer);
+            const radius = Math.max(...group.rows.map(row => sizeRadius[row.sizeCategory] || 3));
+            window.L.circleMarker(coords,{
+                pane:'atlasCustomerPane',radius,weight:1,color:'#fff',
+                fillColor:'#ef4444',fillOpacity:1,interactive:false
+            }).addTo(customersLayer);
+            hit.bindPopup(popupFor(group.rows,point),{maxWidth:300,closeButton:true});
+            const tooltip = el('span',group.rows.map(row => row.name).join(' · '));
+            hit.bindTooltip(tooltip,{direction:'top',offset:[0,-12]});
+            group.rows.forEach(row => markerById.set(row.id,hit));
+        }
+    }
+    function colorState() {
+        return window.AtlasMapBridge && window.AtlasMapBridge.getColorState ?
+            window.AtlasMapBridge.getColorState() :
+            {selected:[],noted:[],active:false,matched:[]};
+    }
+    function geoStyle(feature) {
+        const id = String(feature.id);
+        const state = colorState();
+        const selected = selectedCountryId === id || state.selected.includes(id);
+        const noted = state.noted.includes(id);
+        const matched = state.matched.includes(id);
+        const dark = document.documentElement.dataset.theme !== 'light';
+        if(selected) return {pane:'atlasCountryPane',color:'#059669',weight:2,fillColor:'#10b981',fillOpacity:.34,opacity:.92};
+        if(state.active) return matched
+            ? {pane:'atlasCountryPane',color:'#2563eb',weight:1.8,fillColor:'#3b82f6',fillOpacity:.23,opacity:.85}
+            : {pane:'atlasCountryPane',color:dark?'#64748b':'#94a3b8',weight:.5,fillOpacity:.012,opacity:.24};
+        if(noted) return {pane:'atlasCountryPane',color:'#059669',weight:1.2,fillColor:'#10b981',fillOpacity:.18,opacity:.78};
+        return {pane:'atlasCountryPane',color:dark?'#64748b':'#64748b',
+            weight:.85,fillColor:dark?'#334155':'#cbd5e1',fillOpacity:.045,opacity:.72};
+    }
+    function refreshCountryStyles() {
+        if(countriesLayer) countriesLayer.setStyle(geoStyle);
+    }
+    function loadCountries() {
+        if(!map || countriesLayer || !window.AtlasMapBridge) return;
+        const raw = window.AtlasMapBridge.getFeatures();
+        if(!Array.isArray(raw) || !raw.length) return;
+        // The old "International Styles" pseudo-island is a catalogue topic, not geography.
+        const features = raw.filter(feature => feature && feature.type === 'Feature' &&
+            feature.geometry && feature.id !== 'intl-island');
+        if(!features.length) return;
+        countriesLayer = window.L.geoJSON({type:'FeatureCollection',features},{
+            pane:'atlasCountryPane',
+            style:geoStyle,
+            onEachFeature: (feature,layer) => {
+                const id = String(feature.id);
+                countryById.set(id,layer);
+                const label = el('span',String(feature.properties && feature.properties.name || id));
+                layer.bindTooltip(label,{sticky:true,direction:'auto'});
+                layer.on('click', () => {
+                    selectedCountryId = id;
+                    if(window.AtlasMapBridge && window.AtlasMapBridge.chooseCountry)
+                        window.AtlasMapBridge.chooseCountry(id,feature.properties.name);
+                    else window.FurniverseCountry?.open(id,feature.properties.name);
+                    refreshCountryStyles();
+                });
+            }
+        });
+        loadedFeatureCount = features.length;
+        if(countryToggle.checked) countriesLayer.addTo(map);
+        refreshCountryStyles();
+        updateLayerStatus();
+    }
+    function updateLayerStatus() {
+        const label = $('map-layer-status');
+        if(!label) return;
+        label.textContent = (countriesLayer ? 'Biên giới sẵn sàng' : 'Đang tải biên giới') +
+            ' · ' + fmt(pointById.size) + ' GPS';
+    }
+    function applyLayerVisibility() {
+        if(!map) return;
+        if(countriesLayer) {
+            if(countryToggle.checked && !map.hasLayer(countriesLayer)) countriesLayer.addTo(map);
+            else if(!countryToggle.checked && map.hasLayer(countriesLayer)) map.removeLayer(countriesLayer);
+        }
+        if(customersLayer) {
+            if(customerToggle.checked && !map.hasLayer(customersLayer)) customersLayer.addTo(map);
+            else if(!customerToggle.checked && map.hasLayer(customersLayer)) map.removeLayer(customersLayer);
+        }
+        if(directory) directory.classList.toggle('layer-disabled',!customerToggle.checked);
+    }
+    function resetView() {
+        if(!map) return false;
+        map.closePopup();
+        map.setView(initialCenter,2);
+        selectedCountryId = '';
+        refreshCountryStyles();
+        return true;
+    }
+    function focusCountry(id) {
+        if(!map) return false;
+        const layer = countryById.get(String(id));
+        if(!layer) return false;
+        const bounds = layer.getBounds();
+        if(!bounds || !bounds.isValid()) return false;
+        map.fitBounds(bounds,{padding:[42,42],maxZoom:7});
+        selectedCountryId = String(id);
+        refreshCountryStyles();
+        return true;
+    }
+    function openCustomerPin(row) {
+        const point = pointById.get(row.id), marker = markerById.get(row.id);
+        if(!point || !map || !marker) return false;
+        if(!customerToggle.checked) { customerToggle.checked = true; applyLayerVisibility(); }
+        map.setView([point.lat,point.lon],Math.max(13,map.getZoom()));
+        marker.openPopup();
+        if(window.matchMedia('(max-width: 900px)').matches && directory &&
+            !directory.classList.contains('is-collapsed') && toggleDirectory) toggleDirectory.click();
+        return true;
+    }
+    function populateIsoFilter() {
+        const all = [...new Set(entries.map(isoFor).filter(Boolean))].sort((a,b)=>
+            isoLabel(a).localeCompare(isoLabel(b),'vi'));
+        isoFilter.replaceChildren(new Option('Tất cả quốc gia',''));
+        all.forEach(code => isoFilter.add(new Option(isoLabel(code) + ' · ' + code,code)));
+        isoFilter.add(new Option('Chưa rõ ISO','__unknown'));
+    }
+    function makeItem(row,located) {
+        const item = el('li','','customer-card');
+        const head = el('div','','customer-card-head');
+        head.appendChild(el('strong',row.name));
+        const code = isoFor(row);
+        head.appendChild(el('span',code || 'ISO ?', 'customer-iso-tag' + (code ? '' : ' unknown')));
+        item.appendChild(head);
+        item.appendChild(el('span',row.address,'customer-address-text'));
+        const location = row.locationType || 'Địa chỉ';
+        item.appendChild(el('small',(sizeLabels[row.sizeCategory] || 'Chưa rõ') + ' · ' +
+            location + (located ? ' · GPS OSM' : ' · Chưa có GPS'),'customer-card-meta'));
+        const actions = el('div','','customer-list-actions');
+        if(located) {
+            const button = el('button','Xem trên bản đồ');
+            button.type='button';
+            button.addEventListener('click',()=>openCustomerPin(row));
+            actions.appendChild(button);
+            actions.appendChild(link('Bản ghi OSM',osmLink(pointById.get(row.id))));
+        } else {
+            actions.appendChild(link('Tra cứu OSM',osmSearch(row.address)));
+        }
+        item.appendChild(actions);
+        return item;
+    }
+    function renderDirectory() {
+        if(!verifiedList || !unverifiedList) return;
+        const needle = normalized(search.value.trim());
+        const selectedISO = isoFilter.value;
+        const selectedStatus = statusFilter.value;
+        const matching = entries.filter(row => {
+            const code = isoFor(row);
+            if(selectedISO && (selectedISO === '__unknown' ? !!code : code !== selectedISO)) return false;
+            const gps = pointById.has(row.id);
+            if(selectedStatus === 'gps' && !gps) return false;
+            if(selectedStatus === 'missing' && gps) return false;
+            return !needle || normalized([row.name,row.address,row.market,code].join(' ')).includes(needle);
+        });
+        const located = matching.filter(row => pointById.has(row.id));
+        const missing = matching.filter(row => !pointById.has(row.id));
+        verifiedList.replaceChildren(...located.map(row=>makeItem(row,true)));
+        unverifiedList.replaceChildren(...missing.map(row=>makeItem(row,false)));
+        verifiedCount.textContent = fmt(located.length);
+        unverifiedCount.textContent = fmt(missing.length);
+        pinCount.textContent = fmt(pointById.size) + ' / ' + fmt(entries.length) + ' GPS';
+        verifiedDetails.hidden = selectedStatus === 'missing' || !located.length;
+        unverifiedDetails.hidden = selectedStatus === 'gps' || !missing.length;
+        if(needle || selectedISO || selectedStatus !== 'all') {
+            if(located.length) verifiedDetails.open = true;
+            if(missing.length) unverifiedDetails.open = true;
+        }
+        const count = $('customer-filter-count');
+        if(count) count.textContent = fmt(matching.length) + ' địa chỉ phù hợp';
+    }
+    function showCustomersForCountry(id) {
+        if(!isoResolver) return false;
+        const code = isoResolver.forAtlasId(id);
+        if(!code || ![...isoFilter.options].some(option => option.value === code)) return false;
+        search.value = ''; isoFilter.value = code; statusFilter.value = 'all';
+        renderDirectory();
+        if(directory && directory.classList.contains('is-collapsed') && toggleDirectory) toggleDirectory.click();
+        return true;
+    }
+    function setupMap() {
+        if(!window.L || !mapCanvas || !pane) {
+            pane.hidden = true;
+            if(mapStatus) mapStatus.textContent = 'Không tải được Leaflet; dùng bản đồ dự phòng.';
+            return;
+        }
+        try {
+            pane.hidden = false;
+            map = window.L.map(mapCanvas,{
+                center:initialCenter,zoom:2,minZoom:2,maxZoom:18,
+                zoomControl:true,worldCopyJump:true,preferCanvas:false
+            });
+            window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+                maxZoom:19,
+                attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>'
+            }).addTo(map);
+            map.createPane('atlasCountryPane');
+            map.getPane('atlasCountryPane').style.zIndex = '410';
+            map.createPane('atlasCustomerPane');
+            map.getPane('atlasCustomerPane').style.zIndex = '450';
+            customersLayer = window.L.layerGroup();
+            buildMarkers();
+            applyLayerVisibility();
+            document.documentElement.classList.add('atlas-unified-ready');
+            updateLayerStatus();
+            loadCountries();
+            document.addEventListener('atlas:geography-ready',loadCountries);
+            if(typeof ResizeObserver === 'function') {
+                let raf = 0;
+                new ResizeObserver(() => {
+                    cancelAnimationFrame(raf);
+                    raf = requestAnimationFrame(()=>map.invalidateSize({pan:false}));
+                }).observe(mapCanvas.parentElement);
+            }
+            window.addEventListener('orientationchange',()=>map.invalidateSize({pan:false}));
+        } catch(error) {
+            console.error('Furniverse unified map setup:',error);
+            document.documentElement.classList.remove('atlas-unified-ready');
+            pane.hidden = true;
+            map = null;
+            if(mapStatus) mapStatus.textContent = 'Bản đồ hợp nhất không tải được; sử dụng bản đồ dự phòng.';
+        }
+    }
+    if(!search || !isoFilter || !statusFilter || !countryToggle || !customerToggle) return;
+    populateIsoFilter();
+    search.addEventListener('input',renderDirectory);
+    isoFilter.addEventListener('change',renderDirectory);
+    statusFilter.addEventListener('change',renderDirectory);
+    countryToggle.addEventListener('change',applyLayerVisibility);
+    customerToggle.addEventListener('change',applyLayerVisibility);
+    renderDirectory();
+    updateMapStatus();
+    setupMap();
+    window.FurniverseMap = Object.freeze({
+        focusCountry,resetView,refreshCountryStyles,showCustomersForCountry,
+        getStats:()=>({total:entries.length,verified:pointById.size,countryFeatures:loadedFeatureCount}),
+        hasMap:()=>!!map
     });
-    const actions=el('div');
-    actions.appendChild(makeLink('Xem vị trí OSM',osmLink(point)));
-    if(rows[0].sourceUrl && /^https:\/\//.test(rows[0].sourceUrl))actions.appendChild(makeLink('Nguồn địa chỉ',rows[0].sourceUrl));
-    container.appendChild(actions);
-    return container;
-  }
-  function setupMap() {
-    if(map) return;
-    if(!window.L){
-      mapStatus.textContent='Không tải được Leaflet. Danh bạ địa chỉ vẫn sử dụng được; thử tải lại trang.';
-      return;
-    }
-    map=window.L.map(mapCanvas,{
-      center:[15,12],zoom:2,minZoom:2,maxZoom:18,
-      zoomControl:true,worldCopyJump:true,preferCanvas:false
-    });
-    window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      maxZoom:19,
-      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'
-    }).addTo(map);
-    // The visible dot is intentionally tiny; an independent invisible hit area
-    // preserves mouse and touch interactions without moving the true GPS coordinate.
-    const groups=new Map();
-    for(const [id,p] of pointById){
-      const row=entryById.get(id);
-      if(!row)continue;
-      const key=`${p.lat.toFixed(7)},${p.lon.toFixed(7)}`;
-      const group=groups.get(key) || {point:p,rows:[]};
-      group.rows.push(row);
-      groups.set(key,group);
-    }
-    const bounds=[];
-    for(const group of groups.values()){
-      const pt=group.point;
-      const coords=[pt.lat,pt.lon];
-      const dotRadius=Math.max(...group.rows.map(row=>radii[row.sizeCategory]??0.8));
-      const hit=window.L.circleMarker(coords,{
-        radius:20,stroke:false,fillOpacity:0.001,fillColor:'#f43f5e',
-        interactive:true,className:'atlas-leaflet-dot-target'
-      }).addTo(map);
-      window.L.circleMarker(coords,{
-        radius:dotRadius,weight:0.25,color:'#ffffff',
-        fillColor:'#ef4444',fillOpacity:1,interactive:false
-      }).addTo(map);
-      hit.bindPopup(popupFor(group.rows,pt),{maxWidth:280,closeButton:true});
-      hit.bindTooltip(group.rows.map(r=>r.name).join(' · '),{direction:'top',offset:[0,-10]});
-      for(const row of group.rows)markerById.set(row.id,hit);
-      bounds.push(coords);
-    }
-    if(bounds.length===1){map.setView(bounds[0],14);}
-    else if(bounds.length>1){map.fitBounds(bounds,{padding:[40,40],maxZoom:12});}
-    mapStatus.textContent=pointById.size
-      ? `${pointById.size}/${entries.length} địa chỉ có tọa độ OSM đã đối chiếu. ${entries.length-pointById.size} địa chỉ chưa đạt điều kiện, không hiện chấm.`
-      : `Chưa có tọa độ nhà hoặc địa điểm kinh doanh xác minh trên OSM trong dữ liệu. Không hiển thị chấm ước lượng.`;
-  }
-  function setMode(mode){
-    currentMode=mode;
-    const customer=mode==='customers';
-    pane.hidden=!customer;
-    countryMap.classList.toggle('atlas-hidden',customer);
-    if(fallback)fallback.classList.toggle('atlas-hidden',customer);
-    countriesBtn.classList.toggle('active',!customer);
-    customersBtn.classList.toggle('active',customer);
-    countriesBtn.setAttribute('aria-pressed',String(!customer));
-    customersBtn.setAttribute('aria-pressed',String(customer));
-    if(legend)legend.classList.toggle('atlas-hidden',customer);
-    if(statusCountry)statusCountry.classList.toggle('atlas-hidden',customer);
-    if(reset)reset.classList.toggle('atlas-hidden',customer);
-    if(customer){setupMap();if(map)requestAnimationFrame(()=>map.invalidateSize());}
-  }
-  function matches(row,q){return `${row.name} ${row.address} ${row.market}`.toLocaleLowerCase('vi').includes(q);}
-  function appendItem(row,located,into){
-    const item=el('li');
-    item.appendChild(el('strong',row.name));
-    item.appendChild(el('span',row.address));
-    item.appendChild(el('small',`${sizeNames[row.sizeCategory]||'Chưa rõ'} · ${row.locationType||'Địa chỉ'}`));
-    const actions=el('div','','customer-list-actions');
-    if(located){
-      const btn=el('button','Xem chấm đỏ');btn.type='button';
-      btn.addEventListener('click',()=>{
-        setMode('customers');setupMap();
-        const point=pointById.get(row.id), marker=markerById.get(row.id);
-        if(point && map && marker){map.setView([point.lat,point.lon],Math.max(map.getZoom(),15));marker.openPopup();}
-      });
-      actions.appendChild(btn);
-      actions.appendChild(makeLink('Bản ghi OSM',osmLink(pointById.get(row.id))));
-    } else {
-      actions.appendChild(makeLink('Tra cứu OSM',osmSearch(row.address)));
-    }
-    item.appendChild(actions);into.appendChild(item);
-  }
-  function renderDirectory(){
-    const needle=search.value.trim().toLocaleLowerCase('vi');
-    const rows=entries.filter(row=>matches(row,needle));
-    const verified=rows.filter(row=>pointById.has(row.id));
-    const unverified=rows.filter(row=>!pointById.has(row.id));
-    verifiedList.replaceChildren();unverifiedList.replaceChildren();
-    const vf=document.createDocumentFragment(),uf=document.createDocumentFragment();
-    verified.forEach(row=>appendItem(row,true,vf));
-    unverified.forEach(row=>appendItem(row,false,uf));
-    verifiedList.appendChild(vf);unverifiedList.appendChild(uf);
-    verifiedCount.textContent=fmtCount(verified.length);
-    unverifiedCount.textContent=fmtCount(unverified.length);
-    pinCount.textContent=`${fmtCount(pointById.size)} / ${fmtCount(entries.length)} GPS`;
-    if(needle){verifiedDetails.open=verified.length>0;unverifiedDetails.open=unverified.length>0;}
-  }
-  search.addEventListener('input',renderDirectory);
-  countriesBtn.addEventListener('click',()=>setMode('countries'));
-  customersBtn.addEventListener('click',()=>setMode('customers'));
-  renderDirectory();
-  setMode('customers');
 })();

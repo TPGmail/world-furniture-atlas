@@ -58,25 +58,10 @@
       '<p class="ic-empty">Chưa có danh mục kiểm chứng.</p>';
   }
   function customerMatches(id) {
-    // v1.9 intentionally removed all approximate coordinates; identify by explicit
-    // country strings in the published address only. No guessed geocodes.
-    const explicit = {
-      "840": /\b(?:USA|United States)\b/i,
-      "704": /(?:Vietnam|Việt Nam)/i,
-      "276": /\bGermany\b/i,
-      "826": /\b(?:United Kingdom|UK)\b/i,
-      "124": /\bCanada\b/i,
-      "036": /\bAustralia\b/i,
-      "360": /\bIndonesia\b/i,
-      "cn-44": /\bGuangdong\b/i,
-      "528": /\bNetherlands\b/i,
-      "616": /\bPoland\b/i,
-      "380": /\bItaly\b/i,
-      "208": /\bDenmark\b/i,
-      "752": /\bSweden\b/i
-    };
-    const test = explicit[key(id)];
-    return test ? (window.ATLAS_CUSTOMER_ADDRESSES || []).filter(p => test.test(String(p.address || ""))) : [];
+    const geo = window.FURNIVERSE_COUNTRY_ISO;
+    const iso2 = geo && geo.forAtlasId(key(id));
+    if (!iso2) return [];
+    return (window.ATLAS_CUSTOMER_ADDRESSES || []).filter(row => geo.forCustomer(row) === iso2);
   }
   function externalList() {
     return '<ul class="ic-links">' + data.publicResearch.map(item =>
@@ -124,21 +109,26 @@
   function renderNetwork(id) {
     const all = customerMatches(id);
     const shown = all.slice(0,35);
-    return '<div class="ic-section"><h3>Khách hàng có địa chỉ ghi rõ quốc gia</h3>' +
-      '<p class="ic-muted">' + html(all.length) + ' địa chỉ có tên quốc gia nhận diện rõ trong danh bạ công khai.</p>' +
+    return '<div class="ic-section"><h3>Khách hàng theo quốc gia (ISO)</h3>' +
+      '<p class="ic-muted">' + html(all.length) + ' địa chỉ đã liên kết ISO từ quốc gia ghi rõ trong địa chỉ, không dùng thị trường bán hàng.</p>' +
       (shown.length ? '<div class="ic-customer-list">' + shown.map(c => {
         const href = url(c.website);
-        const mapHref = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.address || c.name);
+        const point = (window.ATLAS_VERIFIED_CUSTOMER_POINTS || []).find(p =>
+          p.id === c.id && p.checkedAddress === c.address && p.verificationLevel === "address" &&
+          ["node","way","relation"].includes(p.osmType) && Number.isSafeInteger(Number(p.osmId)));
+        const mapHref = point
+          ? "https://www.openstreetmap.org/" + point.osmType + "/" + point.osmId
+          : "https://www.openstreetmap.org/search?query=" + encodeURIComponent(c.address || c.name);
         return '<div class="ic-customer"><strong>' + html(c.name) + '</strong><small>' +
           html(c.address || "Chưa có địa chỉ") + '</small><div class="ic-customer-links">' +
-          '<a href="' + html(mapHref) + '" target="_blank" rel="noopener noreferrer">Xem vị trí</a>' +
+          '<a href="' + html(mapHref) + '" target="_blank" rel="noopener noreferrer">' + (point ? "Bản ghi GPS" : "Tra cứu OSM") + '</a>' +
           (href ? '<a href="' + html(href) + '" target="_blank" rel="noopener noreferrer">Website</a>' : "") +
           '</div></div>';
       }).join("") + '</div>' : '<p class="ic-empty">Chưa tìm thấy địa chỉ có tên quốc gia được ghi rõ. Không tự suy đoán từ thị trường xuất khẩu.</p>') +
       (all.length > shown.length ? '<p class="ic-caption">Đang hiển thị 35 địa điểm đầu tiên.</p>' : "") +
-      '<p class="ic-caption">Danh bạ dùng địa chỉ đã lưu, không sử dụng tọa độ tâm thành phố. Chấm Google Maps chỉ hiển thị sau khi xác minh ROOFTOP. ' +
+      '<p class="ic-caption">Danh bạ chỉ dùng quốc gia ghi rõ trong địa chỉ. Chấm trên bản đồ chỉ dùng tọa độ OSM đã xác minh ở mức địa chỉ. ' +
       'Các ghi chú khách hàng nội bộ không được công bố.</p>' +
-      '<button class="ic-view-customers" type="button" data-action="customers-map">Mở chế độ khách hàng · Google Maps</button></div>';
+      '<button class="ic-view-customers" type="button" data-action="customers-map">Xem khách hàng thuộc quốc gia này</button></div>';
   }
   function addCompare(id) {
     const v = key(id);
@@ -214,7 +204,7 @@
       if (choice && choice.value) {addCompare(choice.value);state.tab = "compare";render();}
       return;
     }
-    if (action === "customers-map") { panel.hidden = true; document.getElementById("map-mode-customers")?.click(); return; }
+    if (action === "customers-map") { if (window.FurniverseMap?.showCustomersForCountry(state.id)) panel.hidden = true; return; }
     if (action === "legacy") {
       panel.hidden = true;
       if (typeof openModal === "function") openModal(state.id,state.name,
