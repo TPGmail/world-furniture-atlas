@@ -9,8 +9,7 @@
   if (!data || !panel || !roleFilter) return;
   const roles = data.roles;
   const known = data.profiles;
-  const state = {id:null,name:"",tab:"overview",comparison:[]};
-  const tabs = [["overview","Tổng quan"],["industry","Ngành"],["trade","Thương mại"],["market","Thị trường"],["network","Network"],["compare","So sánh"]];
+  const state = {id:null,name:"",comparison:[]};
   const html = value => String(value == null ? "" : value).replace(/[&<>"']/g, c =>
     ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const key = value => {
@@ -128,7 +127,7 @@
       (all.length > shown.length ? '<p class="ic-caption">Đang hiển thị 35 địa điểm đầu tiên.</p>' : "") +
       '<p class="ic-caption">Danh bạ chỉ dùng quốc gia ghi rõ trong địa chỉ. Chấm trên bản đồ chỉ dùng tọa độ OSM đã xác minh ở mức địa chỉ. ' +
       'Các ghi chú khách hàng nội bộ không được công bố.</p>' +
-      '<button class="ic-view-customers" type="button" data-action="customers-map">Xem khách hàng thuộc quốc gia này</button></div>';
+      '</div>';
   }
   function addCompare(id) {
     const v = key(id);
@@ -163,48 +162,53 @@
   function render() {
     const id = state.id;
     if (!id) { panel.hidden = true; return; }
+    const previousBody = panel.querySelector(".ic-body");
+    const previousScroll = previousBody ? previousBody.scrollTop : 0;
+    const previousSections = Array.from(panel.querySelectorAll(".ic-unified-section"));
+    const expanded = previousSections.length ? new Set(previousSections.filter(section => section.open).map(section => section.dataset.section)) : new Set(["overview","industry"]);
     const p = profile(id), brief = factBrief(id);
     const name = state.name || record(id) && record(id).name || id;
     const heading = '<header class="ic-header"><div class="ic-name"><span class="ic-flag" aria-hidden="true">' +
       html(flag(id)) + '</span><div><h2 id="ic-title">' + html(name) +
       '</h2><p>' + html(p && p.region || "Chưa phân loại khu vực") + ' · ' +
-      (brief ? "Bản tin có nguồn" : "Chưa có bản tin xác minh") + '</p></div></div>' +
+      (brief ? "Có tài liệu tham khảo" : "Chưa có bản tin đối chiếu") + '</p></div></div>' +
       '<button class="ic-close" type="button" data-action="close" aria-label="Đóng hồ sơ">×</button></header>';
-    const navigation = '<nav class="ic-tabs" role="tablist" aria-label="Thông tin quốc gia">' +
-      tabs.map(t => '<button type="button" role="tab" aria-selected="' + String(state.tab === t[0]) +
-        '" data-action="tab" data-tab="' + t[0] + '" class="' +
-        (state.tab === t[0] ? "active" : "") + '">' + t[1] + '</button>').join("") + '</nav>';
-    const views = {
-      overview:renderOverview,industry:renderIndustry,trade:renderTrade,
-      market:renderMarket,network:renderNetwork,compare:renderCompare
-    };
-    const body = '<div class="ic-body" role="tabpanel">' +
-      (state.tab === "compare" ? renderCompare() : views[state.tab](id)) + '</div>';
+    const views = [
+      ["overview","Tổng quan",renderOverview(id)],
+      ["industry","Ngành nội thất",renderIndustry(id)],
+      ["trade","Thương mại",renderTrade(id)],
+      ["market","Thị trường",renderMarket(id)],
+      ["network","Khách hàng và liên kết",renderNetwork(id)],
+      ["compare","So sánh quốc gia",renderCompare()]
+    ];
+    const body = '<div class="ic-body" role="region" aria-label="Thông tin tổng hợp quốc gia">' +
+      views.map(([key,label,content]) => '<details class="ic-unified-section" data-section="' + key + '"' +
+        (expanded.has(key) ? " open" : "") + '><summary>' + html(label) +
+        '</summary><div class="ic-unified-content">' + content + '</div></details>').join("") + '</div>';
     const comparisonActive = state.comparison.includes(id);
     const footer = '<footer class="ic-footer"><button type="button" data-action="' +
       (comparisonActive ? "removecompare" : "addcompare") + '" data-id="' + html(id) + '"' +
       (!comparisonActive && state.comparison.length >= 3 ? " disabled" : "") + '>' +
       (comparisonActive ? "Bỏ so sánh" : "＋ Thêm so sánh") + ' (' + state.comparison.length + '/3)</button>' +
       '<button type="button" data-action="legacy">Ghi chú / Chỉnh sửa</button></footer>';
-    panel.innerHTML = heading + navigation + body + footer;
+    panel.innerHTML = heading + body + footer;
     panel.hidden = false;
+    if(previousBody) panel.querySelector(".ic-body").scrollTop = previousScroll;
   }
   panel.addEventListener("click", e => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     const action = btn.dataset.action;
     if (action === "close") {panel.hidden = true;return;}
-    if (action === "tab") {state.tab = btn.dataset.tab;render();return;}
     if (action === "addcompare") {addCompare(btn.dataset.id || state.id);render();return;}
     if (action === "removecompare") {
       state.comparison = state.comparison.filter(id => id !== key(btn.dataset.id));render();return;
     }
     if (action === "add-picker") {
       const choice = panel.querySelector("#ic-compare-select");
-      if (choice && choice.value) {addCompare(choice.value);state.tab = "compare";render();}
+      if (choice && choice.value) {addCompare(choice.value);render();}
       return;
     }
-    if (action === "customers-map") { if (window.FurniverseMap?.showCustomersForCountry(state.id)) panel.hidden = true; return; }
     if (action === "legacy") {
       panel.hidden = true;
       if (typeof openModal === "function") openModal(state.id,state.name,
@@ -221,7 +225,6 @@
   function open(id,name) {
     state.id = key(id);
     state.name = String(name || record(state.id) && record(state.id).name || state.id);
-    state.tab = "overview";
     render();
     const closeButton = panel.querySelector(".ic-close");
     if (closeButton) closeButton.focus({preventScroll:true});
