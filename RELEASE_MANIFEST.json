@@ -1,0 +1,11 @@
+{
+  "name": "World Furniture Atlas",
+  "version": "1.4",
+  "releaseDate": "2026-11-08",
+  "deployment": "GitHub Pages, independent repository",
+  "publicDirectory": "site",
+  "githubTargetRepository": "TPGmail/world-furniture-atlas (to be created)",
+  "websiteStatus": "not deployed",
+  "privateExportsIncluded": false,
+  "oauthStatus": "not configured"
+}

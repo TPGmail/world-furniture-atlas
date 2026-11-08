@@ -1,0 +1,11 @@
+# Keep all data backups and secrets out of GitHub
+*.zip
+*_notes_exported.json
+backup*/
+data_sources/
+*.env
+.env*
+credentials.json
+client_secret*.json
+node_modules/
+__pycache__/
