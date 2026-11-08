@@ -291,21 +291,60 @@
         if(directory && directory.classList.contains('is-collapsed') && toggleDirectory) toggleDirectory.click();
         return true;
     }
+    // OpenFreeMap vector labels prefer Vietnamese OSM names, with a local-name fallback.
+    // Never infer or translate a place name when the underlying map has no name:vi.
+    function localizeMapLabels(glMap) {
+        if (!glMap || !glMap.isStyleLoaded()) return;
+        const layers = glMap.getStyle()?.layers || [];
+        const vietnameseName = ['coalesce',
+            ['get','name:vi'],['get','name:latin'],['get','name']];
+        layers.forEach(layer => {
+            if (layer.type !== 'symbol' || !layer.layout?.['text-field']) return;
+            const sourceLayer = String(layer['source-layer'] || '');
+            // Leave house numbers, road shields, transport refs and icons intact.
+            if (!['place','poi','transportation_name','water_name','waterway'].includes(sourceLayer)) return;
+            try {
+                glMap.setLayoutProperty(layer.id,'text-field',vietnameseName);
+            } catch (error) {
+                console.warn('Unable to localize map label',layer.id,error);
+            }
+        });
+    }
+    function rasterBasemap(dark) {
+        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>';
+        const layer = window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {maxZoom:19,attribution});
+        layer.addTo(map);
+        const container = layer.getContainer();
+        if (container) container.style.filter = dark
+            ? 'invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9)' : '';
+        return layer;
+    }
     function setBasemapTheme() {
         if (!map || !window.L) return;
         const dark = document.documentElement.dataset.theme === 'dark';
-        // Use OSM tiles in both modes; recolor only the tile layer for dark mode.
-        // This needs no API key and leaves country/customer overlays unchanged.
-        const url = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>';
-        const next = window.L.tileLayer(url,{maxZoom:19,attribution});
-        next.addTo(map);
-        const tileContainer = next.getContainer();
-        if (tileContainer) {
-            tileContainer.style.filter = dark
-              ? 'invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9)'
-              : '';
+        let next;
+        if (typeof window.L.maplibreGL === 'function' && window.maplibregl?.supported?.()) {
+            try {
+                const style = 'https://tiles.openfreemap.org/styles/' + (dark ? 'dark' : 'bright');
+                next = window.L.maplibreGL({style,attribution:'© OpenFreeMap · © OpenStreetMap contributors'});
+                next.addTo(map);
+                const glMap = next.getMaplibreMap();
+                glMap.on('style.load',() => {
+                    if (baseTiles === next) localizeMapLabels(glMap);
+                });
+                glMap.on('error',event => {
+                    if (baseTiles !== next) return;
+                    console.warn('Vector basemap error:',event.error);
+                });
+                if (glMap.isStyleLoaded()) localizeMapLabels(glMap);
+            } catch (error) {
+                console.warn('Falling back to OpenStreetMap raster basemap:',error);
+                if (next && map.hasLayer(next)) map.removeLayer(next);
+                next = null;
+            }
         }
+        if (!next) next = rasterBasemap(dark);
         if (baseTiles) map.removeLayer(baseTiles);
         baseTiles = next;
         refreshCountryStyles();
