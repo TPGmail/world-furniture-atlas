@@ -330,14 +330,28 @@
                 next = window.L.maplibreGL({style,attribution:'© OpenFreeMap · © OpenStreetMap contributors'});
                 next.addTo(map);
                 const glMap = next.getMaplibreMap();
+                let styleReady = false;
                 glMap.on('style.load',() => {
+                    styleReady = true;
                     if (baseTiles === next) localizeMapLabels(glMap);
                 });
                 glMap.on('error',event => {
                     if (baseTiles !== next) return;
                     console.warn('Vector basemap error:',event.error);
+                    if (!styleReady) {
+                        window.requestAnimationFrame(() => {
+                            if (!map || baseTiles !== next || styleReady) return;
+                            const fallback = rasterBasemap(dark);
+                            map.removeLayer(next);
+                            baseTiles = fallback;
+                            refreshCountryStyles();
+                        });
+                    }
                 });
-                if (glMap.isStyleLoaded()) localizeMapLabels(glMap);
+                if (glMap.isStyleLoaded()) {
+                    styleReady = true;
+                    localizeMapLabels(glMap);
+                }
             } catch (error) {
                 console.warn('Falling back to OpenStreetMap raster basemap:',error);
                 if (next && map.hasLayer(next)) map.removeLayer(next);
