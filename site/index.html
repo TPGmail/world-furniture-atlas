@@ -50,10 +50,10 @@
 </div>
       <div class="settings-sync"><div class="header-sync" role="status" aria-live="polite"><span class="header-sync-dot" aria-hidden="true"></span><span id="header-sync-status">Drive chưa kết nối</span></div></div>
       <details class="knowledge-section quiet-tools" aria-labelledby="knowledge-heading">
-                <summary id="knowledge-heading">Kho dữ liệu gốc và đối chiếu</summary>
+                <summary id="knowledge-heading">Kho ghi chú lưu trữ</summary>
                 <p id="knowledge-summary" class="knowledge-summary">Đang kiểm tra danh mục...</p>
                 <button id="merge-catalog-btn" class="btn-secondary" type="button">Bổ sung hồ sơ còn thiếu</button>
-                <p class="knowledge-disclaimer">Chỉ bổ sung khi bạn xác nhận. Không tự ghi đè các ghi chú đã sửa.</p>
+                <p class="knowledge-disclaimer">Bổ sung dữ liệu nhưng vẫn giữ nguyên các ghi chú của bạn.</p>
             </details>
       <details id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
                 <summary>Đồng bộ Google Drive T.MN</summary>
@@ -191,7 +191,7 @@
             <div id="map-fallback" class="map-fallback hidden" role="status">
                 <div class="map-fallback-symbol" aria-hidden="true">◎</div>
                 <strong>Không tải được bản đồ</strong>
-                <p>Danh sách 59 hồ sơ vẫn có thể tra cứu và chỉnh sửa. Kiểm tra Internet rồi bấm <b>Tải lại bản đồ</b>, hoặc tải lại trang nếu nút này không hiển thị.</p>
+                <p>Danh sách thị trường có dữ liệu vẫn có thể tra cứu. Kiểm tra Internet rồi bấm <b>Tải lại bản đồ</b>, hoặc tải lại trang nếu nút này không hiển thị.</p>
             </div>
             <aside id="industry-panel" class="industry-panel" aria-label="Hồ sơ ngành nội thất quốc gia và vùng lãnh thổ" hidden></aside>
             <!-- Tooltip -->
@@ -228,8 +228,8 @@
                         <ul id="customer-verified-list" class="customer-osm-list"></ul>
                     </details>
                     <details id="customer-unverified-directory" class="customer-osm-directory">
-                        <summary>Chưa có GPS xác minh (<span id="customer-unverified-count">0</span>)</summary>
-                        <p class="customer-map-disclaimer">Không đặt chấm ở tâm đường hoặc thành phố. Bấm “Tra cứu OSM” để xem địa chỉ, không coi kết quả tìm kiếm là vị trí đã xác nhận.</p>
+                        <summary>Địa chỉ khác (<span id="customer-unverified-count">0</span>)</summary>
+                        <p class="customer-map-disclaimer">Chỉ các điểm GPS chính xác mới được hiển thị trên bản đồ.</p>
                         <ul id="customer-unverified-list" class="customer-osm-list"></ul>
                     </details>
                     <p class="customer-map-attribution">Địa chỉ và ISO được ghi nhận độc lập. Chỉ đặt dấu ở GPS khớp địa chỉ đã kiểm tra; không ước lượng tọa độ.</p>
@@ -240,14 +240,14 @@
             <div class="modal-content glass-panel">
                 <button id="close-modal-btn" class="btn-icon close-btn" title="Đóng">&times;</button>
                 <h2 id="modal-title" class="modal-title">Tên quốc gia</h2>
-                <section id="verified-brief" class="verified-brief" aria-label="Thông tin đã đối chiếu nguồn"></section>
+                <section id="verified-brief" class="verified-brief" aria-label="Thông tin thị trường"></section>
                 <details id="raw-note-panel" class="raw-note-panel">
-                    <summary>Xem ghi chú gốc (chưa xác minh toàn bộ)</summary>
+                    <summary>Ghi chú gốc</summary>
                     <div id="modal-text" class="modal-text">Nội dung ghi chú...</div>
                     <textarea id="modal-textarea" class="modal-textarea hidden" rows="10"></textarea>
                 </details>
                 <section class="atlas-meta" aria-label="Thông tin danh mục và nguồn dữ liệu">
-                    <h3>Phân loại và nguồn tham chiếu</h3>
+                    <h3>Thông tin ghi chú</h3>
                     <p id="atlas-meta-summary"></p>
                     <div id="atlas-meta-tags"></div>
                     <details id="atlas-variants" class="atlas-variants hidden">
