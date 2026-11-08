@@ -774,6 +774,12 @@ async function initMap() {
             if (countryTranslations[f.properties.name]) {
                 f.properties.name = countryTranslations[f.properties.name];
             }
+            // Country polygons use Vietnamese display names from our own catalogue.
+            const publicRecord = atlasKnowledgeV2.records[f.id];
+            if (publicRecord && isPublishedAtlasId(f.id)) {
+                const name = publicRecord.name.split(' - ')[0].replace(/\s*\([^)]*\)/g, '').trim();
+                f.properties.name = f.id === '036' ? 'Úc' : name;
+            }
         });
 
         // Step 3: one semantic colour for saved notes; avoid O(N²) adjacency search
