@@ -42,6 +42,7 @@
     const countryById = new Map();
     const initialCenter = [18,10];
     let map = null;
+    let baseTiles = null;
     let customersLayer = null;
     let countriesLayer = null;
     let loadedFeatureCount = 0;
@@ -153,7 +154,8 @@
         if(!Array.isArray(raw) || !raw.length) return;
         // The old "International Styles" pseudo-island is a catalogue topic, not geography.
         const features = raw.filter(feature => feature && feature.type === 'Feature' &&
-            feature.geometry && feature.id !== 'intl-island');
+            feature.geometry && feature.id !== 'intl-island')
+            .map(feature => window.FurniverseDateLine?.fix(feature,window.d3) || feature);
         if(!features.length) return;
         countriesLayer = window.L.geoJSON({type:'FeatureCollection',features},{
             pane:'atlasCountryPane',
@@ -293,6 +295,21 @@
         if(directory && directory.classList.contains('is-collapsed') && toggleDirectory) toggleDirectory.click();
         return true;
     }
+    function setBasemapTheme() {
+        if (!map || !window.L) return;
+        const dark = document.documentElement.dataset.theme === 'dark';
+        // OSM data in both modes. CARTO Dark Matter supplies readable dark-mode tiles.
+        const url = dark
+          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+          : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>' +
+          (dark ? ' &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>' : '');
+        const next = window.L.tileLayer(url,{maxZoom:19,attribution});
+        next.addTo(map);
+        if (baseTiles) map.removeLayer(baseTiles);
+        baseTiles = next;
+        refreshCountryStyles();
+    }
     function setupMap() {
         if(!window.L || !mapCanvas || !pane) {
             pane.hidden = true;
@@ -305,10 +322,7 @@
                 center:initialCenter,zoom:2,minZoom:2,maxZoom:18,
                 zoomControl:true,worldCopyJump:true,preferCanvas:false
             });
-            window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-                maxZoom:19,
-                attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>'
-            }).addTo(map);
+            setBasemapTheme();
             map.createPane('atlasCountryPane');
             map.getPane('atlasCountryPane').style.zIndex = '410';
             map.createPane('atlasCustomerPane');
@@ -320,6 +334,7 @@
             updateLayerStatus();
             loadCountries();
             document.addEventListener('atlas:geography-ready',loadCountries);
+            document.addEventListener('furniverse:theme-change',setBasemapTheme);
             if(typeof ResizeObserver === 'function') {
                 let raf = 0;
                 new ResizeObserver(() => {
