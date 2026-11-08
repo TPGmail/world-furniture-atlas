@@ -12,28 +12,20 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="country-intelligence.css">
+    <link rel="stylesheet" href="interface.css">
 </head>
 <body>
     <div class="app-container">
         <!-- Control Panel (Left) -->
         <aside id="control-panel" class="control-panel glass-panel" aria-label="Bảng điều khiển Atlas">
-            <details class="quiet-tools"><summary>Công cụ nhập / xuất dữ liệu</summary>
-            <div class="data-actions">
-                <button id="import-btn" class="btn-icon" title="Nhập dữ liệu JSON" aria-label="Nhập dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                </button>
-                <button id="export-btn" class="btn-icon" title="Xuất dữ liệu JSON" aria-label="Xuất dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                </button>
-                <input type="file" id="import-file" accept=".json" style="display: none;">
-            </div>
-            </details>
+            
             <header style="position: relative;">
                 <div class="logo">
                     <span class="atlas-brand-mark" aria-hidden="true">◎</span>
                     <h1>World Wood &amp; Furniture Atlas</h1>
                 </div>
                 <p class="subtitle">made by TMN with <span class="glow-text">Antigravity</span></p>
+                <div class="header-sync" role="status" aria-live="polite"><span class="header-sync-dot" aria-hidden="true"></span><span id="header-sync-status">Drive chưa kết nối</span></div>
                 <button id="theme-toggle-btn" class="btn-icon" style="position: absolute; right: 0; top: 0; background: transparent; border: none; cursor: pointer; color: var(--text-muted);" title="Đổi giao diện">
                     <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     <svg class="icon-moon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -131,6 +123,17 @@
 
 
 
+            <details class="quiet-tools"><summary>Sao lưu và khôi phục JSON</summary>
+                        <div class="data-actions">
+                            <button id="import-btn" class="btn-icon" title="Nhập dữ liệu JSON" aria-label="Nhập dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </button>
+                            <button id="export-btn" class="btn-icon" title="Xuất dữ liệu JSON" aria-label="Xuất dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            </button>
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                        </div>
+                        </details>
         </aside>
 
         <button id="toggle-panel-btn" class="toggle-panel-btn" type="button" title="Ẩn/Hiện Bảng điều khiển" aria-controls="control-panel" aria-expanded="true" aria-label="Ẩn hoặc hiện bảng điều khiển">
@@ -156,7 +159,7 @@
                       </select>
                     </label>
                     <button id="map-mode-countries" class="map-action" type="button" aria-pressed="false">Thị trường</button>
-                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true">Khách hàng · OpenStreetMap</button>
+                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true" aria-label="Bản đồ khách hàng OpenStreetMap">Khách hàng</button>
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
                     <button id="retry-map-btn" type="button" class="map-action hidden">Tải lại bản đồ</button>
                 </div>
@@ -171,7 +174,9 @@
                     <div class="customer-osm-header">
                         <h2>Khách hàng theo địa chỉ</h2>
                         <span id="customer-pin-count" class="customer-pin-count">0 điểm xác minh</span>
+                        <button id="customer-directory-toggle" class="customer-directory-toggle" type="button" aria-expanded="true" aria-controls="customer-directory-body">Thu gọn</button>
                     </div>
+                    <div id="customer-directory-body" class="customer-directory-body">
                     <p id="customer-osm-status" role="status" aria-live="polite">Đang nạp bản đồ OpenStreetMap...</p>
                     <label for="customer-address-search">Tìm khách hàng</label>
                     <input id="customer-address-search" type="search" placeholder="Tên, quốc gia hoặc địa chỉ" autocomplete="off">
@@ -185,6 +190,7 @@
                         <ul id="customer-unverified-list" class="customer-osm-list"></ul>
                     </details>
                     <p class="customer-map-attribution">Tọa độ chỉ được chấp nhận khi bản ghi OpenStreetMap khớp số nhà hoặc địa điểm kinh doanh. Không dùng tọa độ ước lượng hoặc offset.</p>
+                    </div>
                 </div>
             </section>
             <div id="map-fallback" class="map-fallback hidden" role="status">
@@ -246,5 +252,6 @@
     <script src="atlas-cloud.js"></script>
     <script src="customer-verified-points.js"></script>
     <script src="customer-leaflet-map.js"></script>
+    <script src="interface.js"></script>
 </body>
 </html>

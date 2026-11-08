@@ -18,3 +18,5 @@ jobs:
           for f in site/*.js; do node --check "$f"; done
       - name: Country Intelligence structural smoke test
         run: node tests/country-intelligence.test.cjs
+      - name: Interface UX structural smoke test
+        run: node tests/interface.test.cjs
