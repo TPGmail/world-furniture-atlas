@@ -81,6 +81,7 @@
         customersBtn.setAttribute('aria-pressed',String(isGoogle));
         if(countryLegend) countryLegend.classList.toggle('atlas-hidden',isGoogle);
         if(countryStatus) countryStatus.classList.toggle('atlas-hidden',isGoogle);
+        document.querySelector('.ic-role-label')?.classList.toggle('atlas-hidden',isGoogle);
         const reset=$('reset-map-btn');if(reset)reset.classList.toggle('atlas-hidden',isGoogle);
         if(map && isGoogle) {google.maps.event.trigger(map,'resize');}
     }
