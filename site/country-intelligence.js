@@ -162,9 +162,10 @@
   function render() {
     const id = state.id;
     if (!id) { panel.hidden = true; return; }
+    const sameCountry = panel.dataset.renderedCountry === id && !panel.hidden;
     const previousBody = panel.querySelector(".ic-body");
-    const previousScroll = previousBody ? previousBody.scrollTop : 0;
-    const previousSections = Array.from(panel.querySelectorAll(".ic-unified-section"));
+    const previousScroll = sameCountry && previousBody ? previousBody.scrollTop : 0;
+    const previousSections = sameCountry ? Array.from(panel.querySelectorAll(".ic-unified-section")) : [];
     const expanded = previousSections.length ? new Set(previousSections.filter(section => section.open).map(section => section.dataset.section)) : new Set(["overview","industry"]);
     const p = profile(id), brief = factBrief(id);
     const name = state.name || record(id) && record(id).name || id;
@@ -193,7 +194,8 @@
       '<button type="button" data-action="legacy">Ghi chú / Chỉnh sửa</button></footer>';
     panel.innerHTML = heading + body + footer;
     panel.hidden = false;
-    if(previousBody) panel.querySelector(".ic-body").scrollTop = previousScroll;
+    panel.dataset.renderedCountry = id;
+    panel.querySelector(".ic-body").scrollTop = previousScroll;
   }
   panel.addEventListener("click", e => {
     const btn = e.target.closest("button[data-action]");
