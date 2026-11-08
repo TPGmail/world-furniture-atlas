@@ -6,7 +6,7 @@ const read = pathName => fs.readFileSync(path.join(__dirname, '..', pathName), '
 const html = read('site/index.html');
 const css = read('site/interface.css');
 const js = read('site/interface.js');
-assert.ok(html.includes('src="interface.css"'), 'Interface stylesheet must be loaded');
+assert.ok(html.includes('href="interface.css"'), 'Interface stylesheet must be loaded');
 assert.ok(html.includes('src="interface.js"'), 'Interface script must be loaded');
 assert.ok(html.indexOf('World Wood &amp; Furniture Atlas</h1>') < html.indexOf('Sao lưu và khôi phục JSON'), 'Backup tools belong after branding');
 assert.ok(html.indexOf('Đồng bộ Google Drive T.MN') < html.indexOf('Sao lưu và khôi phục JSON'), 'Keep backup near cloud settings');
