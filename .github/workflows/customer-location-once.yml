@@ -1,0 +1,38 @@
+name: One-time customer address research
+# Deliberately runs only when the research script itself changes.
+# Not scheduled, not exposed in the browser, not a general geocoding service.
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/geocode_customer_locations.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  geocode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    concurrency:
+      group: furniverse-one-time-geocode
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check research syntax
+        run: python -m py_compile scripts/geocode_customer_locations.py
+      - name: Research addresses (single-threaded, Nominatim 1 request / 1.3 sec)
+        run: python scripts/geocode_customer_locations.py
+      - name: Store static, attributed results
+        run: |
+          git config user.name "Furniverse Research Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/customer-geocoded-points.js CUSTOMER_LOCATION_RESEARCH.json
+          if git diff --cached --quiet; then
+            echo "No new verified map locations."
+          else
+            git commit -m "Add source-backed customer points from one-time geocoding [skip ci]"
+            git push origin HEAD:main
+          fi
