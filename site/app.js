@@ -120,6 +120,56 @@ const resetMapBtn = document.getElementById('reset-map-btn');
 const retryMapBtn = document.getElementById('retry-map-btn');
 const mapFallback = document.getElementById('map-fallback');
 const panelBackdrop = document.getElementById('panel-backdrop');
+const atlasBriefs = window.ATLAS_BRIEFS_V15;
+if (!atlasBriefs || atlasBriefs.schemaVersion !== 1) throw new Error('Thiếu atlas-briefs.js.');
+const editorTools = document.getElementById('editor-tools');
+const priorityView = document.getElementById('view-priority');
+const allView = document.getElementById('view-all');
+const verifiedBrief = document.getElementById('verified-brief');
+const rawNotePanel = document.getElementById('raw-note-panel');
+let showAllCatalogue = false;
+priorityView.addEventListener('click', () => setCatalogueScope(false));
+allView.addEventListener('click', () => setCatalogueScope(true));
+function setCatalogueScope(all) {
+    showAllCatalogue = Boolean(all);
+    priorityView.classList.toggle('active', !all);
+    allView.classList.toggle('active', all);
+    priorityView.setAttribute('aria-pressed', String(!all));
+    allView.setAttribute('aria-pressed', String(all));
+    refreshDiscovery();
+}
+function appendBrief(id) {
+    verifiedBrief.replaceChildren();
+    const item = atlasBriefs.records[id];
+    if (!item) {
+        verifiedBrief.hidden = true;
+        rawNotePanel.open = true;
+        return;
+    }
+    verifiedBrief.hidden = false;
+    rawNotePanel.open = false;
+    const label = document.createElement('p');
+    label.className = 'brief-eyebrow';
+    label.textContent = item.category + ' · Đối chiếu ' + atlasBriefs.reviewedOn;
+    const summary = document.createElement('p');
+    summary.className = 'brief-summary';
+    summary.textContent = item.summary;
+    const list = document.createElement('ul');
+    list.className = 'brief-points';
+    for (const fact of item.facts) {
+        const li = document.createElement('li');
+        li.appendChild(document.createTextNode(fact.text + ' '));
+        const src = atlasBriefs.sources[fact.source];
+        if (src) {
+            const a = document.createElement('a');
+            a.href = src.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            a.textContent = 'Nguồn chính thức'; a.title = src.title;
+            li.appendChild(a);
+        }
+        list.appendChild(li);
+    }
+    verifiedBrief.append(label, summary, list);
+}
 
 
 function renderAtlasMetadata(id, displayedText) {
@@ -173,6 +223,7 @@ function openModal(id, title, text) {
     modalText.innerHTML = parseMarkdown(text);
     modalTextarea.value = text;
     renderAtlasMetadata(id, text);
+    appendBrief(id);
     
     modalText.classList.remove('hidden');
     modalTextarea.classList.add('hidden');
@@ -183,6 +234,7 @@ function openModal(id, title, text) {
 }
 
 modalEditBtn.addEventListener('click', () => {
+    rawNotePanel.open = true;
     modalText.classList.add('hidden');
     modalTextarea.classList.remove('hidden');
     modalEditBtn.classList.add('hidden');
@@ -541,8 +593,9 @@ function updateFacetValueOptions() {
 function updateMapStatus() {
     if (mapError) { mapStatus.textContent = 'Bản đồ chưa tải được. Vẫn có thể tìm kiếm, xem và chỉnh sửa hồ sơ.'; return; }
     const matches = getDiscoveryMatches();
-    const noun = isDiscoveryActive() ? 'hồ sơ khớp' : 'hồ sơ trong danh mục';
-    mapStatus.textContent = `${matches.length} ${noun}` + (mapReady ? '' : ' · Đang tải bản đồ...');
+    const count = isDiscoveryActive() || showAllCatalogue ? matches.length : atlasBriefs.priorityIds.length;
+    const noun = isDiscoveryActive() ? 'hồ sơ khớp' : (showAllCatalogue ? 'hồ sơ trong danh mục' : 'thị trường ưu tiên');
+    mapStatus.textContent = `${count} ${noun}` + (mapReady ? '' : ' · Đang tải bản đồ...');
 }
 function refreshDiscovery() {
     renderNotesList();
@@ -896,6 +949,7 @@ function handleCountryClick(event, d) {
     
     currentSelection = [{ id, name }];
     renderChips();
+    if (!mobilePanelQuery.matches) editorTools.open = true;
     
     if (savedNotes[id]) {
         const noteText = savedNotes[id].text;
@@ -1046,68 +1100,61 @@ function updateMapColors() {
 // Step 3: unified list of catalogue records and browser-only notes.
 function renderNotesList() {
     notesList.replaceChildren();
-    const entries = getDiscoveryMatches().sort((a,b) =>
-        Number(b.hasNote) - Number(a.hasNote) || b.timestamp - a.timestamp || a.name.localeCompare(b.name,'vi'));
-    const total = atlasFilters.buildEntries(atlasKnowledgeV2.records, savedNotes).length;
-    resultsCount.textContent = `${entries.length}/${total} hồ sơ`;
+    const allEntries = atlasFilters.buildEntries(atlasKnowledgeV2.records, savedNotes);
+    const entries = getDiscoveryMatches().filter(entry =>
+        showAllCatalogue || isDiscoveryActive() || atlasBriefs.priorityIds.includes(entry.id))
+        .sort((a,b) => {
+            const priorityA = atlasBriefs.priorityIds.indexOf(a.id);
+            const priorityB = atlasBriefs.priorityIds.indexOf(b.id);
+            if (!showAllCatalogue && !isDiscoveryActive()) return priorityA - priorityB;
+            return Number(b.hasNote) - Number(a.hasNote) || b.timestamp - a.timestamp || a.name.localeCompare(b.name,'vi');
+        });
+    resultsCount.textContent = `${entries.length}/${allEntries.length} hồ sơ`;
     if (!entries.length) {
         const empty = document.createElement('p');
         empty.className = 'note-empty';
-        empty.textContent = 'Không có hồ sơ phù hợp. Hãy thử xóa bộ lọc hoặc tìm từ khóa khác.';
+        empty.textContent = 'Không tìm thấy hồ sơ. Hãy đổi bộ lọc hoặc bấm Tất cả.';
         notesList.appendChild(empty);
         refreshKnowledgeSummary();
         return;
     }
     for (const entry of entries) {
-        const noteEl = document.createElement('article');
-        noteEl.className = 'note-item';
-        noteEl.setAttribute('data-id',entry.id);
-        const header = document.createElement('div');
-        header.className = 'note-header';
+        const brief = atlasBriefs.records[entry.id] || null;
+        const card = document.createElement('article');
+        card.className = 'note-item' + (brief ? ' verified-card' : ' archive-card');
+        card.setAttribute('data-id', entry.id);
+        const head = document.createElement('div');
+        head.className = 'note-header';
         const title = document.createElement('strong');
         title.className = 'note-country';
         title.textContent = entry.name;
-        header.appendChild(title);
-        if (entry.hasNote) {
-            const delBtn = document.createElement('button');
-            delBtn.className = 'btn-delete';
-            delBtn.type = 'button';
-            delBtn.title = `Xóa ghi chú ${entry.name}`;
-            delBtn.setAttribute('aria-label',delBtn.title);
-            delBtn.textContent = '×';
-            delBtn.addEventListener('click', event => {
-                event.stopPropagation();
-                if (!confirm(`Bạn có chắc muốn xóa ghi chú của ${entry.name}?`)) return;
-                const nextNotes = { ...savedNotes };
-                delete nextNotes[entry.id];
-                if (!persistNotes(nextNotes)) return;
-                currentSelection = currentSelection.filter(c => c.id !== entry.id);
-                renderChips();
-                if (!currentSelection.length) { noteInput.value = ''; setEditMode(true); }
-                refreshDiscovery();
-            });
-            header.appendChild(delBtn);
-        }
-        const text = document.createElement('div');
-        text.className = 'note-text line-clamp-5';
-        text.textContent = entry.text;
-        const meta = document.createElement('div');
-        meta.className = 'note-meta';
-        meta.textContent = entry.hasNote ? 'Có ghi chú đã lưu' : 'Chỉ có hồ sơ tham chiếu; chưa lưu trong trình duyệt';
+        const flag = document.createElement('span');
+        flag.className = 'source-flag';
+        flag.textContent = brief ? 'Có nguồn' : 'Chưa rà soát';
+        head.append(title, flag);
+        const summary = document.createElement('p');
+        summary.className = 'note-text';
+        summary.textContent = brief ? brief.summary : 'Dữ liệu gốc lưu trong kho; chưa kiểm chứng toàn bộ nội dung.';
+        const controls = document.createElement('div');
+        controls.className = 'brief-card-actions';
         const detail = document.createElement('button');
         detail.type = 'button';
         detail.className = 'note-detail';
-        detail.textContent = 'Xem chi tiết / nguồn';
-        detail.addEventListener('click', event => {
-            event.stopPropagation();
+        detail.textContent = brief ? 'Xem tóm tắt & nguồn' : 'Xem dữ liệu gốc';
+        detail.addEventListener('click', () => openModal(entry.id, entry.name, entry.text));
+        controls.appendChild(detail);
+        if (entry.hasNote && !brief) {
+            const personal = document.createElement('span');
+            personal.className = 'personal-tag';
+            personal.textContent = 'Có ghi chú trên thiết bị';
+            controls.appendChild(personal);
+        }
+        card.append(head, summary, controls);
+        card.addEventListener('click', event => {
+            if (event.target.closest('button')) return;
             openModal(entry.id, entry.name, entry.text);
         });
-        noteEl.append(header, text, meta, detail);
-        noteEl.addEventListener('click', event => {
-            if (event.target.closest('button')) return;
-            chooseEntry(entry);
-        });
-        notesList.appendChild(noteEl);
+        notesList.appendChild(card);
     }
     refreshKnowledgeSummary();
 }
@@ -1115,6 +1162,7 @@ function chooseEntry(entry) {
     viewedCountry = {id:entry.id,name:entry.name};
     currentSelection = [{id:entry.id,name:entry.name}];
     renderChips();
+    editorTools.open = true;
     noteInput.value = entry.hasNote ? entry.text : '';
     setEditMode(!entry.hasNote);
     if (mapReady) zoomToCountry(entry.id);

@@ -15,6 +15,7 @@
     <div class="app-container">
         <!-- Control Panel (Left) -->
         <aside id="control-panel" class="control-panel glass-panel" aria-label="Bảng điều khiển Atlas">
+            <details class="quiet-tools"><summary>Công cụ nhập / xuất dữ liệu</summary>
             <div class="data-actions">
                 <button id="import-btn" class="btn-icon" title="Nhập dữ liệu JSON" aria-label="Nhập dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -24,6 +25,7 @@
                 </button>
                 <input type="file" id="import-file" accept=".json" style="display: none;">
             </div>
+            </details>
             <header style="position: relative;">
                 <div class="logo">
                     <span class="atlas-brand-mark" aria-hidden="true">◎</span>
@@ -43,6 +45,7 @@
                     <ul id="search-results" class="search-results hidden" role="listbox" aria-label="Gợi ý tìm kiếm"></ul>
                 </div>
 
+                <details class="quiet-tools facet-disclosure"><summary>Bộ lọc nâng cao</summary>
                 <div class="discovery-section" aria-label="Bộ lọc danh mục">
                     <div class="discovery-header"><strong>Lọc hồ sơ</strong><button id="clear-filters" type="button" class="filter-reset">Xóa lọc</button></div>
                     <div class="facet-grid">
@@ -57,6 +60,9 @@
                     <p class="filter-hint">Phân loại tự động từ dữ liệu v1.2, chưa xác minh chuyên môn.</p>
                 </div>
 
+                </details>
+
+                <details id="editor-tools" class="quiet-tools"><summary>Thêm / chỉnh sửa ghi chú của tôi</summary>
                 <div class="form-group">
                     <label for="country-select">Chọn từ danh sách</label>
                     <select id="country-select">
@@ -74,17 +80,31 @@
                     <button id="edit-btn" class="btn-secondary" style="display: none;">Edit</button>
                     <button id="save-btn" class="btn-primary" disabled>Save</button>
                 </div>
+                </details>
             </section>
 
-            <section class="knowledge-section" aria-labelledby="knowledge-heading">
-                <h3 id="knowledge-heading">Danh mục dữ liệu v1.2</h3>
+            <section class="list-section">
+                <div class="results-heading"><h3>Hồ sơ thị trường</h3><span id="results-count" aria-live="polite">Đang tải...</span></div>
+                <p class="curation-note">Bản tin đã đối chiếu nguồn ở trên · Ghi chú cá nhân và dữ liệu gốc vẫn được lưu nguyên vẹn.</p>
+                <div class="curation-switch" role="group" aria-label="Chọn phạm vi hồ sơ">
+                    <button id="view-priority" type="button" class="active" aria-pressed="true">10 ưu tiên</button>
+                    <button id="view-all" type="button" aria-pressed="false">Tất cả 59</button>
+                </div>
+                <div id="notes-list" class="notes-list">
+                    <!-- Items will be populated by JS -->
+                </div>
+            </section>
+
+            <details class="knowledge-section quiet-tools" aria-labelledby="knowledge-heading">
+                <summary id="knowledge-heading">Kho dữ liệu gốc và đối chiếu</summary>
                 <p id="knowledge-summary" class="knowledge-summary">Đang kiểm tra danh mục...</p>
                 <button id="merge-catalog-btn" class="btn-secondary" type="button">Bổ sung hồ sơ còn thiếu</button>
                 <p class="knowledge-disclaimer">Chỉ bổ sung khi bạn xác nhận. Không tự ghi đè các ghi chú đã sửa.</p>
-            </section>
+            </details>
 
-            <section id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
-                <div class="cloud-title"><h3>Đồng bộ Google Drive T.MN</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
+            <details id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
+                <summary>Đồng bộ Google Drive T.MN</summary>
+                <div class="cloud-title"><h3>Cấu hình đồng bộ riêng</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
                 <p id="cloud-details" class="cloud-details" role="status">Ghi chú vẫn lưu trên thiết bị.</p>
                 <div class="form-group">
                     <label for="cloud-client-id">Google OAuth Client ID (Web application)</label>
@@ -104,14 +124,9 @@
                     <button id="cloud-history-refresh" class="btn-secondary" type="button" disabled>Tải lịch sử</button>
                     <div id="cloud-history" aria-live="polite">Kết nối để xem bản sao lưu.</div>
                 </details>
-            </section>
+            </details>
 
-            <section class="list-section">
-                <div class="results-heading"><h3>Danh sách khu vực</h3><span id="results-count" aria-live="polite">Đang tải...</span></div>
-                <div id="notes-list" class="notes-list">
-                    <!-- Items will be populated by JS -->
-                </div>
-            </section>
+
 
 
         </aside>
@@ -152,8 +167,12 @@
             <div class="modal-content glass-panel">
                 <button id="close-modal-btn" class="btn-icon close-btn" title="Đóng">&times;</button>
                 <h2 id="modal-title" class="modal-title">Tên quốc gia</h2>
-                <div id="modal-text" class="modal-text">Nội dung ghi chú...</div>
-                <textarea id="modal-textarea" class="modal-textarea hidden" rows="10"></textarea>
+                <section id="verified-brief" class="verified-brief" aria-label="Thông tin đã đối chiếu nguồn"></section>
+                <details id="raw-note-panel" class="raw-note-panel">
+                    <summary>Xem ghi chú gốc (chưa xác minh toàn bộ)</summary>
+                    <div id="modal-text" class="modal-text">Nội dung ghi chú...</div>
+                    <textarea id="modal-textarea" class="modal-textarea hidden" rows="10"></textarea>
+                </details>
                 <section class="atlas-meta" aria-label="Thông tin danh mục và nguồn dữ liệu">
                     <h3>Phân loại và nguồn tham chiếu</h3>
                     <p id="atlas-meta-summary"></p>
@@ -179,6 +198,7 @@
     <script src="china.js"></script>
     <script src="atlas-data.js"></script>
     <script src="atlas-filters.js"></script>
+    <script src="atlas-briefs.js"></script>
     <script src="atlas-sync-core.js"></script>
     <script src="app.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>

@@ -1,3 +1,20 @@
+# World Furniture Atlas v1.5 · Curated knowledge view
+
+**Live source:** `TPGmail/world-furniture-atlas` (standalone GitHub Pages).  
+**Content review:** 2026-11-08.  
+**Safety:** Original 59 records, 28 source variants, local browser notes and cloud sync files are unchanged.
+
+## What changed
+
+- Default screen displays 10 source-linked priority market briefs, rather than 59 long raw notes.
+- All 59 legacy profiles remain accessible through “Tất cả”, search, and map selection.
+- Verified facts link to official primary sources; older raw notes explicitly marked as not fully checked.
+- Search remains visible. Filters, note editing, imports, backup history, and Drive OAuth settings are collapsed until needed.
+- Removed destructive delete controls from the quick cards, but retained note edit and JSON export.
+- See `CONTENT_AUDIT_v1.5.md` for sources and validation decisions.
+
+---
+
 # World Furniture Atlas
 
 **Standalone static website**, version **1.4**. A dedicated GitHub repository, unrelated to the Tien Phat website.
