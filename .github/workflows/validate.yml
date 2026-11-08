@@ -22,3 +22,5 @@ jobs:
         run: node tests/interface.test.cjs
       - name: Unified map and ISO association smoke test
         run: node tests/unified-map.test.cjs
+      - name: Minimal UI and antimeridian smoke tests
+        run: node tests/minimal-ui.test.cjs

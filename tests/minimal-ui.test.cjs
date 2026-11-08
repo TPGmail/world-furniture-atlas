@@ -1,0 +1,63 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+const read = file => fs.readFileSync(path.join(__dirname,'..',file),'utf8');
+const html = read('site/index.html');
+const app = read('site/app.js');
+const country = read('site/country-intelligence.js');
+const map = read('site/customer-leaflet-map.js');
+const css = read('site/minimal-ui.css');
+const dateline = read('site/map-dateline.js');
+assert.ok(html.includes('id="settings-panel"'),'Settings must exist');
+assert.ok(html.includes('id="appearance-mode"'),'Appearance selector must exist');
+assert.ok(html.includes('href="minimal-ui.css"'),'UI stylesheet must be included');
+assert.ok(html.includes('src="map-dateline.js"'),'Dateline fix must load');
+assert.ok(!html.includes('Bộ lọc nâng cao'),'Advanced filter copy removed');
+assert.ok(!html.includes('Hồ sơ thị trường'),'Market profile header removed');
+assert.ok(!html.includes('Bản tin đã đối chiếu nguồn ở trên'),'Description removed');
+assert.ok(!html.includes('class="curation-switch"'),'Scope toggle removed');
+assert.ok(!html.includes('class="source-flag"'),'Source badges removed');
+assert.ok(!app.includes("detail.textContent = brief ? 'Xem tóm tắt & nguồn'"),'Old expand copy removed');
+assert.ok(app.includes("detail.textContent = 'Mở rộng'"),'Uniform expand label present');
+assert.ok(app.includes('getDiscoveryMatches()'),'Search preserved');
+assert.ok(app.includes("localeCompare(String(b.name),'vi')"),'Country list sorted');
+assert.ok(!country.includes('class="ic-tabs"'),'All country information in single view');
+assert.ok(country.includes('class="ic-unified-section"'),'Every prior tab is a section');
+assert.ok(country.includes('renderCompare()'),'Compare preserved');
+assert.ok(map.includes('window.FurniverseDateLine?.fix(feature,window.d3)'),'Dateline clipping integrated');
+assert.ok(map.includes("furniverse:theme-change"),'Basemap follows UI theme');
+assert.ok(css.includes('.map-toolbar'),'Old toolbar invisible');
+assert.ok(css.includes('.customer-osm-controls'),'Floating directory invisible');
+assert.equal((html.match(/<div\b/g)||[]).length,(html.match(/<\/div>/g)||[]).length);
+assert.equal((html.match(/<details\b/g)||[]).length,(html.match(/<\/details>/g)||[]).length);
+for(const f of ['site/app.js','site/country-intelligence.js','site/customer-leaflet-map.js','site/map-dateline.js'])
+  new vm.Script(read(f),{filename:f});
+const root = {};
+vm.runInNewContext(dateline,{window:root,console});
+const geo=root.FurniverseDateLine;
+const crossing={id:'Fiji',type:'Feature',properties:{name:'Fiji'},geometry:{type:'Polygon',coordinates:[[[178,-18],[-179,-18],[-179,-17],[178,-17],[178,-18]]]}};
+assert.equal(geo.jumpsAcrossDateline(crossing),true);
+assert.equal(geo.jumpsAcrossDateline({geometry:{type:'Polygon',coordinates:[[[1,1],[2,1],[2,2],[1,1]]]} }),false);
+assert.equal(geo.ringIsSafe([[178,-18],[180,-18],[180,-17],[178,-18]]),true);
+assert.equal(geo.ringIsSafe([[178,-18],[-179,-18],[-179,-17],[178,-18]]),false);
+assert.equal(geo.fix(crossing,null),crossing,'Never invent shapes without d3');
+const fauxD3={
+ geoEquirectangular:()=>({scale(){return this;},translate(){return this;},precision(){return this;}}),
+ geoPath:(_projection,ctx)=>feature=> {
+   ctx.moveTo(178,18);ctx.lineTo(180,18);ctx.lineTo(180,17);ctx.lineTo(178,18);ctx.closePath();
+   ctx.moveTo(-180,18);ctx.lineTo(-179,18);ctx.lineTo(-179,17);ctx.lineTo(-180,18);ctx.closePath();
+ }
+};
+const fixed=geo.fix(crossing,fauxD3);
+assert.equal(fixed.id,'Fiji');
+assert.equal(fixed.geometry.type,'MultiPolygon');
+assert.equal(fixed.geometry.coordinates.length,2);
+assert.ok(fixed.geometry.coordinates.every(poly=>geo.ringIsSafe(poly[0])));
+assert.equal(crossing.geometry.type,'Polygon','Original feature must remain untouched');
+const state={window:{}};
+for(const name of ['site/atlas-data.js','site/customer-addresses.js','site/customer-verified-points.js'])vm.runInNewContext(read(name),state);
+assert.equal(Object.keys(state.window.ATLAS_KNOWLEDGE_V2.records).length,59);
+assert.equal(state.window.ATLAS_CUSTOMER_ADDRESSES.length,123);
+assert.equal(state.window.ATLAS_VERIFIED_CUSTOMER_POINTS.length,16);
+console.log('Minimal UI, themed map, dateline geometry and source preservation tests passed.');
