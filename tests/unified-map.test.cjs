@@ -25,6 +25,11 @@ assert.ok(map.includes("window.L.geoJSON("));
 assert.ok(map.includes("window.L.circleMarker("));
 assert.ok(map.includes('point.checkedAddress === entryById.get(point.id).address'));
 assert.ok(map.includes("point.verificationLevel === 'address'"));
+assert.ok(html.includes('src="customer-geocoded-points.js"'),'New research data loaded');
+assert.ok(map.includes("['street','postal','administrative']"),'Non-rooftop precision supported');
+assert.ok(map.includes("'Khu vực tham chiếu'"),'Area reference locations are clearly identified');
+assert.ok(map.includes("const preciseCount"),'Exact and approximate counts split');
+
 assert.ok(map.includes("feature.id !== 'intl-island'"));
 assert.ok(country.includes('geo.forCustomer(row) === iso2'));
 assert.ok(!country.includes('Google Maps'));
