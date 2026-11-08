@@ -1,0 +1,80 @@
+/* Country Intelligence panel, accessible on desktop and mobile. */
+.industry-panel {
+    position:absolute; z-index:45; top:4.8rem; right:1rem; bottom:1rem;
+    width:min(465px,calc(100% - 2rem)); display:flex; flex-direction:column;
+    color:var(--text-main); background:var(--panel-bg);
+    border:1px solid var(--panel-border); border-radius:16px;
+    backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
+    box-shadow:0 15px 48px rgba(0,0,0,.32); overflow:hidden;
+}
+.industry-panel[hidden] {display:none!important;}
+.ic-header {padding:1rem 1rem .75rem; display:flex;align-items:flex-start;justify-content:space-between;gap:.65rem;border-bottom:1px solid var(--panel-border);}
+.ic-name {display:flex;gap:.7rem;align-items:center;min-width:0;}
+.ic-flag {font-size:2rem;line-height:1; flex-shrink:0;}
+.ic-name h2 {font-size:1.12rem;line-height:1.35;margin:0;overflow-wrap:anywhere;}
+.ic-name p {font-size:.76rem;color:var(--text-muted);margin:.24rem 0 0;}
+.ic-close {background:var(--btn-secondary-bg);border:1px solid var(--panel-border);border-radius:10px;color:var(--text-main);width:44px;height:44px;font-size:1.65rem;cursor:pointer;flex-shrink:0;}
+.ic-tabs {display:flex;gap:.3rem;padding:.55rem .7rem;overflow-x:auto;border-bottom:1px solid var(--panel-border);scrollbar-width:thin;}
+.ic-tabs button {white-space:nowrap;color:var(--text-muted);background:transparent;border:1px solid transparent;border-radius:8px;padding:.58rem .65rem;min-height:44px;cursor:pointer;font:inherit;font-size:.78rem;}
+.ic-tabs button.active {background:var(--accent);color:white;border-color:var(--accent);}
+.ic-tabs button:focus-visible,.ic-close:focus-visible,.ic-footer button:focus-visible,.ic-compare-picker button:focus-visible,
+.ic-role-select:focus-visible {outline:2px solid var(--accent);outline-offset:2px;}
+.ic-body {flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:1rem;line-height:1.5;}
+.ic-section {margin:0 0 1.25rem;}
+.ic-section h3 {font-size:.93rem;margin:0 0 .65rem;}
+.ic-section p {margin:.45rem 0 .7rem;font-size:.84rem;}
+.ic-tag {display:inline-block;margin:0 .3rem .35rem 0;padding:.32rem .55rem;background:var(--btn-secondary-bg);border:1px solid var(--panel-border);border-radius:7px;font-size:.73rem;line-height:1.35;}
+.ic-tag-role {border-color:var(--accent);color:var(--text-main);background:var(--note-bg);}
+.ic-caption {color:var(--text-muted);font-size:.75rem!important;}
+.ic-muted {color:var(--text-muted);font-size:.81rem;}
+.ic-empty {background:var(--note-bg);border:1px dashed var(--panel-border);border-radius:9px;padding:.8rem;font-size:.8rem;color:var(--text-muted);}
+.ic-facts {padding-left:1.2rem;margin:.4rem 0;}
+.ic-facts li {font-size:.84rem;margin:0 0 .8rem;}
+.ic-source {font-size:.75rem;color:var(--text-muted);margin-top:.22rem;}
+.ic-body a {color:var(--accent-hover);text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere;}
+.ic-caution {border-left:3px solid var(--accent);padding:.6rem .75rem;background:var(--note-bg);font-size:.77rem;color:var(--text-muted);}
+.ic-stats {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;}
+.ic-stat {background:var(--note-bg);border:1px solid var(--panel-border);border-radius:10px;padding:.75rem;display:flex;flex-direction:column;gap:.45rem;}
+.ic-stat span {font-size:.77rem;color:var(--text-muted);}
+.ic-stat strong {font-size:1.03rem;}
+.ic-stat small {font-size:.71rem;}
+.ic-links {padding-left:1.15rem;font-size:.83rem;}
+.ic-links li {margin:.55rem 0;}
+.ic-customer-list {display:flex;flex-direction:column;gap:.5rem;}
+.ic-customer {border:1px solid var(--panel-border);background:var(--note-bg);padding:.75rem;border-radius:10px;display:flex;flex-direction:column;gap:.35rem;}
+.ic-customer strong {font-size:.86rem;}
+.ic-customer small {color:var(--text-muted);font-size:.75rem;overflow-wrap:anywhere;}
+.ic-customer-links {display:flex;gap:.9rem;font-size:.77rem;}
+.ic-footer {display:flex;gap:.55rem;padding:.75rem 1rem;border-top:1px solid var(--panel-border);background:var(--note-bg);}
+.ic-footer button,.ic-compare-picker button {flex:1;min-height:44px;padding:.45rem .65rem;border:1px solid var(--panel-border);border-radius:9px;background:var(--btn-secondary-bg);color:var(--text-main);font:inherit;font-size:.8rem;cursor:pointer;}
+.ic-footer button:first-child {background:var(--accent);color:white;border-color:var(--accent);}
+.ic-footer button:disabled,.ic-compare-picker button:disabled {opacity:.45;cursor:not-allowed;}
+.ic-compare-picker {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.45rem;margin-bottom:1rem;}
+.ic-compare-picker label {grid-column:1/-1;font-size:.82rem;}
+.ic-compare-picker select {min-width:0;padding:.6rem;background:var(--input-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-main);}
+.ic-compare-picker button {flex:initial;}
+.ic-table-scroll {overflow-x:auto;border:1px solid var(--panel-border);border-radius:9px;}
+.ic-table {border-collapse:collapse;font-size:.77rem;min-width:540px;width:100%;}
+.ic-table th,.ic-table td {vertical-align:top;text-align:left;padding:.6rem;border-bottom:1px solid var(--panel-border);border-right:1px solid var(--panel-border);overflow-wrap:anywhere;}
+.ic-table th {background:var(--note-bg);min-width:100px;}
+.ic-table th button {margin-left:.4rem;background:transparent;color:var(--text-main);border:0;cursor:pointer;font-size:1.3rem;}
+.ic-role-label {display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--text-main);}
+.ic-role-select {font:inherit;font-size:.76rem;max-width:185px;min-height:44px;border:1px solid var(--panel-border);border-radius:8px;background:var(--tooltip-bg);color:var(--text-main);padding:0 .45rem;}
+@media (max-width:900px) {
+  .industry-panel {position:fixed;z-index:210;inset:0;width:100%;height:100dvh;max-width:none;border-radius:0;border:0;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
+  .ic-body {padding:.85rem;}
+  .ic-stats {grid-template-columns:1fr;}
+  .ic-role-label {max-width:165px;}
+  .ic-role-select {max-width:145px;}
+}
+@media (max-width:420px) {
+  .ic-header {padding:.65rem;}
+  .ic-tabs {padding:.35rem;}
+  .ic-footer {padding:.55rem;}
+  .ic-footer button {font-size:.73rem;}
+  .ic-role-label {font-size:.7rem;}
+  .ic-role-select {max-width:110px;}
+}
+@media (prefers-reduced-motion:reduce) {.industry-panel {scroll-behavior:auto;}}
+
+.ic-view-customers {min-height:44px; padding:.65rem .8rem; background:var(--accent); color:white; border:0; border-radius:9px; cursor:pointer;}

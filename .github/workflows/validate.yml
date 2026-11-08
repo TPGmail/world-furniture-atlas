@@ -1,0 +1,20 @@
+name: Validate Atlas Source
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax validation
+        run: |
+          for f in site/*.js; do node --check "$f"; done
+      - name: Country Intelligence structural smoke test
+        run: node tests/country-intelligence.test.cjs

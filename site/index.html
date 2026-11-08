@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="country-intelligence.css">
 </head>
 <body>
     <div class="app-container">
@@ -142,6 +143,17 @@
             <div class="map-toolbar">
                 <div class="map-status" id="map-status" role="status" aria-live="polite">Đang tải bản đồ...</div>
                 <div class="map-toolbar-actions">
+                    <label class="ic-role-label" for="industry-role-filter">Vai trò
+                      <select id="industry-role-filter" class="ic-role-select" aria-label="Lọc quốc gia theo vai trò ngành nội thất">
+                        <option value="">Tất cả vai trò</option>
+                        <option value="resource">Nguyên liệu</option>
+                        <option value="manufacturing">Sản xuất</option>
+                        <option value="design">Thiết kế</option>
+                        <option value="consumer">Tiêu thụ</option>
+                        <option value="trading">Thương mại</option>
+                        <option value="technology">Công nghệ</option>
+                      </select>
+                    </label>
                     <button id="map-mode-countries" class="map-action" type="button" aria-pressed="false">Thị trường</button>
                     <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true">Khách hàng · Google Maps</button>
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
@@ -183,6 +195,7 @@
                 <strong>Không tải được bản đồ</strong>
                 <p>Danh sách 59 hồ sơ vẫn có thể tra cứu và chỉnh sửa. Kiểm tra Internet rồi bấm <b>Tải lại bản đồ</b>, hoặc tải lại trang nếu nút này không hiển thị.</p>
             </div>
+            <aside id="industry-panel" class="industry-panel" aria-label="Hồ sơ ngành nội thất quốc gia và vùng lãnh thổ" hidden></aside>
             <!-- Tooltip -->
             <div id="tooltip" class="tooltip hidden">
                 <h4 id="tooltip-title">Tên quốc gia</h4>
@@ -228,7 +241,9 @@
     <script src="atlas-briefs.js"></script>
     <script src="atlas-sync-core.js"></script>
     <script src="customer-addresses.js"></script>
+    <script src="country-intelligence-data.js"></script>
     <script src="app.js"></script>
+    <script src="country-intelligence.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="atlas-cloud.js"></script>
     <script src="customer-google-map.js"></script>

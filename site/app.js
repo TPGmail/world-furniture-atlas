@@ -576,11 +576,13 @@ function currentFilterOptions() {
         value: facetValue.value, onlyNoted: onlyNoted.checked };
 }
 function isDiscoveryActive() {
-    return Boolean(countrySearch.value.trim() || facetType.value || onlyNoted.checked);
+    return Boolean(countrySearch.value.trim() || facetType.value || onlyNoted.checked || document.getElementById('industry-role-filter')?.value);
 }
 function getDiscoveryMatches() {
     const entries = atlasFilters.buildEntries(atlasKnowledgeV2.records, savedNotes);
-    return atlasFilters.filterEntries(entries, currentFilterOptions());
+    const matches = atlasFilters.filterEntries(entries, currentFilterOptions());
+    const industryRole = document.getElementById('industry-role-filter')?.value;
+    return industryRole ? matches.filter(entry => window.FurniverseCountry?.hasRole(entry.id, industryRole)) : matches;
 }
 function updateFacetValueOptions() {
     const prior = facetValue.value;
@@ -610,6 +612,7 @@ clearFiltersBtn.addEventListener('click', () => {
     facetType.value = '';
     facetValue.value = '';
     onlyNoted.checked = false;
+    document.getElementById('industry-role-filter').value = '';
     updateFacetValueOptions();
     searchResults.replaceChildren();
     searchResults.classList.add('hidden');
@@ -795,7 +798,11 @@ async function initMap() {
             .on('mouseover', handleMouseOver)
             .on('mousemove', handleMouseMove)
             .on('mouseout', handleMouseOut)
-            .on('click', handleCountryClick);
+            .on('click', handleCountryClick)
+            .attr('tabindex', 0)
+            .attr('role', 'button')
+            .attr('aria-label', d => 'Mở hồ sơ ' + d.properties.name)
+            .on('keydown', function(event, d) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleCountryClick(event, d); } });
 
         // Draw Labels
         gLabels.selectAll('.country-label')
@@ -931,26 +938,17 @@ function handleMouseOut(event, d) {
 }
 
 function handleCountryClick(event, d) {
-    const id = d.id;
+    const id = String(d.id);
     const name = d.properties.name;
-    
     viewedCountry = { id, name };
-    
+    tooltip.classList.add('hidden');
+    pinnedCustomerId = null;
     currentSelection = [{ id, name }];
     renderChips();
-    if (!mobilePanelQuery.matches) editorTools.open = true;
-    
-    if (savedNotes[id]) {
-        const noteText = savedNotes[id].text;
-        noteInput.value = noteText;
-        if (mobilePanelQuery.matches || noteText.length > 150 || noteText.split('\n').length > 4) {
-            openModal(id, name, noteText);
-        }
-        setEditMode(false);
-    } else {
-        noteInput.value = '';
-        setEditMode(true);
-        if (mobilePanelQuery.matches) openModal(id, name, atlasKnowledgeV2.records[id]?.text || '');
+    noteInput.value = savedNotes[id]?.text || '';
+    setEditMode(!savedNotes[id]);
+    if (!window.FurniverseCountry?.open(id, name)) {
+        openModal(id, name, savedNotes[id]?.text || atlasKnowledgeV2.records[id]?.text || '');
     }
 }
 
@@ -1130,7 +1128,7 @@ function renderNotesList() {
         detail.type = 'button';
         detail.className = 'note-detail';
         detail.textContent = brief ? 'Xem tóm tắt & nguồn' : 'Xem dữ liệu gốc';
-        detail.addEventListener('click', () => openModal(entry.id, entry.name, entry.text));
+        detail.addEventListener('click', () => { if (!window.FurniverseCountry?.open(entry.id, entry.name)) openModal(entry.id, entry.name, entry.text); });
         controls.appendChild(detail);
         if (entry.hasNote && !brief) {
             const personal = document.createElement('span');
@@ -1141,7 +1139,7 @@ function renderNotesList() {
         card.append(head, summary, controls);
         card.addEventListener('click', event => {
             if (event.target.closest('button')) return;
-            openModal(entry.id, entry.name, entry.text);
+            if (!window.FurniverseCountry?.open(entry.id, entry.name)) openModal(entry.id, entry.name, entry.text);
         });
         notesList.appendChild(card);
     }
@@ -1156,7 +1154,7 @@ function chooseEntry(entry) {
     setEditMode(!entry.hasNote);
     if (mapReady) zoomToCountry(entry.id);
     if (mobilePanelQuery.matches) setPanelOpen(false);
-    if (!mapReady && entry.text) openModal(entry.id,entry.name,entry.text);
+    if (!window.FurniverseCountry?.open(entry.id,entry.name) && entry.text) openModal(entry.id,entry.name,entry.text);
 }
 
 // Accent-insensitive search across names, notes, materials, products and standards.
