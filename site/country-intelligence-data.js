@@ -24,9 +24,13 @@ window.FURNIVERSE_INDUSTRY = Object.freeze({
         "cn-44": {region:"Quảng Đông, Trung Quốc",roles:["manufacturing","trading"],focus:["Cụm sản xuất Longjiang","Cụm thương mại Lecong"],review:"editorial"},
         "528": {region:"Châu Âu",roles:["trading","consumer"],focus:["Thương mại nội thất","Thị trường EU"],review:"editorial"},
         "616": {region:"Châu Âu",roles:["manufacturing"],focus:["Gia công nội thất","Nguồn cung EU"],review:"editorial"},
-        "380": {region:"Châu Âu",roles:["design","manufacturing"],focus:["Thiết kế nội thất","Sản xuất nội thất"],review:"editorial"},
+        "380": {region:"Châu Âu",roles:["design","manufacturing"],focus:["Thiết kế nội thất","Sản xuất nội thất","Nội thất phòng tắm"],review:"editorial",trade:[{year:2025,metric:"Xuất khẩu nhóm ngành nội thất",value:"14,2 tỷ EUR",source:"it-fla-2025"}]},
         "208": {region:"Bắc Âu",roles:["design"],focus:["Thiết kế nội thất"],review:"editorial"},
-        "752": {region:"Bắc Âu",roles:["design","consumer"],focus:["Thiết kế nội thất","Thị trường nội thất"],review:"editorial"}
+        "752": {region:"Bắc Âu",roles:["design","consumer"],focus:["Thiết kế nội thất","Thị trường nội thất"],review:"editorial"},
+        "392": {region:"Đông Á",roles:["consumer"],focus:["Thị trường nhập khẩu nội thất","Nguồn gỗ hợp pháp"],review:"editorial"},
+        "410": {region:"Đông Á",roles:["consumer","manufacturing"],focus:["Thị trường sản phẩm gỗ","Kiểm soát nhập khẩu nguyên liệu"],review:"editorial"},
+        "458": {region:"Đông Nam Á",roles:["manufacturing","trading"],focus:["Sản xuất nội thất gỗ","Xuất khẩu đồ gỗ"],review:"editorial",trade:[{year:2025,metric:"Xuất khẩu nội thất gỗ",value:"9,28 tỷ MYR",source:"my-mtc-2025"}]},
+        "076": {region:"Nam Mỹ",roles:["manufacturing","resource"],focus:["Sản xuất nội thất","Xuất khẩu nội thất thành phẩm"],review:"editorial",trade:[{year:2025,metric:"Xuất khẩu nội thất thành phẩm và nệm (không gồm linh kiện)",value:"769,3 triệu USD",source:"br-abimovel"}]}
     },
     publicResearch: [
         {label:"UN Comtrade · Thương mại quốc tế",url:"https://comtradeplus.un.org/"},
