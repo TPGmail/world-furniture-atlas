@@ -127,7 +127,7 @@ const priorityView = document.getElementById('view-priority');
 const allView = document.getElementById('view-all');
 const verifiedBrief = document.getElementById('verified-brief');
 const rawNotePanel = document.getElementById('raw-note-panel');
-let showAllCatalogue = false;
+let showAllCatalogue = true;
 priorityView.addEventListener('click', () => setCatalogueScope(false));
 allView.addEventListener('click', () => setCatalogueScope(true));
 function setCatalogueScope(all) {
@@ -284,32 +284,37 @@ noteModal.addEventListener('click', (e) => {
     }
 });
 
-// Theme Toggle Logic
+// Site-wide appearance follows the system by default; legacy manual choices are kept.
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const iconSun = themeToggleBtn.querySelector('.icon-sun');
 const iconMoon = themeToggleBtn.querySelector('.icon-moon');
-
-const savedTheme = localStorage.getItem('worldFurnitureTheme') || 'dark';
-document.documentElement.setAttribute('data-theme', savedTheme);
-updateThemeIcon(savedTheme);
-
-themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('worldFurnitureTheme', newTheme);
-    updateThemeIcon(newTheme);
-});
-
+const appearanceMode = document.getElementById('appearance-mode');
+const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+const savedTheme = localStorage.getItem('worldFurnitureTheme');
+let themePreference = ['system', 'light', 'dark'].includes(savedTheme) ? savedTheme : 'system';
 function updateThemeIcon(theme) {
-    if (theme === 'light') {
-        iconSun.style.display = 'none';
-        iconMoon.style.display = 'block';
-    } else {
-        iconSun.style.display = 'block';
-        iconMoon.style.display = 'none';
-    }
+    iconSun.style.display = theme === 'light' ? 'none' : 'block';
+    iconMoon.style.display = theme === 'light' ? 'block' : 'none';
 }
+function applyTheme() {
+    const resolved = themePreference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : themePreference;
+    document.documentElement.setAttribute('data-theme', resolved);
+    appearanceMode.value = themePreference;
+    updateThemeIcon(resolved);
+    document.dispatchEvent(new CustomEvent('furniverse:theme-change',{detail:{theme:resolved,mode:themePreference}}));
+}
+function setThemePreference(mode) {
+    themePreference = mode;
+    localStorage.setItem('worldFurnitureTheme',mode);
+    applyTheme();
+}
+appearanceMode.addEventListener('change',() => setThemePreference(appearanceMode.value));
+themeToggleBtn.addEventListener('click', () => {
+    const actual = document.documentElement.getAttribute('data-theme');
+    setThemePreference(actual === 'dark' ? 'light' : 'dark');
+});
+systemTheme.addEventListener?.('change',() => { if(themePreference === 'system') applyTheme(); });
+applyTheme();
 
 const mobilePanelQuery = window.matchMedia('(max-width: 900px)');
 function setPanelOpen(isOpen) {
@@ -1085,63 +1090,34 @@ function updateMapColors() {
     window.FurniverseMap?.refreshCountryStyles();
 }
 
-// Step 3: unified list of catalogue records and browser-only notes.
+// One alphabetically ordered list: all original country and territory records.
 function renderNotesList() {
     notesList.replaceChildren();
-    const allEntries = atlasFilters.buildEntries(atlasKnowledgeV2.records, savedNotes);
-    const entries = getDiscoveryMatches().filter(entry =>
-        showAllCatalogue || isDiscoveryActive() || atlasBriefs.priorityIds.includes(entry.id))
-        .sort((a,b) => {
-            const priorityA = atlasBriefs.priorityIds.indexOf(a.id);
-            const priorityB = atlasBriefs.priorityIds.indexOf(b.id);
-            if (!showAllCatalogue && !isDiscoveryActive()) return priorityA - priorityB;
-            return Number(b.hasNote) - Number(a.hasNote) || b.timestamp - a.timestamp || a.name.localeCompare(b.name,'vi');
-        });
-    resultsCount.textContent = `${entries.length}/${allEntries.length} hồ sơ`;
+    const entries = getDiscoveryMatches()
+        .sort((a,b) => String(a.name).localeCompare(String(b.name),'vi'));
+    resultsCount.textContent = String(entries.length);
     if (!entries.length) {
         const empty = document.createElement('p');
         empty.className = 'note-empty';
-        empty.textContent = 'Không tìm thấy hồ sơ. Hãy đổi bộ lọc hoặc bấm Tất cả.';
+        empty.textContent = 'Không tìm thấy quốc gia phù hợp.';
         notesList.appendChild(empty);
         refreshKnowledgeSummary();
         return;
     }
     for (const entry of entries) {
-        const brief = atlasBriefs.records[entry.id] || null;
-        const card = document.createElement('article');
-        card.className = 'note-item' + (brief ? ' verified-card' : ' archive-card');
-        card.setAttribute('data-id', entry.id);
-        const head = document.createElement('div');
-        head.className = 'note-header';
+        const card = document.createElement('div');
+        card.className = 'country-list-row';
+        card.dataset.id = entry.id;
         const title = document.createElement('strong');
-        title.className = 'note-country';
+        title.className = 'country-list-name';
         title.textContent = entry.name;
-        const flag = document.createElement('span');
-        flag.className = 'source-flag';
-        flag.textContent = brief ? 'Có nguồn' : 'Chưa rà soát';
-        head.append(title, flag);
-        const summary = document.createElement('p');
-        summary.className = 'note-text';
-        summary.textContent = brief ? brief.summary : 'Dữ liệu gốc lưu trong kho; chưa kiểm chứng toàn bộ nội dung.';
-        const controls = document.createElement('div');
-        controls.className = 'brief-card-actions';
         const detail = document.createElement('button');
         detail.type = 'button';
-        detail.className = 'note-detail';
-        detail.textContent = brief ? 'Xem tóm tắt & nguồn' : 'Xem dữ liệu gốc';
-        detail.addEventListener('click', () => { if (!window.FurniverseCountry?.open(entry.id, entry.name)) openModal(entry.id, entry.name, entry.text); });
-        controls.appendChild(detail);
-        if (entry.hasNote && !brief) {
-            const personal = document.createElement('span');
-            personal.className = 'personal-tag';
-            personal.textContent = 'Có ghi chú trên thiết bị';
-            controls.appendChild(personal);
-        }
-        card.append(head, summary, controls);
-        card.addEventListener('click', event => {
-            if (event.target.closest('button')) return;
-            if (!window.FurniverseCountry?.open(entry.id, entry.name)) openModal(entry.id, entry.name, entry.text);
-        });
+        detail.className = 'country-expand';
+        detail.textContent = 'Mở rộng';
+        detail.setAttribute('aria-label','Mở rộng thông tin '+entry.name);
+        detail.addEventListener('click', () => chooseEntry(entry));
+        card.append(title,detail);
         notesList.appendChild(card);
     }
     refreshKnowledgeSummary();
