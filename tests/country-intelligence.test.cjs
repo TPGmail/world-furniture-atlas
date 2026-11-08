@@ -26,4 +26,25 @@ const app = fs.readFileSync(path.join(site,"app.js"),"utf8");
 assert.ok(app.includes("window.FurniverseCountry?.open"));
 assert.ok(app.includes("window.FurniverseCountry?.hasRole"));
 assert.ok(app.includes("worldFurnitureNotes")); // unchanged browser note storage
+
+const sourcedContext = {window:{}};
+vm.runInNewContext(fs.readFileSync(path.join(site,"atlas-briefs.js"),"utf8"),sourcedContext);
+const briefLayer = sourcedContext.window.ATLAS_BRIEFS_V15;
+const publishedIds = Object.keys(briefLayer.records).filter(id => {
+  const brief = briefLayer.records[id];
+  return brief.summary && brief.facts.some(f => f.text && briefLayer.sources[f.source]?.url);
+});
+assert.equal(publishedIds.length,17,"17 source-linked country profiles expected");
+for (const id of ["380","458","392","410","076","208","752"])
+  assert.ok(publishedIds.includes(id),"New source-backed market missing: "+id);
+for (const [id,p] of Object.entries(d.profiles)) {
+  for (const metric of p.trade || [])
+    assert.ok(briefLayer.sources[metric.source]?.url,"Unlinked trade statistic: "+id);
+}
+assert.ok(app.includes(".filter(entry => isPublishedAtlasId(entry.id))"),"Catalogue only publishes sourced markets");
+assert.ok(app.includes("mapFeatures = filteredCountries.filter(f => isPublishedAtlasId(f.id))"),"Map only makes sourced markets interactive");
+const countryJs = fs.readFileSync(path.join(site,"country-intelligence.js"),"utf8");
+assert.ok(countryJs.includes(".filter(([_,__,content]) => Boolean(content && content.trim()))"),"Empty sections hidden");
+assert.ok(!/Chưa có|Chưa phân loại|Nguồn chưa xác định|chưa kiểm chứng|đối chiếu nguồn/i.test(countryJs),"Incomplete research copy must not appear");
+assert.ok(!countryJs.includes('["network","Khách hàng'),"Customer directory is excluded from the country drawer");
 console.log("Country Intelligence structural tests passed.");
