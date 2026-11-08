@@ -27,6 +27,15 @@ assert.ok(country.includes('class="ic-unified-section"'),'Every prior tab is a s
 assert.ok(country.includes('renderCompare()'),'Compare preserved');
 assert.ok(map.includes('window.FurniverseDateLine?.fix(feature,window.d3)'),'Dateline clipping integrated');
 assert.ok(map.includes("furniverse:theme-change"),'Basemap follows UI theme');
+
+assert.ok(html.includes('maplibre-gl@5.24.0/dist/maplibre-gl.js'),'Vector map library is loaded');
+assert.ok(html.includes('@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js'),'Leaflet bridge is loaded');
+assert.ok(map.includes("['get','name:vi']"),'Map labels prefer Vietnamese names');
+assert.ok(map.includes("['get','name:latin']"),'Map labels have fallback names');
+assert.ok(map.includes("https://tiles.openfreemap.org/styles/"),'Free vector basemap is used');
+assert.ok(map.includes("rasterBasemap(dark)"),'OSM raster fallback is retained');
+assert.ok(app.includes("const publicRecord = atlasKnowledgeV2.records[f.id]"),'Published country polygons display Vietnamese titles');
+
 assert.ok(css.includes('.map-toolbar'),'Old toolbar invisible');
 assert.ok(css.includes('.customer-osm-controls'),'Floating directory invisible');
 assert.equal((html.match(/<div\b/g)||[]).length,(html.match(/<\/div>/g)||[]).length);
