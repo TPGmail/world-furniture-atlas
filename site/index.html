@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="country-intelligence.css">
     <link rel="stylesheet" href="interface.css">
+    <link rel="stylesheet" href="unified-map.css">
 </head>
 <body>
     <div class="app-container">
@@ -158,38 +159,54 @@
                         <option value="technology">Công nghệ</option>
                       </select>
                     </label>
-                    <button id="map-mode-countries" class="map-action" type="button" aria-pressed="false">Thị trường</button>
-                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true" aria-label="Bản đồ khách hàng OpenStreetMap">Khách hàng</button>
+                    <div class="atlas-layer-controls" role="group" aria-label="Bật hoặc tắt lớp dữ liệu bản đồ">
+                        <label class="atlas-layer-toggle" for="layer-countries"><input id="layer-countries" type="checkbox" checked aria-label="Hiển thị ranh giới quốc gia và vùng lãnh thổ"> Ranh giới</label>
+                        <label class="atlas-layer-toggle" for="layer-customers"><input id="layer-customers" type="checkbox" checked aria-label="Hiển thị các điểm khách hàng có GPS đã xác minh"> Khách hàng</label>
+                    </div>
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
                     <button id="retry-map-btn" type="button" class="map-action hidden">Tải lại bản đồ</button>
                 </div>
+                <span id="map-layer-status" class="map-layer-status" aria-live="polite">Đang tải lớp dữ liệu...</span>
                 <div class="map-legend" aria-label="Chú giải bản đồ"><span><i class="legend-dot legend-noted"></i>Có ghi chú</span><span><i class="legend-dot legend-matched"></i>Khớp bộ lọc</span><span><i class="legend-dot legend-customer"></i>KH nhỏ</span><span><i class="legend-dot legend-customer legend-customer-medium"></i>Trading / vừa</span><span><i class="legend-dot legend-customer legend-customer-large"></i>Chuỗi / lớn</span></div>
             </div>
             <div id="map-container">
                 <!-- SVG Map will be drawn here by D3 -->
             </div>
-            <section id="atlas-customer-pane" class="atlas-customer-pane" aria-label="Bản đồ khách hàng OpenStreetMap" hidden>
-                <div id="leaflet-map-canvas" class="leaflet-map-canvas" role="region" aria-label="Bản đồ vị trí trụ sở khách hàng đã xác minh"></div>
+            <section id="atlas-customer-pane" class="atlas-customer-pane" aria-label="Bản đồ hợp nhất quốc gia và khách hàng OpenStreetMap" hidden>
+                <div id="leaflet-map-canvas" class="leaflet-map-canvas" role="region" aria-label="Bản đồ địa lý: ranh giới quốc gia và GPS khách hàng đã xác minh"></div>
                 <div class="customer-osm-controls">
                     <div class="customer-osm-header">
-                        <h2>Khách hàng theo địa chỉ</h2>
+                        <h2>Danh bạ khách hàng</h2>
                         <span id="customer-pin-count" class="customer-pin-count">0 điểm xác minh</span>
                         <button id="customer-directory-toggle" class="customer-directory-toggle" type="button" aria-expanded="true" aria-controls="customer-directory-body">Thu gọn</button>
                     </div>
                     <div id="customer-directory-body" class="customer-directory-body">
                     <p id="customer-osm-status" role="status" aria-live="polite">Đang nạp bản đồ OpenStreetMap...</p>
-                    <label for="customer-address-search">Tìm khách hàng</label>
-                    <input id="customer-address-search" type="search" placeholder="Tên, quốc gia hoặc địa chỉ" autocomplete="off">
+                    <label class="customer-search-label" for="customer-address-search">Tìm theo tên hoặc địa chỉ</label>
+                    <input id="customer-address-search" type="search" placeholder="Tên doanh nghiệp, địa chỉ..." autocomplete="off">
+                    <div class="customer-filter-row">
+                        <label for="customer-country-filter">Quốc gia / ISO
+                            <select id="customer-country-filter"><option value="">Tất cả quốc gia</option></select>
+                        </label>
+                        <label for="customer-status-filter">Tình trạng vị trí
+                            <select id="customer-status-filter">
+                                <option value="all">Tất cả địa chỉ</option>
+                                <option value="gps">Có GPS xác minh</option>
+                                <option value="missing">Chưa có GPS</option>
+                            </select>
+                        </label>
+                    </div>
+                    <p id="customer-filter-count" class="customer-filter-count" aria-live="polite">Đang lọc danh bạ...</p>
                     <details id="customer-verified-directory" class="customer-osm-directory" open>
-                        <summary>Đã xác minh GPS (<span id="customer-verified-count">0</span>)</summary>
+                        <summary>Có GPS xác minh (<span id="customer-verified-count">0</span>)</summary>
                         <ul id="customer-verified-list" class="customer-osm-list"></ul>
                     </details>
                     <details id="customer-unverified-directory" class="customer-osm-directory">
-                        <summary>Chưa đủ tọa độ chính xác (<span id="customer-unverified-count">0</span>)</summary>
+                        <summary>Chưa có GPS xác minh (<span id="customer-unverified-count">0</span>)</summary>
                         <p class="customer-map-disclaimer">Không đặt chấm ở tâm đường hoặc thành phố. Bấm “Tra cứu OSM” để xem địa chỉ, không coi kết quả tìm kiếm là vị trí đã xác nhận.</p>
                         <ul id="customer-unverified-list" class="customer-osm-list"></ul>
                     </details>
-                    <p class="customer-map-attribution">Tọa độ chỉ được chấp nhận khi bản ghi OpenStreetMap khớp số nhà hoặc địa điểm kinh doanh. Không dùng tọa độ ước lượng hoặc offset.</p>
+                    <p class="customer-map-attribution">Địa chỉ và ISO được ghi nhận độc lập. Chỉ đặt dấu ở GPS khớp địa chỉ đã kiểm tra; không ước lượng tọa độ.</p>
                     </div>
                 </div>
             </section>
@@ -246,6 +263,7 @@
     <script src="atlas-sync-core.js"></script>
     <script src="customer-addresses.js"></script>
     <script src="country-intelligence-data.js"></script>
+    <script src="customer-country-iso.js"></script>
     <script src="app.js"></script>
     <script src="country-intelligence.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>

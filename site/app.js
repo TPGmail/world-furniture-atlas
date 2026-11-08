@@ -850,6 +850,7 @@ async function initMap() {
         
         // Enable select and button
         countrySelect.disabled = false;
+        document.dispatchEvent(new Event("atlas:geography-ready"));
         
     } catch (error) {
         console.error('Error loading map data:', error);
@@ -1081,6 +1082,7 @@ function updateMapColors() {
         return cls;
     });
     gCountries.selectAll('.selecting').raise();
+    window.FurniverseMap?.refreshCountryStyles();
 }
 
 // Step 3: unified list of catalogue records and browser-only notes.
@@ -1245,6 +1247,7 @@ function fitMapToViewport() {
     svg.call(zoom.transform, d3.zoomIdentity);
 }
 function zoomToCountry(id) {
+    if (window.FurniverseMap?.focusCountry(id)) return;
     if (!mapReady) return;
     const pathEl = d3.select(`#country-${CSS.escape(String(id))}`);
     if (pathEl.empty()) return;
@@ -1265,6 +1268,7 @@ function selectCountryFromSearch(id, name) {
     else chooseEntry({id,name,text:'',hasNote:false});
 }
 resetMapBtn.addEventListener('click', () => {
+    if (window.FurniverseMap?.resetView()) { currentSelection = []; renderChips(); updateMapColors(); return; }
     if (!mapReady) return;
     svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
     currentSelection = [];
@@ -1300,5 +1304,22 @@ window.AtlasSyncBridge = Object.freeze({
         updateMapColors();
         renderNotesList();
         return true;
+    }
+});
+
+/* Read-only map adapter; preserves existing 59 records and note/Drive persistence. */
+window.AtlasMapBridge = Object.freeze({
+    getFeatures: () => mapFeatures,
+    getColorState: () => ({
+        selected: currentSelection.map(item => item.id),
+        noted: Object.keys(savedNotes),
+        active: isDiscoveryActive(),
+        matched: isDiscoveryActive() ? getDiscoveryMatches().map(entry => entry.id) : []
+    }),
+    chooseCountry: (id,name) => {
+        const feature = mapFeatures.find(item => String(item.id) === String(id));
+        if (feature) handleCountryClick(null,feature);
+        else window.FurniverseCountry?.open(String(id),name);
+        updateMapColors();
     }
 });

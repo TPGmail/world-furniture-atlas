@@ -20,3 +20,5 @@ jobs:
         run: node tests/country-intelligence.test.cjs
       - name: Interface UX structural smoke test
         run: node tests/interface.test.cjs
+      - name: Unified map and ISO association smoke test
+        run: node tests/unified-map.test.cjs
