@@ -145,7 +145,7 @@
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
                     <button id="retry-map-btn" type="button" class="map-action hidden">Tải lại bản đồ</button>
                 </div>
-                <div class="map-legend" aria-label="Chú giải bản đồ"><span><i class="legend-dot legend-noted"></i>Có ghi chú</span><span><i class="legend-dot legend-matched"></i>Khớp bộ lọc</span></div>
+                <div class="map-legend" aria-label="Chú giải bản đồ"><span><i class="legend-dot legend-noted"></i>Có ghi chú</span><span><i class="legend-dot legend-matched"></i>Khớp bộ lọc</span><span><i class="legend-dot legend-customer"></i>KH nhỏ</span><span><i class="legend-dot legend-customer legend-customer-medium"></i>Trading / vừa</span><span><i class="legend-dot legend-customer legend-customer-large"></i>Chuỗi / lớn</span></div>
             </div>
             <div id="map-container">
                 <!-- SVG Map will be drawn here by D3 -->
@@ -200,6 +200,7 @@
     <script src="atlas-filters.js"></script>
     <script src="atlas-briefs.js"></script>
     <script src="atlas-sync-core.js"></script>
+    <script src="customer-points.js"></script>
     <script src="app.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="atlas-cloud.js"></script>

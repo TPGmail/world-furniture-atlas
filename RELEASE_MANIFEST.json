@@ -1,9 +1,18 @@
 {
-  "version": "1.5.0",
+  "version": "1.7.0",
   "date": "2026-11-08",
   "privateUserNotesModified": false,
   "rawCatalogueRecords": 59,
   "defaultPriorityMarketCount": 10,
   "sourceCount": 11,
-  "deployment": "public static site, source-only GitHub Pages"
+  "deployment": "public static site, source-only GitHub Pages",
+  "customerDataFile": "site/customer-points.js",
+  "customerPinCount": 126,
+  "customerDotSizeRules": [
+    "large enterprise/chain",
+    "medium sourcing/trader",
+    "small independent"
+  ],
+  "customerPositionPrecision": "approximate city only",
+  "sourceWorkbookRows": 207
 }

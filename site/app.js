@@ -118,6 +118,8 @@ const resultsCount = document.getElementById('results-count');
 const mapStatus = document.getElementById('map-status');
 const resetMapBtn = document.getElementById('reset-map-btn');
 const retryMapBtn = document.getElementById('retry-map-btn');
+const customerMapData = Array.isArray(window.customerMapData) ? window.customerMapData : [];
+let pinnedCustomerId = null;
 const mapFallback = document.getElementById('map-fallback');
 const panelBackdrop = document.getElementById('panel-backdrop');
 const atlasBriefs = window.ATLAS_BRIEFS_V15;
@@ -595,7 +597,8 @@ function updateMapStatus() {
     const matches = getDiscoveryMatches();
     const count = isDiscoveryActive() || showAllCatalogue ? matches.length : atlasBriefs.priorityIds.length;
     const noun = isDiscoveryActive() ? 'hồ sơ khớp' : (showAllCatalogue ? 'hồ sơ trong danh mục' : 'thị trường ưu tiên');
-    mapStatus.textContent = `${count} ${noun}` + (mapReady ? '' : ' · Đang tải bản đồ...');
+    const customerSuffix = customerMapData.length ? ` · ${customerMapData.length} khách hàng` : '';
+    mapStatus.textContent = `${count} ${noun}` + customerSuffix + (mapReady ? '' : ' · Đang tải bản đồ...');
 }
 function refreshDiscovery() {
     renderNotesList();
@@ -632,6 +635,7 @@ const svg = mapDependenciesReady ? d3.select('#map-container')
 const g = mapDependenciesReady ? svg.append('g') : emptyMapSelection;
 const gCountries = mapDependenciesReady ? g.append('g').attr('class', 'map-countries') : emptyMapSelection;
 const gLabels = mapDependenciesReady ? g.append('g').attr('class', 'map-labels') : emptyMapSelection;
+const gCustomers = mapDependenciesReady ? g.append('g').attr('class', 'map-customers') : emptyMapSelection;
 const zoom = mapDependenciesReady ? d3.zoom().scaleExtent([1,8]).on('zoom', event => {
     g.attr('transform', event.transform);
     const k = event.transform.k;
@@ -836,6 +840,7 @@ async function initMap() {
         mapReady = true;
         mapError = null;
         mapFallback.classList.add('hidden');
+        renderCustomerPoints();
         fitMapToViewport();
         updateMapColors();
         renderNotesList();
@@ -869,8 +874,121 @@ function populateSelect() {
     });
 }
 
+
+const customerPlotData = customerMapData.filter(item => Number.isFinite(item.latitude) && Number.isFinite(item.longitude));
+
+function positionTooltip(x, y) {
+    const rect = mapContainer.getBoundingClientRect();
+    const tooltipWidth = tooltip.offsetWidth;
+    const tooltipHeight = tooltip.offsetHeight;
+    let tooltipX = x - (tooltipWidth / 2);
+    let tooltipY = y - tooltipHeight - 15;
+    if (tooltipX < 10) tooltipX = 10;
+    else if (tooltipX + tooltipWidth > rect.width - 10) tooltipX = rect.width - tooltipWidth - 10;
+    if (tooltipY < 10) tooltipY = y + 25;
+    tooltip.style.left = `${tooltipX}px`;
+    tooltip.style.top = `${tooltipY}px`;
+}
+
+function showPlainTooltip(title, body, x, y) {
+    tooltipTitle.textContent = title;
+    tooltipContent.textContent = body;
+    tooltipContent.style.display = 'block';
+    tooltipContent.classList.remove('clamp');
+    const existingRm = tooltip.querySelector('.read-more-text');
+    if (existingRm) existingRm.remove();
+    tooltip.classList.remove('hidden');
+    positionTooltip(x, y);
+}
+
+function getCustomerScreenPoint(customer) {
+    if (!projection) return [-9999, -9999];
+    const point = projection([customer.longitude, customer.latitude]);
+    if (!point || !Number.isFinite(point[0]) || !Number.isFinite(point[1])) return [-9999, -9999];
+    return [point[0] + (customer.offsetX || 0), point[1] + (customer.offsetY || 0)];
+}
+
+function customerTooltipText(customer) {
+    const parts = [customer.address];
+    if (customer.sizeLabel) parts.push(`Quy mô: ${customer.sizeLabel}`);
+    parts.push('Vị trí chấm: xấp xỉ theo thành phố');
+    return parts.filter(Boolean).join(' · ');
+}
+
+function showCustomerTooltip(customer, event) {
+    const rect = mapContainer.getBoundingClientRect();
+    const target = event?.currentTarget;
+    const bounds = target?.getBoundingClientRect?.();
+    const x = Number.isFinite(event?.clientX) ? event.clientX - rect.left
+        : bounds ? bounds.left + bounds.width / 2 - rect.left : rect.width / 2;
+    const y = Number.isFinite(event?.clientY) ? event.clientY - rect.top
+        : bounds ? bounds.top + bounds.height / 2 - rect.top : rect.height / 2;
+    showPlainTooltip(customer.name, customerTooltipText(customer), x, y);
+    // The dot is a city-level overview; use the full street address for precise navigation.
+    const link = document.createElement('a');
+    link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(customer.address)}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Mở địa chỉ trên Google Maps';
+    link.className = 'customer-map-link';
+    tooltipContent.appendChild(document.createTextNode(' '));
+    tooltipContent.appendChild(link);
+    positionTooltip(x, y);
+}
+
+function renderCustomerPoints() {
+    if (!mapDependenciesReady || !customerPlotData.length) return;
+    const points = gCustomers.selectAll('.customer-dot').data(customerPlotData, d => d.id);
+    const entered = points.enter().append('circle')
+        .attr('class', 'customer-dot')
+        .attr('r', d => d.dotRadius)
+        .attr('tabindex', 0)
+        .attr('role', 'button')
+        .attr('aria-label', d => `${d.name} - ${d.sizeLabel}`)
+        .on('mouseover', function(event, d) {
+            if (pinnedCustomerId && pinnedCustomerId !== d.id) return;
+            showCustomerTooltip(d, event);
+            d3.select(this).raise();
+        })
+        .on('mousemove', function(event, d) {
+            if (pinnedCustomerId && pinnedCustomerId !== d.id) return;
+            const rect = mapContainer.getBoundingClientRect();
+            positionTooltip(event.clientX - rect.left, event.clientY - rect.top);
+        })
+        .on('mouseout', function(event, d) {
+            if (pinnedCustomerId === d.id) return;
+            tooltip.classList.add('hidden');
+        })
+        .on('click', function(event, d) {
+            event.stopPropagation();
+            pinnedCustomerId = d.id;
+            showCustomerTooltip(d, event);
+            d3.select(this).raise();
+        })
+        .on('keydown', function(event, d) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                pinnedCustomerId = d.id;
+                showCustomerTooltip(d, event);
+            }
+        });
+    entered.append('title').text(d => `${d.name} · ${d.sizeLabel}`);
+    points.merge(entered)
+        .attr('r', d => d.dotRadius)
+        .attr('cx', d => getCustomerScreenPoint(d)[0])
+        .attr('cy', d => getCustomerScreenPoint(d)[1]);
+    points.exit().remove();
+}
+
+document.addEventListener('click', event => {
+    if (event.target.closest('.customer-dot')) return;
+    pinnedCustomerId = null;
+    if (!event.target.closest('#tooltip')) tooltip.classList.add('hidden');
+});
+
 // Map Interactions
 function handleMouseOver(event, d) {
+    pinnedCustomerId = null;
     const countryId = d.id;
     const countryName = d.properties.name;
     const note = savedNotes[countryId];
@@ -912,31 +1030,11 @@ function handleMouseMove(event) {
     const rect = mapContainer.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    
-    const tooltipWidth = tooltip.offsetWidth;
-    const tooltipHeight = tooltip.offsetHeight;
-    
-    let tooltipX = x - (tooltipWidth / 2);
-    let tooltipY = y - tooltipHeight - 15;
-    
-    // Boundary checks
-    if (tooltipX < 10) {
-        tooltipX = 10;
-    } else if (tooltipX + tooltipWidth > rect.width - 10) {
-        tooltipX = rect.width - tooltipWidth - 10;
-    }
-    
-    if (tooltipY < 10) {
-        // If it overflows top, put it below the cursor
-        tooltipY = y + 25;
-    }
-    
-    tooltip.style.left = `${tooltipX}px`;
-    tooltip.style.top = `${tooltipY}px`;
+    positionTooltip(x, y);
 }
 
 function handleMouseOut(event, d) {
-    tooltip.classList.add('hidden');
+    if (!pinnedCustomerId) tooltip.classList.add('hidden');
     // Ensure selected items stay on top
     gCountries.selectAll('.selected').raise();
 }
@@ -1255,6 +1353,7 @@ function fitMapToViewport() {
         return centroid && centroid.every(Number.isFinite)
             ? `translate(${centroid[0]},${centroid[1]})` : 'translate(-9999,-9999)';
     });
+    renderCustomerPoints();
     // Reset transform after reprojecting to prevent drifting/incorrect bounding boxes.
     svg.call(zoom.transform, d3.zoomIdentity);
 }

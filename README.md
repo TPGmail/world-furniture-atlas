@@ -1,10 +1,19 @@
-# World Furniture Atlas v1.5 · Curated knowledge view
+# World Furniture Atlas v1.7 · Curated customer overlay
 
 **Live source:** `TPGmail/world-furniture-atlas` (standalone GitHub Pages).  
 **Content review:** 2026-11-08.  
 **Safety:** Original 59 records, 28 source variants, local browser notes and cloud sync files are unchanged.
 
-## What changed
+## Customer map update (2026-11-08)
+
+- Red customer pins sized by the approved 3-level business rule (large chain / medium sourcing / small independent).
+- Only customers with a specific physical address and identifiable city are shown; unresolved entities remain in the local audit rather than being placed at an arbitrary national center.
+- New source links for externally researched HQs are embedded in the public pin data.
+- **Important:** Red marker coordinates are approximate CITY centers, NOT geocoded building entrances. Pin tooltips state this limitation and link to a Google Maps search using the full address.
+- The customer list is visible to anyone on the public website. Do not add confidential notes, private emails, or private deal data.
+- Internal audit (`CUSTOMER_MAP_AUDIT_v1.7.md`, `customer_map_review_v1.7.csv`) is in the private release ZIP only; it is not deployed to GitHub Pages.
+
+## What changed previously (v1.5)
 
 - Default screen displays 10 source-linked priority market briefs, rather than 59 long raw notes.
 - All 59 legacy profiles remain accessible through “Tất cả”, search, and map selection.
