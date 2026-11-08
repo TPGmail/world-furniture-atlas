@@ -867,7 +867,7 @@ input[type="search"]:focus-visible, button:focus-visible, select:focus-visible {
 .legend-customer-large { width: 16px; height: 16px; }
 .customer-dot {
     fill: #ef4444;
-    /* Keep an invisible hit area so ultra-small red dots remain clickable. */
+    /* Invisible SVG hit area keeps tiny pins clickable without enlarging their red appearance. */
     stroke: transparent;
     stroke-width: 8px;
     paint-order: stroke fill;
@@ -1001,3 +1001,31 @@ input[type="search"]:focus-visible, button:focus-visible, select:focus-visible {
 
 .customer-map-link { display: inline-block; margin-left: .3rem; font-weight: 600; color: #f87171; text-decoration: underline; }
 .customer-dot:focus-visible { outline: none; filter: drop-shadow(0 0 2px #ffffff); }
+
+/* v1.9: Google Maps customer positions, independent of the country SVG atlas. */
+.atlas-hidden, [hidden] { display: none !important; }
+.map-action.active { border-color: var(--accent); background: var(--panel-bg); color: var(--accent); }
+.atlas-customer-pane { position:absolute; inset:0; z-index:3; background:var(--bg-color); overflow:hidden; }
+.google-map-canvas { position:absolute; inset:0; height:100%; width:100%; }
+.google-customer-controls { position:absolute; z-index:4; top:1rem; left:1rem; bottom:1rem; width:min(350px,calc(100vw - 48px)); padding:1rem; border:1px solid var(--panel-border); border-radius:12px; background:var(--tooltip-bg); backdrop-filter:blur(10px); display:flex; flex-direction:column; gap:.6rem; overflow:auto; box-shadow:0 8px 35px #0002; }
+.google-customer-controls h2 { font-size:1.1rem; margin:0; }
+.google-customer-controls p { font-size:.8rem; line-height:1.55; }
+.google-customer-controls summary { font-size:.8rem; cursor:pointer; font-weight:600; padding:.5rem 0; }
+.google-customer-controls label { display:block; font-size:.73rem; margin-bottom:.3rem; }
+.google-customer-controls input { width:100%; max-width:100%; font-size:.86rem; padding:.68rem .7rem; background:var(--input-bg); border:1px solid var(--panel-border); border-radius:8px; color:var(--text-main); }
+.google-geocode-actions { display:flex; gap:.5rem; flex-wrap:wrap; }
+.google-geocode-actions button { min-height:42px; }
+.google-maps-setup { padding:.55rem .75rem; border-radius:8px; border:1px solid var(--panel-border); }
+.google-billing-note { font-size:.72rem !important; color:var(--text-muted); }
+.google-customer-directory { overflow:auto; min-height:100px; }
+.google-customer-list { padding:0; margin:.6rem 0 0; list-style:none; }
+.google-customer-item { padding:.75rem .2rem; display:flex; flex-direction:column; gap:.3rem; border-top:1px solid var(--panel-border); font-size:.78rem; }
+.google-customer-item strong { color:var(--text-main); }
+.google-customer-item span { color:var(--text-muted); line-height:1.45; }
+.google-customer-item small { color:var(--text-muted); font-size:.7rem; }
+.google-customer-item a, .atlas-google-info a { color:#2563eb; text-decoration:underline; }
+.atlas-google-info { max-width:260px; max-height:240px; overflow:auto; color:#1f2937; display:flex; flex-direction:column; gap:.35rem; padding:.1rem; font:13px/1.45 Inter,Arial,sans-serif; }
+.atlas-google-info p { margin:0; }
+.atlas-google-info small { font-size:11px; }
+@media(max-width:900px) { .google-customer-controls { top:4.2rem; left:.6rem; bottom:auto; max-height:calc(64dvh - 4rem); width:min(310px,calc(100vw - 28px)); padding:.75rem; } .map-toolbar { max-width:calc(100vw - 80px); } .map-toolbar-actions { gap:.2rem; } .map-toolbar-actions .map-action { font-size:.72rem; padding:.45rem .5rem; } }
+@media(max-width:900px) { .google-customer-controls { top:4.2rem; left:.6rem; bottom:auto; max-height:calc(64dvh - 4rem); width:min(310px,calc(100vw - 28px)); padding:.75rem; } .map-toolbar { max-width:calc(100vw - 80px); } .map-toolbar-actions { gap:.2rem; } .map-toolbar-actions .map-action { font-size:.72rem; padding:.45rem .5rem; } }

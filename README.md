@@ -1,58 +1,40 @@
-# World Furniture Atlas v1.7 · Curated customer overlay
+# World Furniture Atlas v1.9 · Correct customer mapping
 
-**Live source:** `TPGmail/world-furniture-atlas` (standalone GitHub Pages).  
-**Content review:** 2026-11-08.  
-**Safety:** Original 59 records, 28 source variants, local browser notes and cloud sync files are unchanged.
+Ngày phát hành: 2026-11-08. Repository riêng `TPGmail/world-furniture-atlas`.
 
-## Customer map update (2026-11-08)
+## Thay đổi
 
-- Red customer pins sized by the approved 3-level business rule (large chain / medium sourcing / small independent).
-- Only customers with a specific physical address and identifiable city are shown; unresolved entities remain in the local audit rather than being placed at an arbitrary national center.
-- New source links for externally researched HQs are embedded in the public pin data.
-- **Important:** Red marker coordinates are approximate CITY centers, NOT geocoded building entrances. Pin tooltips state this limitation and link to a Google Maps search using the full address.
-- The customer list is visible to anyone on the public website. Do not add confidential notes, private emails, or private deal data.
-- Internal audit (`CUSTOMER_MAP_AUDIT_v1.7.md`, `customer_map_review_v1.7.csv`) is in the private release ZIP only; it is not deployed to GitHub Pages.
+- **Xóa toàn bộ 126 tọa độ tâm thành phố và offset khỏi bản đồ công khai**, không dùng lại trong bản dữ liệu mới.
+- **123 địa chỉ khách hàng** được tách vào `site/customer-addresses.js`, không có lat/lng hoặc dịch vị trí.
+- **46** có nguồn đăng ký/công khai, **77** theo Excel chưa đối chiếu với pháp nhân.
+- Sửa lỗi MasterBrand: trụ sở chính tại Beachwood, Ohio (không phải nhà máy Jasper); loại địa chỉ sai Aukey.
+- Trang mới có chế độ thị trường (D3) và **Khách hàng (Google Maps)** riêng.
+- Khi Google Geocoder báo vị trí chính xác `ROOFTOP` và không `partial_match`, mới tạo chấm đúng địa chỉ. Không dùng tâm thành phố, không dịch điểm.
+- Tự động loại kết quả Google chỉ ở mức `GEOMETRIC_CENTER`, `APPROXIMATE`, `RANGE_INTERPOLATED`.
+- Giữ kích thước red dot: nhỏ 0,8px / vừa 1,2px / lớn 2px. Các khách cùng GPS gộp popup.
+- Cache tạm kết quả lat/lng tối đa 28 ngày, không commit tọa độ của Google vào GitHub.
 
-## What changed previously (v1.5)
+## Kích hoạt Google Maps (cần thao tác Google Cloud của chủ tài khoản)
 
-- Default screen displays 10 source-linked priority market briefs, rather than 59 long raw notes.
-- All 59 legacy profiles remain accessible through “Tất cả”, search, and map selection.
-- Verified facts link to official primary sources; older raw notes explicitly marked as not fully checked.
-- Search remains visible. Filters, note editing, imports, backup history, and Drive OAuth settings are collapsed until needed.
-- Removed destructive delete controls from the quick cards, but retained note edit and JSON export.
-- See `CONTENT_AUDIT_v1.5.md` for sources and validation decisions.
+1. Trên https://console.cloud.google.com/ tạo/chọn **project Atlas riêng**, bật billing.
+2. Bật **Maps JavaScript API** và **Geocoding API**.
+3. Tạo **API key**, chọn website restriction `https://tpgmail.github.io/*`, API restrictions chỉ hai API trên, thiết lập quota/budget.
+4. Mở https://tpgmail.github.io/world-furniture-atlas/, chọn **Khách hàng · Google Maps**, điền key trong ô ở website, nhấn **Kết nối Google Maps**, sau đó **Xác minh vị trí & đặt chấm đỏ**.
+5. Không gửi API key trên chat; key chỉ được lưu trong trình duyệt, không lên GitHub.
 
----
+Nếu chưa kích hoạt API key, website hiển thị **danh bạ địa chỉ** với nút mở từng doanh nghiệp trong Google Maps nhưng **không hiện chấm ước lượng**.
 
-# World Furniture Atlas
+## Google My Maps (không cần lập trình / API key)
 
-**Standalone static website**, version **1.4**. A dedicated GitHub repository, unrelated to the Tien Phat website.
+File `Customer_Addresses_For_Google_My_Maps_2026-11-08.csv` gồm địa chỉ hiện có. Có thể import vào https://www.google.com/mymaps để Google tự định vị, sau đó kiểm tra từng kết quả trước khi xuất bản My Maps. Không tự coi kết quả tự động đó là đã xác minh 100%.
 
-## Repository layout
+## Phạm vi giữ nguyên
 
-- `site/`: only files deployed to GitHub Pages.
-- `.github/workflows/pages.yml`: automatic GitHub Pages deployment from `main`.
-- `.gitignore`: protects local exports, backups and credential files.
+- 59 hồ sơ thị trường và 28 source variants nguyên vẹn.
+- Ghi chú riêng và Google Drive sync không thay đổi.
+- Không sửa website `tienphat-website`.
 
-## Deployment
+## Tài liệu nội bộ
 
-1. Create a **new repository** under the intended GitHub account, suggested name `world-furniture-atlas`. Do not use `tienphat-website`.
-2. Upload the *contents of this package* to the repository root, preserving `site/` and `.github/workflows/`.
-3. In **Settings → Pages**, choose **Source: GitHub Actions**.
-4. Review the Actions workflow. Open the deployment URL after the workflow succeeds.
-
-## Google Drive synchronization
-
-The site runs offline/local-first without OAuth. To enable cloud sync, create a **Google Cloud project / Web OAuth client dedicated to Atlas**, register the actual HTTPS origin and add the intended Google account as an allowed tester where required. Enter the OAuth Client ID on the Atlas page. **Never publish a client secret.**
-
-The cloud data uses the app-specific Google Drive `appDataFolder`, not the release folder and not the Tien Phat website. OAuth has not been activated or tested with real Google accounts.
-
-## Privacy
-
-GitHub Pages publishes all files in `site/`, including the 59 initial knowledge records embedded in `site/atlas-data.js`. No personal browser notes, raw user exports or backups are included in this release package. Do not commit private notes or credentials.
-
-## Known limitations
-
-- Map library and world geometry load from external CDNs; a fallback displays the catalogue when they fail.
-- Existing notes in a different website origin do not migrate automatically. **Export JSON on the old site and import into this one.**
-- GitHub Pages hosting only provides static files. Google Drive sync needs independent OAuth configuration.
+- `CUSTOMER_ADDRESS_AUDIT_v1.9.md` là báo cáo sửa/loại dữ liệu.
+- `customer-address-review.json` gồm dữ liệu rà soát, để **ngoài thư mục `site/`**, không public trên website.

@@ -1,24 +1,19 @@
 {
-  "version": "1.8.0",
-  "date": "2026-11-08",
-  "privateUserNotesModified": false,
-  "rawCatalogueRecords": 59,
-  "defaultPriorityMarketCount": 10,
-  "sourceCount": 11,
-  "deployment": "public static site, source-only GitHub Pages",
-  "customerDataFile": "site/customer-points.js",
-  "customerPinCount": 126,
-  "customerDotSizeRules": [
-    "large enterprise/chain",
-    "medium sourcing/trader",
-    "small independent"
-  ],
-  "customerPositionPrecision": "approximate city only",
-  "sourceWorkbookRows": 207,
-  "customerPinRadiusPixels": {
+  "version": "1.9.0",
+  "releaseDate": "2026-11-08",
+  "removedLegacyCoordinateDataset": true,
+  "removedLegacyFile": "site/customer-points.js",
+  "customerAddressEntries": 123,
+  "originalCityCenteredDotsRemoved": 126,
+  "pinsShownWithoutGeocoding": 0,
+  "googleMapsGeocoding": "require enabled Maps JavaScript API & Geocoding API key with billing; accepts only ROOFTOP non-partial",
+  "geocodeCacheDays": 28,
+  "customerSizeDotRadiusPixels": {
     "large": 2,
     "medium": 1.2,
     "small": 0.8
   },
-  "customerPinRadiusLogic": "New largest radius is half of old smallest radius; all three original radii are scaled x0.2."
+  "defaultPriorityMarketCount": 10,
+  "rawMarketCatalogueRecords": 59,
+  "privateUserNotesModified": false
 }

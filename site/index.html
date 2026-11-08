@@ -142,6 +142,8 @@
             <div class="map-toolbar">
                 <div class="map-status" id="map-status" role="status" aria-live="polite">Đang tải bản đồ...</div>
                 <div class="map-toolbar-actions">
+                    <button id="map-mode-countries" class="map-action" type="button" aria-pressed="false">Thị trường</button>
+                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true">Khách hàng · Google Maps</button>
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
                     <button id="retry-map-btn" type="button" class="map-action hidden">Tải lại bản đồ</button>
                 </div>
@@ -150,6 +152,31 @@
             <div id="map-container">
                 <!-- SVG Map will be drawn here by D3 -->
             </div>
+            <section id="atlas-customer-pane" class="atlas-customer-pane" aria-label="Bản đồ địa chỉ khách hàng Google Maps" hidden>
+                <div id="google-map-canvas" class="google-map-canvas" hidden aria-label="Google Maps khách hàng"></div>
+                <div class="google-customer-controls">
+                    <h2>Vị trí khách hàng</h2>
+                    <p id="google-map-status" role="status" aria-live="polite"></p>
+                    <details id="google-maps-setup" class="google-maps-setup" open>
+                        <summary>Định vị chính xác bằng Google Maps</summary>
+                        <p>Dữ liệu GPS xấp xỉ của phiên bản trước đã bị xóa khỏi bản đồ. Để định vị theo địa chỉ thực, cần Google Maps API key có giới hạn website và quyền Maps JavaScript API + Geocoding API.</p>
+                        <label for="google-maps-api-key">Google Maps API key (không phải OAuth Client ID)</label>
+                        <input id="google-maps-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Nhập API key đã giới hạn quyền và domain">
+                        <button id="google-map-connect" type="button" class="map-action">Kết nối Google Maps</button>
+                        <p class="google-billing-note">Google Maps Platform có thể tính phí. Không đặt API key không giới hạn lên GitHub. Bản đồ chỉ hiển thị kết quả được Google định vị chính xác tới địa chỉ (ROOFTOP).</p>
+                    </details>
+                    <div class="google-geocode-actions">
+                        <button id="google-map-geocode" type="button" class="map-action" disabled>Xác minh vị trí &amp; đặt chấm đỏ</button>
+                        <button id="google-map-cancel" type="button" class="map-action" hidden>Dừng</button>
+                    </div>
+                    <details class="google-customer-directory" open>
+                        <summary>Danh bạ địa chỉ khách hàng (<span id="customer-directory-count"></span>)</summary>
+                        <label for="customer-address-search">Tìm khách hàng</label>
+                        <input id="customer-address-search" type="search" placeholder="Tên hoặc địa chỉ" autocomplete="off">
+                        <ul id="google-customer-list" class="google-customer-list"></ul>
+                    </details>
+                </div>
+            </section>
             
             <div id="map-fallback" class="map-fallback hidden" role="status">
                 <div class="map-fallback-symbol" aria-hidden="true">◎</div>
@@ -200,9 +227,10 @@
     <script src="atlas-filters.js"></script>
     <script src="atlas-briefs.js"></script>
     <script src="atlas-sync-core.js"></script>
-    <script src="customer-points.js"></script>
+    <script src="customer-addresses.js"></script>
     <script src="app.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="atlas-cloud.js"></script>
+    <script src="customer-google-map.js"></script>
 </body>
 </html>
