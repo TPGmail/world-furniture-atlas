@@ -1,5 +1,5 @@
 {
-  "version": "1.7.0",
+  "version": "1.8.0",
   "date": "2026-11-08",
   "privateUserNotesModified": false,
   "rawCatalogueRecords": 59,
@@ -14,5 +14,11 @@
     "small independent"
   ],
   "customerPositionPrecision": "approximate city only",
-  "sourceWorkbookRows": 207
+  "sourceWorkbookRows": 207,
+  "customerPinRadiusPixels": {
+    "large": 2,
+    "medium": 1.2,
+    "small": 0.8
+  },
+  "customerPinRadiusLogic": "New largest radius is half of old smallest radius; all three original radii are scaled x0.2."
 }

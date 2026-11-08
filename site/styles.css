@@ -867,15 +867,18 @@ input[type="search"]:focus-visible, button:focus-visible, select:focus-visible {
 .legend-customer-large { width: 16px; height: 16px; }
 .customer-dot {
     fill: #ef4444;
-    stroke: rgba(255,255,255,0.92);
-    stroke-width: 1.2px;
-    opacity: 0.88;
+    /* Keep an invisible hit area so ultra-small red dots remain clickable. */
+    stroke: transparent;
+    stroke-width: 8px;
+    paint-order: stroke fill;
+    pointer-events: visiblePainted;
+    opacity: 0.9;
     cursor: pointer;
 }
 .customer-dot:hover,
 .customer-dot:focus {
     opacity: 1;
-    stroke-width: 1.6px;
+    filter: drop-shadow(0 0 1px #ffffff);
 }
 .legend-noted { background: var(--map-selected); }
 .legend-matched { background: var(--accent); }
@@ -997,4 +1000,4 @@ input[type="search"]:focus-visible, button:focus-visible, select:focus-visible {
 @media (max-width:900px) { .curation-switch button, .quiet-tools > summary { min-height:44px; } }
 
 .customer-map-link { display: inline-block; margin-left: .3rem; font-weight: 600; color: #f87171; text-decoration: underline; }
-.customer-dot:focus-visible { outline: none; stroke: #ffffff; stroke-width: 2.2px; }
+.customer-dot:focus-visible { outline: none; filter: drop-shadow(0 0 2px #ffffff); }
