@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="country-intelligence.css">
 </head>
 <body>
     <div class="app-container">
@@ -143,19 +143,8 @@
             <div class="map-toolbar">
                 <div class="map-status" id="map-status" role="status" aria-live="polite">Đang tải bản đồ...</div>
                 <div class="map-toolbar-actions">
-                    <label class="ic-role-label" for="industry-role-filter">Vai trò
-                      <select id="industry-role-filter" class="ic-role-select" aria-label="Lọc quốc gia theo vai trò ngành nội thất">
-                        <option value="">Tất cả vai trò</option>
-                        <option value="resource">Nguyên liệu</option>
-                        <option value="manufacturing">Sản xuất</option>
-                        <option value="design">Thiết kế</option>
-                        <option value="consumer">Tiêu thụ</option>
-                        <option value="trading">Thương mại</option>
-                        <option value="technology">Công nghệ</option>
-                      </select>
-                    </label>
                     <button id="map-mode-countries" class="map-action" type="button" aria-pressed="false">Thị trường</button>
-                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true">Khách hàng · Google Maps</button>
+                    <button id="map-mode-customers" class="map-action active" type="button" aria-pressed="true">Khách hàng · OpenStreetMap</button>
                     <button id="reset-map-btn" type="button" class="map-action" title="Đưa bản đồ về toàn cảnh">Toàn cảnh</button>
                     <button id="retry-map-btn" type="button" class="map-action hidden">Tải lại bản đồ</button>
                 </div>
@@ -164,38 +153,33 @@
             <div id="map-container">
                 <!-- SVG Map will be drawn here by D3 -->
             </div>
-            <section id="atlas-customer-pane" class="atlas-customer-pane" aria-label="Bản đồ địa chỉ khách hàng Google Maps" hidden>
-                <div id="google-map-canvas" class="google-map-canvas" hidden aria-label="Google Maps khách hàng"></div>
-                <div class="google-customer-controls">
-                    <h2>Vị trí khách hàng</h2>
-                    <p id="google-map-status" role="status" aria-live="polite"></p>
-                    <details id="google-maps-setup" class="google-maps-setup" open>
-                        <summary>Định vị chính xác bằng Google Maps</summary>
-                        <p>Dữ liệu GPS xấp xỉ của phiên bản trước đã bị xóa khỏi bản đồ. Để định vị theo địa chỉ thực, cần Google Maps API key có giới hạn website và quyền Maps JavaScript API + Geocoding API.</p>
-                        <label for="google-maps-api-key">Google Maps API key (không phải OAuth Client ID)</label>
-                        <input id="google-maps-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Nhập API key đã giới hạn quyền và domain">
-                        <button id="google-map-connect" type="button" class="map-action">Kết nối Google Maps</button>
-                        <p class="google-billing-note">Google Maps Platform có thể tính phí. Không đặt API key không giới hạn lên GitHub. Bản đồ chỉ hiển thị kết quả được Google định vị chính xác tới địa chỉ (ROOFTOP).</p>
-                    </details>
-                    <div class="google-geocode-actions">
-                        <button id="google-map-geocode" type="button" class="map-action" disabled>Xác minh vị trí &amp; đặt chấm đỏ</button>
-                        <button id="google-map-cancel" type="button" class="map-action" hidden>Dừng</button>
+            <section id="atlas-customer-pane" class="atlas-customer-pane" aria-label="Bản đồ khách hàng OpenStreetMap" hidden>
+                <div id="leaflet-map-canvas" class="leaflet-map-canvas" role="region" aria-label="Bản đồ vị trí trụ sở khách hàng đã xác minh"></div>
+                <div class="customer-osm-controls">
+                    <div class="customer-osm-header">
+                        <h2>Khách hàng theo địa chỉ</h2>
+                        <span id="customer-pin-count" class="customer-pin-count">0 điểm xác minh</span>
                     </div>
-                    <details class="google-customer-directory" open>
-                        <summary>Danh bạ địa chỉ khách hàng (<span id="customer-directory-count"></span>)</summary>
-                        <label for="customer-address-search">Tìm khách hàng</label>
-                        <input id="customer-address-search" type="search" placeholder="Tên hoặc địa chỉ" autocomplete="off">
-                        <ul id="google-customer-list" class="google-customer-list"></ul>
+                    <p id="customer-osm-status" role="status" aria-live="polite">Đang nạp bản đồ OpenStreetMap...</p>
+                    <label for="customer-address-search">Tìm khách hàng</label>
+                    <input id="customer-address-search" type="search" placeholder="Tên, quốc gia hoặc địa chỉ" autocomplete="off">
+                    <details id="customer-verified-directory" class="customer-osm-directory" open>
+                        <summary>Đã xác minh GPS (<span id="customer-verified-count">0</span>)</summary>
+                        <ul id="customer-verified-list" class="customer-osm-list"></ul>
                     </details>
+                    <details id="customer-unverified-directory" class="customer-osm-directory">
+                        <summary>Chưa đủ tọa độ chính xác (<span id="customer-unverified-count">0</span>)</summary>
+                        <p class="customer-map-disclaimer">Không đặt chấm ở tâm đường hoặc thành phố. Bấm “Tra cứu OSM” để xem địa chỉ, không coi kết quả tìm kiếm là vị trí đã xác nhận.</p>
+                        <ul id="customer-unverified-list" class="customer-osm-list"></ul>
+                    </details>
+                    <p class="customer-map-attribution">Tọa độ chỉ được chấp nhận khi bản ghi OpenStreetMap khớp số nhà hoặc địa điểm kinh doanh. Không dùng tọa độ ước lượng hoặc offset.</p>
                 </div>
             </section>
-            
             <div id="map-fallback" class="map-fallback hidden" role="status">
                 <div class="map-fallback-symbol" aria-hidden="true">◎</div>
                 <strong>Không tải được bản đồ</strong>
                 <p>Danh sách 59 hồ sơ vẫn có thể tra cứu và chỉnh sửa. Kiểm tra Internet rồi bấm <b>Tải lại bản đồ</b>, hoặc tải lại trang nếu nút này không hiển thị.</p>
             </div>
-            <aside id="industry-panel" class="industry-panel" aria-label="Hồ sơ ngành nội thất quốc gia và vùng lãnh thổ" hidden></aside>
             <!-- Tooltip -->
             <div id="tooltip" class="tooltip hidden">
                 <h4 id="tooltip-title">Tên quốc gia</h4>
@@ -231,7 +215,8 @@
         </div>
     </div>
 
-    <!-- D3.js and TopoJSON -->
+    <!-- Leaflet, D3.js and TopoJSON -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson-client@3"></script>
     <!-- Custom JS -->
@@ -241,11 +226,10 @@
     <script src="atlas-briefs.js"></script>
     <script src="atlas-sync-core.js"></script>
     <script src="customer-addresses.js"></script>
-    <script src="country-intelligence-data.js"></script>
     <script src="app.js"></script>
-    <script src="country-intelligence.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="atlas-cloud.js"></script>
-    <script src="customer-google-map.js"></script>
+    <script src="customer-verified-points.js"></script>
+    <script src="customer-leaflet-map.js"></script>
 </body>
 </html>

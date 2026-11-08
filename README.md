@@ -1,40 +1,26 @@
-# World Furniture Atlas v1.9 · Correct customer mapping
+# World Furniture Atlas v2.0 · OpenStreetMap + Leaflet
 
-Ngày phát hành: 2026-11-08. Repository riêng `TPGmail/world-furniture-atlas`.
+Release: 2026-11-08. Repository: `TPGmail/world-furniture-atlas`.
 
-## Thay đổi
+## Correct customer positions
 
-- **Xóa toàn bộ 126 tọa độ tâm thành phố và offset khỏi bản đồ công khai**, không dùng lại trong bản dữ liệu mới.
-- **123 địa chỉ khách hàng** được tách vào `site/customer-addresses.js`, không có lat/lng hoặc dịch vị trí.
-- **46** có nguồn đăng ký/công khai, **77** theo Excel chưa đối chiếu với pháp nhân.
-- Sửa lỗi MasterBrand: trụ sở chính tại Beachwood, Ohio (không phải nhà máy Jasper); loại địa chỉ sai Aukey.
-- Trang mới có chế độ thị trường (D3) và **Khách hàng (Google Maps)** riêng.
-- Khi Google Geocoder báo vị trí chính xác `ROOFTOP` và không `partial_match`, mới tạo chấm đúng địa chỉ. Không dùng tâm thành phố, không dịch điểm.
-- Tự động loại kết quả Google chỉ ở mức `GEOMETRIC_CENTER`, `APPROXIMATE`, `RANGE_INTERPOLATED`.
-- Giữ kích thước red dot: nhỏ 0,8px / vừa 1,2px / lớn 2px. Các khách cùng GPS gộp popup.
-- Cache tạm kết quả lat/lng tối đa 28 ngày, không commit tọa độ của Google vào GitHub.
+- Customer map is now rendered with Leaflet and OpenStreetMap tiles. No Google Cloud key or billing is needed.
+- 123 customer addresses remain in `site/customer-addresses.js`, unchanged from v1.9.
+- **Only locations independently checked against a real OSM address/POI are pinned.** Verified positions are in `site/customer-verified-points.js`. No city/street-level centroid, guessed coordinates, or x/y visual offsets are accepted.
+- Each point has an OSM object type/id, a verification level (`address`) and a traceable matched address. Source quality is important: a geocoder finding the address does **not** itself prove the customer is currently registered there.
+- Entries without exact OSM geolocation remain available in a collapsed **Chưa đủ tọa độ chính xác** directory. The map does **not** place an approximate dot for them.
+- Red dot sizes stay tiny: large 2 px, medium 1.2 px, small 0.8 px radius. A larger invisible touch region keeps the pins clickable. Multiple customers at exactly the same GPS share one popup.
+- The production website does **not** call Nominatim or other geocoding APIs; geocoding is done once during a manually audited research step, and results are committed as a small static dataset. This avoids burdening public OSMF Nominatim servers from visitors.
+- Map tiles: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`, attributed to OpenStreetMap contributors. Commercial/large-traffic use may need a dedicated tile provider; see OSMF tile use policy.
 
-## Kích hoạt Google Maps (cần thao tác Google Cloud của chủ tài khoản)
+## Project continuity
 
-1. Trên https://console.cloud.google.com/ tạo/chọn **project Atlas riêng**, bật billing.
-2. Bật **Maps JavaScript API** và **Geocoding API**.
-3. Tạo **API key**, chọn website restriction `https://tpgmail.github.io/*`, API restrictions chỉ hai API trên, thiết lập quota/budget.
-4. Mở https://tpgmail.github.io/world-furniture-atlas/, chọn **Khách hàng · Google Maps**, điền key trong ô ở website, nhấn **Kết nối Google Maps**, sau đó **Xác minh vị trí & đặt chấm đỏ**.
-5. Không gửi API key trên chat; key chỉ được lưu trong trình duyệt, không lên GitHub.
+- World market Atlas (D3), all 59 market records, personal notes, and Google Drive sync are unchanged.
+- Previous inaccurate customer coordinates are deleted from the production site. No changes to `TPGmail/tienphat-website`.
+- `CUSTOMER_OSM_AUDIT_v2.0.csv` lists every customer, source and decision, so no uncertain location is silently presented as verified.
 
-Nếu chưa kích hoạt API key, website hiển thị **danh bạ địa chỉ** với nút mở từng doanh nghiệp trong Google Maps nhưng **không hiện chấm ước lượng**.
+## Sources/policy
 
-## Google My Maps (không cần lập trình / API key)
-
-File `Customer_Addresses_For_Google_My_Maps_2026-11-08.csv` gồm địa chỉ hiện có. Có thể import vào https://www.google.com/mymaps để Google tự định vị, sau đó kiểm tra từng kết quả trước khi xuất bản My Maps. Không tự coi kết quả tự động đó là đã xác minh 100%.
-
-## Phạm vi giữ nguyên
-
-- 59 hồ sơ thị trường và 28 source variants nguyên vẹn.
-- Ghi chú riêng và Google Drive sync không thay đổi.
-- Không sửa website `tienphat-website`.
-
-## Tài liệu nội bộ
-
-- `CUSTOMER_ADDRESS_AUDIT_v1.9.md` là báo cáo sửa/loại dữ liệu.
-- `customer-address-review.json` gồm dữ liệu rà soát, để **ngoài thư mục `site/`**, không public trên website.
+- https://operations.osmfoundation.org/policies/nominatim/ (max 1 req/sec, one-time small bulk only with a single thread, cache, proper identity and attribution; no generic geocoding API added to Atlas).
+- https://operations.osmfoundation.org/policies/tiles/
+- https://leafletjs.com/examples/quick-start/

@@ -435,7 +435,7 @@ select:focus, textarea:focus, input[type="text"]:focus {
     left: 0;
 }
 
-svg {
+#map-container > svg {
     width: 100%;
     height: 100%;
 }
@@ -1002,30 +1002,41 @@ input[type="search"]:focus-visible, button:focus-visible, select:focus-visible {
 .customer-map-link { display: inline-block; margin-left: .3rem; font-weight: 600; color: #f87171; text-decoration: underline; }
 .customer-dot:focus-visible { outline: none; filter: drop-shadow(0 0 2px #ffffff); }
 
-/* v1.9: Google Maps customer positions, independent of the country SVG atlas. */
-.atlas-hidden, [hidden] { display: none !important; }
-.map-action.active { border-color: var(--accent); background: var(--panel-bg); color: var(--accent); }
-.atlas-customer-pane { position:absolute; inset:0; z-index:3; background:var(--bg-color); overflow:hidden; }
-.google-map-canvas { position:absolute; inset:0; height:100%; width:100%; }
-.google-customer-controls { position:absolute; z-index:4; top:1rem; left:1rem; bottom:1rem; width:min(350px,calc(100vw - 48px)); padding:1rem; border:1px solid var(--panel-border); border-radius:12px; background:var(--tooltip-bg); backdrop-filter:blur(10px); display:flex; flex-direction:column; gap:.6rem; overflow:auto; box-shadow:0 8px 35px #0002; }
-.google-customer-controls h2 { font-size:1.1rem; margin:0; }
-.google-customer-controls p { font-size:.8rem; line-height:1.55; }
-.google-customer-controls summary { font-size:.8rem; cursor:pointer; font-weight:600; padding:.5rem 0; }
-.google-customer-controls label { display:block; font-size:.73rem; margin-bottom:.3rem; }
-.google-customer-controls input { width:100%; max-width:100%; font-size:.86rem; padding:.68rem .7rem; background:var(--input-bg); border:1px solid var(--panel-border); border-radius:8px; color:var(--text-main); }
-.google-geocode-actions { display:flex; gap:.5rem; flex-wrap:wrap; }
-.google-geocode-actions button { min-height:42px; }
-.google-maps-setup { padding:.55rem .75rem; border-radius:8px; border:1px solid var(--panel-border); }
-.google-billing-note { font-size:.72rem !important; color:var(--text-muted); }
-.google-customer-directory { overflow:auto; min-height:100px; }
-.google-customer-list { padding:0; margin:.6rem 0 0; list-style:none; }
-.google-customer-item { padding:.75rem .2rem; display:flex; flex-direction:column; gap:.3rem; border-top:1px solid var(--panel-border); font-size:.78rem; }
-.google-customer-item strong { color:var(--text-main); }
-.google-customer-item span { color:var(--text-muted); line-height:1.45; }
-.google-customer-item small { color:var(--text-muted); font-size:.7rem; }
-.google-customer-item a, .atlas-google-info a { color:#2563eb; text-decoration:underline; }
-.atlas-google-info { max-width:260px; max-height:240px; overflow:auto; color:#1f2937; display:flex; flex-direction:column; gap:.35rem; padding:.1rem; font:13px/1.45 Inter,Arial,sans-serif; }
-.atlas-google-info p { margin:0; }
-.atlas-google-info small { font-size:11px; }
-@media(max-width:900px) { .google-customer-controls { top:4.2rem; left:.6rem; bottom:auto; max-height:calc(64dvh - 4rem); width:min(310px,calc(100vw - 28px)); padding:.75rem; } .map-toolbar { max-width:calc(100vw - 80px); } .map-toolbar-actions { gap:.2rem; } .map-toolbar-actions .map-action { font-size:.72rem; padding:.45rem .5rem; } }
-@media(max-width:900px) { .google-customer-controls { top:4.2rem; left:.6rem; bottom:auto; max-height:calc(64dvh - 4rem); width:min(310px,calc(100vw - 28px)); padding:.75rem; } .map-toolbar { max-width:calc(100vw - 80px); } .map-toolbar-actions { gap:.2rem; } .map-toolbar-actions .map-action { font-size:.72rem; padding:.45rem .5rem; } }
+/* v2.0: Leaflet / OpenStreetMap customer map. World atlas remains in its own layer. */
+.atlas-hidden, [hidden] { display:none !important; }
+.map-action.active { border-color:var(--accent); background:var(--panel-bg); color:var(--accent); }
+.atlas-customer-pane {position:absolute; inset:0; z-index:3; overflow:hidden; background:var(--bg-color);}
+.leaflet-map-canvas {position:absolute; inset:0; width:100%; height:100%; z-index:1; background:#e5edf3;}
+.customer-osm-controls {position:absolute; z-index:5; top:1rem; left:1rem; bottom:1rem; width:min(340px,calc(100vw - 36px)); padding:1rem; border:1px solid var(--panel-border); border-radius:12px; background:var(--tooltip-bg); backdrop-filter:blur(14px); display:flex; flex-direction:column; gap:.65rem; overflow:auto; box-shadow:0 8px 30px #0003;}
+.customer-osm-header {display:flex; gap:.5rem; align-items:start; justify-content:space-between; flex-wrap:wrap;}
+.customer-osm-header h2 {font-size:1rem; margin:0; color:var(--text-main);}
+.customer-pin-count {font-size:.72rem; background:var(--note-bg); border:1px solid var(--panel-border); border-radius:16px; padding:.25rem .5rem; color:var(--text-muted);}
+.customer-osm-controls p {font-size:.76rem; line-height:1.55; margin:0; color:var(--text-muted);}
+.customer-osm-controls label {display:block; font-size:.75rem; font-weight:600; color:var(--text-main);}
+.customer-osm-controls input {width:100%; padding:.65rem .7rem; font-size:.85rem; color:var(--text-main); background:var(--input-bg); border:1px solid var(--panel-border); border-radius:8px; min-height:44px;}
+.customer-osm-directory {border:1px solid var(--panel-border); border-radius:8px; min-height:auto; padding:.3rem .55rem;}
+.customer-osm-directory summary {font-size:.79rem; font-weight:600; cursor:pointer; color:var(--text-main); padding:.45rem .2rem; min-height:34px;}
+.customer-osm-list {padding:0; margin:0; list-style:none;}
+.customer-osm-list li {padding:.65rem .15rem; display:flex; flex-direction:column; gap:.3rem; border-top:1px solid var(--panel-border); color:var(--text-main);}
+.customer-osm-list strong {font-size:.8rem;}
+.customer-osm-list span,.customer-osm-list small {font-size:.71rem; line-height:1.48; color:var(--text-muted);}
+.customer-osm-list button {border:1px solid var(--panel-border); border-radius:6px; background:var(--btn-secondary-bg); color:var(--text-main); font:inherit; font-size:.75rem; padding:.4rem .5rem; cursor:pointer; min-height:40px;}
+.customer-osm-list button:hover {border-color:var(--accent);}
+.customer-osm-list a {color:var(--accent-hover); font-size:.76rem; text-decoration:underline;}
+.customer-list-actions {display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;}
+.customer-map-disclaimer {margin:.3rem 0 .6rem !important;}
+.customer-map-attribution {border-top:1px solid var(--panel-border); padding-top:.65rem;}
+.atlas-leaflet-popup {max-width:260px; font:13px/1.5 Arial,sans-serif; color:#172033;}
+.atlas-leaflet-popup strong {display:block; margin:0 0 .2rem; font-size:14px;}
+.atlas-leaflet-popup p {margin:.15rem 0 .45rem; line-height:1.45;}
+.atlas-leaflet-popup small {display:block; margin-bottom:.4rem;}
+.atlas-leaflet-popup a {color:#1d4ed8; text-decoration:underline; display:inline-block; margin:.2rem .4rem .2rem 0;}
+.atlas-leaflet-dot-target {cursor:pointer;}
+.leaflet-control-attribution {font:11px/1.3 sans-serif;}
+@media (max-width:900px) {
+ .customer-osm-controls {top:4.35rem; bottom:auto; left:.5rem; max-height:min(55dvh,480px); width:min(320px,calc(100vw - 22px)); padding:.8rem;}
+ .map-toolbar {max-width:calc(100vw - 70px);}
+ .map-toolbar-actions {gap:.3rem;}
+ .map-toolbar-actions .map-action {font-size:.72rem; padding:.42rem .48rem;}
+}
+@media (max-width:460px) {.customer-osm-controls {max-height:48dvh;} }

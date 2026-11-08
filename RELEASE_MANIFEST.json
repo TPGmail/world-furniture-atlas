@@ -1,19 +1,23 @@
 {
-  "version": "1.9.0",
+  "product": "World Furniture Atlas",
+  "version": "2.0.0",
   "releaseDate": "2026-11-08",
-  "removedLegacyCoordinateDataset": true,
-  "removedLegacyFile": "site/customer-points.js",
+  "repository": "TPGmail/world-furniture-atlas",
   "customerAddressEntries": 123,
-  "originalCityCenteredDotsRemoved": 126,
-  "pinsShownWithoutGeocoding": 0,
-  "googleMapsGeocoding": "require enabled Maps JavaScript API & Geocoding API key with billing; accepts only ROOFTOP non-partial",
-  "geocodeCacheDays": 28,
-  "customerSizeDotRadiusPixels": {
+  "osmVerifiedAddressPins": 16,
+  "osmSearchedNoExactMatch": 8,
+  "pendingManualGeocoding": 99,
+  "legacyGuessedCoordsRemoved": true,
+  "visualOffsetUsed": false,
+  "googleMapsAPIRequired": false,
+  "productionCallsToNominatim": false,
+  "customerVisibleDotRadiusPx": {
     "large": 2,
     "medium": 1.2,
     "small": 0.8
   },
-  "defaultPriorityMarketCount": 10,
-  "rawMarketCatalogueRecords": 59,
-  "privateUserNotesModified": false
+  "marketNotes": 59,
+  "marketSourceVariants": 28,
+  "personalNotesModified": false,
+  "geocodeCriteria": "OSM house/building or business POI with actual address number and street matched; reject highway/street/city centroids"
 }
