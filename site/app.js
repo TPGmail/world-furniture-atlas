@@ -122,6 +122,16 @@ const mapFallback = document.getElementById('map-fallback');
 const panelBackdrop = document.getElementById('panel-backdrop');
 const atlasBriefs = window.ATLAS_BRIEFS_V15;
 if (!atlasBriefs || atlasBriefs.schemaVersion !== 1) throw new Error('Thiếu atlas-briefs.js.');
+function normalizeAtlasId(id) {
+    const value = String(id);
+    return /^\d{1,3}$/.test(value) ? value.padStart(3, '0') : value;
+}
+function isPublishedAtlasId(id) {
+    const brief = atlasBriefs.records[normalizeAtlasId(id)];
+    return Boolean(brief && brief.summary && Array.isArray(brief.facts) &&
+        brief.facts.some(f => f.text && atlasBriefs.sources[f.source]?.url));
+}
+
 const editorTools = document.getElementById('editor-tools');
 const priorityView = document.getElementById('view-priority');
 const allView = document.getElementById('view-all');
@@ -150,7 +160,7 @@ function appendBrief(id) {
     rawNotePanel.open = false;
     const label = document.createElement('p');
     label.className = 'brief-eyebrow';
-    label.textContent = item.category + ' · Đối chiếu ' + atlasBriefs.reviewedOn;
+    label.textContent = item.category;
     const summary = document.createElement('p');
     summary.className = 'brief-summary';
     summary.textContent = item.summary;
@@ -178,7 +188,7 @@ function renderAtlasMetadata(id, displayedText) {
     atlasVariants.classList.add('hidden');
     atlasVariantText.textContent = '';
     if (!record) {
-        atlasMetaSummary.textContent = 'Ghi chú riêng; chưa có trong danh mục chuẩn v1.2.';
+        atlasMetaSummary.textContent = 'Ghi chú riêng';
         return;
     }
     const origin = record.provenance.primary === 'user_export'
@@ -187,7 +197,7 @@ function renderAtlasMetadata(id, displayedText) {
     const warning = record.provenance.comparison === 'conflict' ? ' • 2 phiên bản nguồn' : '';
     atlasMetaSummary.textContent = `Nguồn ưu tiên: ${origin}${warning}` +
         (edited ? ' • Nội dung trên trình duyệt khác bản tham chiếu' : '') +
-        ' • Chưa kiểm chứng thông tin';
+        '';
     const categories = {
         materials: 'Vật liệu', products: 'Sản phẩm', design_styles: 'Phong cách',
         standards_and_certifications: 'Tiêu chuẩn', geographies_mentioned: 'Địa danh nhắc đến'
@@ -547,9 +557,7 @@ savedNotes = loadNotes();
 function refreshKnowledgeSummary() {
     const knownIds = Object.keys(atlasKnowledgeV2.records);
     const missingCount = knownIds.filter(id => !Object.hasOwn(savedNotes, id)).length;
-    knowledgeSummary.textContent =
-        `${knownIds.length} hồ sơ chuẩn, ${atlasKnowledgeV2.summary.conflictCount} cặp nguồn khác nhau. ` +
-        (missingCount ? `${missingCount} hồ sơ chưa có trên trình duyệt.` : 'Đã có đủ ID chuẩn.');
+    knowledgeSummary.textContent = `${knownIds.length} bản ghi lưu trữ`;
     mergeCatalogBtn.disabled = notesStorageReadOnly || missingCount === 0;
 }
 
@@ -585,7 +593,8 @@ function isDiscoveryActive() {
 }
 function getDiscoveryMatches() {
     const entries = atlasFilters.buildEntries(atlasKnowledgeV2.records, savedNotes);
-    const matches = atlasFilters.filterEntries(entries, currentFilterOptions());
+    const matches = atlasFilters.filterEntries(entries, currentFilterOptions())
+        .filter(entry => isPublishedAtlasId(entry.id));
     const industryRole = document.getElementById('industry-role-filter')?.value;
     return industryRole ? matches.filter(entry => window.FurniverseCountry?.hasRole(entry.id, industryRole)) : matches;
 }
@@ -740,12 +749,6 @@ async function initMap() {
         // Combine them
         filteredCountries = filteredCountries.concat(chinaProvinces);
 
-        // Add International Island (Dummy GeoJSON Polygon in the Pacific Ocean)
-        const islandGeoJSON = d3.geoCircle().center([-140, -10]).radius(3)();
-        islandGeoJSON.id = "intl-island";
-        islandGeoJSON.properties = { name: "International Styles" };
-        filteredCountries.push(islandGeoJSON);
-
         const countryTranslations = {
             "United States of America": "Hoa Kỳ (USA)",
             "Germany": "Đức (Germany)",
@@ -767,6 +770,7 @@ async function initMap() {
         };
 
         filteredCountries.forEach(f => {
+            f.id = normalizeAtlasId(f.id);
             if (countryTranslations[f.properties.name]) {
                 f.properties.name = countryTranslations[f.properties.name];
             }
@@ -774,7 +778,7 @@ async function initMap() {
 
         // Step 3: one semantic colour for saved notes; avoid O(N²) adjacency search
         // during every map load. Filter matches use a second, explicit colour.
-        mapFeatures = filteredCountries;
+        mapFeatures = filteredCountries.filter(f => isPublishedAtlasId(f.id));
 
         // Automatically scale and center map to fit the container
         const featureCollection = { type: "FeatureCollection", features: filteredCountries };
@@ -786,7 +790,7 @@ async function initMap() {
         });
 
         // Extract country names for select dropdown
-        countriesData = filteredCountries.map(d => ({
+        countriesData = mapFeatures.map(d => ({
             id: d.id,
             name: d.properties.name
         })).sort((a, b) => a.name.localeCompare(b.name));
@@ -795,7 +799,7 @@ async function initMap() {
 
         // Draw Map
         gCountries.selectAll('.country')
-            .data(filteredCountries)
+            .data(mapFeatures)
             .enter().append('path')
             .attr('class', 'country')
             .attr('d', path)
@@ -811,7 +815,7 @@ async function initMap() {
 
         // Draw Labels
         gLabels.selectAll('.country-label')
-            .data(filteredCountries)
+            .data(mapFeatures)
             .enter().append('text')
             .attr('class', 'country-label')
             .attr('transform', function(d) {
@@ -895,7 +899,8 @@ function positionTooltip(x, y) {
 function handleMouseOver(event, d) {
     const countryId = d.id;
     const countryName = d.properties.name;
-    const note = savedNotes[countryId];
+    const summary = atlasBriefs.records[normalizeAtlasId(countryId)]?.summary || '';
+    const note = summary ? { text: summary } : null;
 
     tooltipTitle.textContent = countryName;
     
