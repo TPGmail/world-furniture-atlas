@@ -85,10 +85,11 @@
     {
       "id": "cust-026-bk-global",
       "name": "BK Global",
-      "status": "administrative",
+      "status": "manually-reconciled",
       "queries": 4,
-      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7138136"
+      "matchedAddress": "Phường Phước Long, TP. Hồ Chí Minh",
+      "source": "https://www.openstreetmap.org/relation/7342567",
+      "precision": "administrative"
     },
     {
       "id": "cust-200-bluerock-sourcing",
@@ -126,10 +127,11 @@
     {
       "id": "cust-175-cosmo-sourcing",
       "name": "Cosmo Sourcing",
-      "status": "street",
+      "status": "manually-reconciled",
       "queries": 4,
-      "matchedAddress": "Ho Chi Minh City - Thu Dau Mot - Chon Thanh Expressway, Khu phố Tân Hội, Phường Tân Hiệp, Ho Chi Minh City, Vietnam",
-      "source": "https://www.openstreetmap.org/way/1433890535"
+      "matchedAddress": "Phường Hòa Phú, TP. Thủ Dầu Một (cũ), Việt Nam",
+      "source": "https://slic.eton.vn/vi/node/330298",
+      "precision": "administrative"
     },
     {
       "id": "cust-164-crest-cabinet-company",
@@ -184,7 +186,8 @@
       "name": "FAST DIRECT CORP",
       "status": "manually-reconciled",
       "precision": "address",
-      "source": "https://www.google.com/maps/search/228%20Park%20Ave%20S%20%20New%20York%20NY%2010003"
+      "source": "https://www.google.com/maps/search/228%20Park%20Ave%20S%20%20New%20York%20NY%2010003",
+      "matchedAddress": "228 Park Avenue South, Manhattan, New York, NY 10003, USA"
     },
     {
       "id": "cust-142-flexiload",
@@ -207,20 +210,26 @@
     {
       "id": "cust-190-furniture-one",
       "name": "Furniture One",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/117162512",
+      "matchedAddress": "Kingsgrove, Sydney, NSW, Australia"
     },
     {
       "id": "cust-195-gallery-direct",
       "name": "Gallery Direct",
-      "status": "cached",
-      "precision": "administrative"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/294335714",
+      "matchedAddress": "Swindon Village, Cheltenham, Gloucestershire, UK"
     },
     {
       "id": "cust-160-genesis-sales-asia-limited",
       "name": "GENESIS SALES ASIA LIMITED",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/13967916818",
+      "matchedAddress": "Guicheng Subdistrict, Nanhai, Foshan, Guangdong, China"
     },
     {
       "id": "cust-011-giga-china",
@@ -276,8 +285,10 @@
     {
       "id": "cust-123-heritage-furniture",
       "name": "Heritage Furniture",
-      "status": "cached",
-      "precision": "administrative"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/21664801",
+      "matchedAddress": "Blackburn, Lancashire, United Kingdom"
     },
     {
       "id": "cust-170-highbury-furnishings-llc",
@@ -470,8 +481,10 @@
     {
       "id": "cust-139-nick-scali-furniture",
       "name": "Nick Scali Furniture",
-      "status": "cached",
-      "precision": "administrative"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/25922487",
+      "matchedAddress": "North Ryde, Sydney, NSW, Australia"
     },
     {
       "id": "cust-071-nuu-garden-corp",
@@ -554,22 +567,27 @@
     {
       "id": "cust-051-rosco",
       "name": "Rosco",
-      "status": "administrative",
+      "status": "manually-reconciled",
       "queries": 4,
-      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7138136"
+      "matchedAddress": "Khu vực Hiệp Bình Phước, Thủ Đức, TP. Hồ Chí Minh",
+      "source": "https://mapcarta.com/29017902",
+      "precision": "administrative"
     },
     {
       "id": "cust-074-rusta-ab",
       "name": "Rusta AB",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://mapcarta.com/29017820",
+      "matchedAddress": "Khu vực Cô Giang, Quận 1, TP. Hồ Chí Minh"
     },
     {
       "id": "cust-185-s2u-design",
       "name": "S2U Design",
-      "status": "cached",
-      "precision": "administrative"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/13113468768",
+      "matchedAddress": "Thuận An, Bình Dương (cũ), TP. Hồ Chí Minh"
     },
     {
       "id": "cust-025-siam-karrat-international",
@@ -585,7 +603,9 @@
       "name": "SKLUM HOME AND DECO S.L.",
       "status": "manually-reconciled",
       "queries": 4,
-      "source": "https://www.entidadeslocales.gva.es/index.php?Itemid=9&id=46255&lang=es&option=com_reglocal_entloc&task=muestraEntidad&tipo=1"
+      "source": "https://www.openstreetmap.org/node/1440348034",
+      "matchedAddress": "Vilallonga / Villalonga, Valencia, 46720, Spain",
+      "precision": "administrative"
     },
     {
       "id": "cust-082-skovby",
@@ -614,10 +634,11 @@
     {
       "id": "cust-038-squarehome",
       "name": "SquareHome",
-      "status": "administrative",
+      "status": "manually-reconciled",
       "queries": 4,
-      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7138136"
+      "matchedAddress": "Phường Phước Long, TP. Hồ Chí Minh",
+      "source": "https://www.openstreetmap.org/relation/7342567",
+      "precision": "administrative"
     },
     {
       "id": "cust-073-starmerx-innovation",
@@ -640,14 +661,18 @@
     {
       "id": "cust-197-swisstec-sourcing",
       "name": "Swisstec sourcing",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://slic.eton.vn/vi/node/330298",
+      "matchedAddress": "Phường Hòa Phú, TP. Thủ Dầu Một (cũ), Việt Nam"
     },
     {
       "id": "cust-043-syma-co-sourcing",
       "name": "SYMA&CO Sourcing",
-      "status": "cached",
-      "precision": "administrative"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://mapcarta.com/29018056",
+      "matchedAddress": "Khu vực Thảo Điền, TP. Hồ Chí Minh"
     },
     {
       "id": "cust-133-tainoki-fine-furniture",
@@ -724,8 +749,10 @@
     {
       "id": "cust-067-well-travelled-living",
       "name": "Well Travelled Living",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/154081150",
+      "matchedAddress": "Fernandina Beach, Nassau County, Florida 32034, USA"
     },
     {
       "id": "cust-034-william-sonoma",
@@ -748,8 +775,10 @@
     {
       "id": "cust-040-world-market-management-services-llc",
       "name": "World Market Management Services, LLC",
-      "status": "cached",
-      "precision": "street"
+      "status": "manually-reconciled",
+      "precision": "administrative",
+      "source": "https://www.openstreetmap.org/node/150942648",
+      "matchedAddress": "Alameda, CA 94501, USA"
     },
     {
       "id": "cust-134-world-link-resources-llc-wlr",
@@ -779,12 +808,12 @@
     "administrative": 40
   },
   "errors": [],
-  "manuallyReconciled": 7,
+  "manuallyReconciled": 22,
   "publishedLocated": 123,
   "publishedByPrecision": {
     "address": 48,
-    "street": 29,
-    "administrative": 46
+    "street": 22,
+    "administrative": 53
   },
   "qualityControl": {
     "sourceRowsNotChanged": true,
@@ -792,7 +821,8 @@
       "FAST DIRECT: Nominatim 228 Park Avenue was in Roosevelt NY 11575; removed and independently checked address 228 Park Avenue South, Manhattan 10003.",
       "SKLUM: Nominatim Villalonga result was in Jaen/Andalusia 23700; removed and replaced with OSM Villalonga (Valencia 46720).",
       "Ove Decors: house/street matched Rue Michelin, but OSM postcode H7L 4R9 differs from source H7L 5C1; lowered to street-level precision.",
-      "5 khách còn thiếu được đặt tại địa danh cấp thấp nhất có nguồn kiểm chứng: Thảo Điền, Bình Thạnh, Cheung Sha Wan, Tsim Sha Tsui, Khu Khot. Đây là điểm tham chiếu, không phải tòa nhà."
+      "5 khách còn thiếu được đặt tại địa danh cấp thấp nhất có nguồn kiểm chứng: Thảo Điền, Bình Thạnh, Cheung Sha Wan, Tsim Sha Tsui, Khu Khot. Đây là điểm tham chiếu, không phải tòa nhà.",
+      "15 vị trí có kết quả geocoder khớp nhầm tuyến đường/phường hoặc chỉ ở cấp thành phố đã được sửa thành khu vực có tên đúng trong địa chỉ và nguồn tham chiếu; hạ mức chính xác về hành chính."
     ],
     "lowPrecisionIsNotBusinessOccupancy": true
   }
