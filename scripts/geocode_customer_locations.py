@@ -28,7 +28,7 @@ NOW = dt.date.today().isoformat()
 SEARCH_URL = "https://nominatim.openstreetmap.org/search"
 # Contact via repository Issues; avoids storing a personal email on a public website.
 USER_AGENT = "FurniverseWorldFurnitureAtlas/2.3 (one-time research; https://github.com/TPGmail/world-furniture-atlas/issues)"
-REQUEST_INTERVAL = 1.3
+REQUEST_INTERVAL = 1.5
 last_request = 0.0
 
 def load_array(path):
@@ -117,6 +117,7 @@ def classify(row,result,expected):
     match=result.get("display_name","")
     if not match or not result.get("osm_id") or result.get("osm_type") not in ("node","way","relation"):
         return None
+    category=result.get("category") or result.get("class") or ""
     road=addr.get("road") or addr.get("pedestrian") or addr.get("residential") or ""
     house=addr.get("house_number","")
     input_norm=norm(raw)
@@ -129,7 +130,7 @@ def classify(row,result,expected):
     if house_match:
         level="address"
         detail="Số nhà/tòa nhà"
-    elif result.get("class")=="highway" and street_match or road and street_match and int(result.get("place_rank",0))>=25:
+    elif (category=="highway" and street_match) or (road and street_match and int(result.get("place_rank",0))>=25):
         level="street"
         detail="Đường (vị trí đại diện, không phải số nhà)"
     elif postcode_match and result.get("addresstype")=="postcode":
@@ -150,7 +151,7 @@ def classify(row,result,expected):
             if value and whole_phrase(value,raw):
                 # Require an actual small-area search feature, not a business object
                 # which merely contains that district in its address.
-                if int(result.get("place_rank",0))<12 or result.get("addresstype")=="country":
+                if category not in ("place","boundary") or int(result.get("place_rank",0))<12 or result.get("addresstype")=="country":
                     continue
                 level="administrative"
                 detail=label+": "+value+" (tọa độ đại diện)"
@@ -171,7 +172,7 @@ def classify(row,result,expected):
         "verificationLevel":level,"checkedAt":NOW,
         "verificationSource":"OpenStreetMap Nominatim (one-time research)",
         "lat":lat,"lon":lon,"osmType":result["osm_type"],"osmId":osm_id,
-        "matchedAddress":match,"objectKind":str(result.get("class",""))+":"+str(result.get("type","")),
+        "matchedAddress":match,"objectKind":str(category)+":"+str(result.get("type","")),
         "precisionLabel":detail,"countryCode":country or expected,
         "sourceUrl":"https://www.openstreetmap.org/"+result["osm_type"]+"/"+str(osm_id),
     }
