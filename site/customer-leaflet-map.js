@@ -18,11 +18,12 @@
              point.verificationSource === 'OpenStreetMap Nominatim (one-time research)') ||
             point.verificationSource === 'openstreetmap-regional-record-crosscheck' ||
             point.verificationSource === 'public-web-address-crosscheck' ||
-            point.verificationSource === 'public-geonames-locality') &&
+            point.verificationSource === 'public-geonames-locality' ||
+            point.verificationSource === 'public-regional-locality') &&
         point.checkedAddress === entryById.get(point.id).address &&
         ((['node','way','relation'].includes(point.osmType) &&
           Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0) ||
-         (['public-web-address-crosscheck','public-geonames-locality'].includes(point.verificationSource) &&
+         (['public-web-address-crosscheck','public-geonames-locality','public-regional-locality'].includes(point.verificationSource) &&
           typeof point.sourceUrl === 'string' && /^https:\/\//i.test(point.sourceUrl)));
     // Preserve originally verified exact addresses; curated corrections override
     // only newly generated research candidates for the same customer.
