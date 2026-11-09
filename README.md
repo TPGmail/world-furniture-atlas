@@ -1,26 +1,33 @@
-# World Furniture Atlas v2.0 · OpenStreetMap + Leaflet
+# World Furniture Atlas · Furniverse
 
-Release: 2026-11-08. Repository: `TPGmail/world-furniture-atlas`.
+Updated: 2026-11-09. Repository: `TPGmail/world-furniture-atlas`.
 
-## Correct customer positions
+## Customer map: 123 sourced locations
 
-- Customer map is now rendered with Leaflet and OpenStreetMap tiles. No Google Cloud key or billing is needed.
-- 123 customer addresses remain in `site/customer-addresses.js`, unchanged from v1.9.
-- **Only locations independently checked against a real OSM address/POI are pinned.** Verified positions are in `site/customer-verified-points.js`. No city/street-level centroid, guessed coordinates, or x/y visual offsets are accepted.
-- Each point has an OSM object type/id, a verification level (`address`) and a traceable matched address. Source quality is important: a geocoder finding the address does **not** itself prove the customer is currently registered there.
-- Entries without exact OSM geolocation remain available in a collapsed **Chưa đủ tọa độ chính xác** directory. The map does **not** place an approximate dot for them.
-- Red dot sizes stay tiny: large 2 px, medium 1.2 px, small 0.8 px radius. A larger invisible touch region keeps the pins clickable. Multiple customers at exactly the same GPS share one popup.
-- The production website does **not** call Nominatim or other geocoding APIs; geocoding is done once during a manually audited research step, and results are committed as a small static dataset. This avoids burdening public OSMF Nominatim servers from visitors.
-- Map tiles: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`, attributed to OpenStreetMap contributors. Commercial/large-traffic use may need a dedicated tile provider; see OSMF tile use policy.
+- `site/customer-addresses.js`: all **123 original customer addresses**, preserved without overwriting.
+- `site/customer-verified-points.js`: 16 previously audited exact building/address markers, preserved.
+- `site/customer-geocoded-points.js`: 100 additional cached results from one-time Nominatim research.
+- `site/customer-corroborated-points.js`: 7 independently reconciled locations or administrative areas. Manual corrections override generated candidates; the 16 original verified points remain authoritative.
+- **123/123 customers have a map reference**: **48** matches at number/building level, **29** road-level reference points, and **46** administrative-area references. A road/ward/city reference is NOT a verified customer office address.
+- Map markers: **solid red** = number/building match; **hollow amber** = road, town or administrative area representative. Popups disclose the confidence level and link to a geographical source.
+- `CUSTOMER_LOCATION_RESEARCH.json`: per-customer audit status, precision and source references, plus corrections and QA exceptions. All original source rows remain unchanged.
+- Address matching alone does not independently prove that the company currently occupies the building. The coordinates express geographic precision, not guaranteed company tenancy.
+
+## Map technology
+
+- Leaflet customer/country overlays on OpenFreeMap vector tiles (Vietnamese labels preferred via `name:vi`), with OpenStreetMap raster fallback.
+- No Google Maps API key or browser geocoding. Customer coordinates are static.
+- One-time, explicitly source-based geocoding lives in `scripts/geocode_customer_locations.py`, executed from `.github/workflows/customer-location-once.yml` when the research script is updated (or manually dispatched). Requests are serialized and throttled to 1 call per 1.5 seconds. Production visits never geocode.
+- OpenStreetMap attribution is retained.
 
 ## Project continuity
 
-- World market Atlas (D3), all 59 market records, personal notes, and Google Drive sync are unchanged.
-- Previous inaccurate customer coordinates are deleted from the production site. No changes to `TPGmail/tienphat-website`.
-- `CUSTOMER_OSM_AUDIT_v2.0.csv` lists every customer, source and decision, so no uncertain location is silently presented as verified.
+- Market notes, 59 archive records, Google Drive sync, and original 123 customer records preserved.
+- Furniverse and Tien Phat Materials remain separate repositories.
 
-## Sources/policy
+## Sources / map use
 
-- https://operations.osmfoundation.org/policies/nominatim/ (max 1 req/sec, one-time small bulk only with a single thread, cache, proper identity and attribution; no generic geocoding API added to Atlas).
+- https://operations.osmfoundation.org/policies/nominatim/
 - https://operations.osmfoundation.org/policies/tiles/
-- https://leafletjs.com/examples/quick-start/
+- https://leafletjs.com/
+- https://openfreemap.org/
