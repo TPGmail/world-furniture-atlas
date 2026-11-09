@@ -123,6 +123,21 @@ LOCATION_FALLBACKS = {
   "cust-031-yes4all": "Nasa Street, Brea, California, USA"
 }
 
+# Last-resort city-level searches when a supplied street/ward cannot be matched.
+SECONDARY_FALLBACKS = {
+  "cust-026-bk-global": "Thu Duc, Ho Chi Minh City, Vietnam",
+  "cust-200-bluerock-sourcing": "Ho Chi Minh City, Vietnam",
+  "cust-175-cosmo-sourcing": "Thu Dau Mot, Binh Duong, Vietnam",
+  "cust-060-great-saigon": "Ho Chi Minh City, Vietnam",
+  "cust-037-li-fung": "Kowloon, Hong Kong",
+  "cust-056-mmml": "Phu My, Vietnam",
+  "cust-169-mwh-hk-co-ltd": "Kowloon, Hong Kong",
+  "cust-051-rosco": "Thu Duc, Ho Chi Minh City, Vietnam",
+  "cust-025-siam-karrat-international": "Lam Luk Ka, Pathum Thani, Thailand",
+  "cust-129-sklum-home-and-deco-s-l": "Villalonga, Spain",
+  "cust-038-squarehome": "Thu Duc, Ho Chi Minh City, Vietnam"
+}
+
 def expected_country(addr):
     matches = [iso for iso,rgx in COUNTRY_WORDS if re.search(rgx,addr,re.I)]
     if len(set(matches)) == 1: return matches[0]
@@ -287,6 +302,9 @@ def main():
         targeted = LOCATION_FALLBACKS.get(rid)
         if targeted and all(norm(q)!=norm(targeted) for q in tries):
             tries.append(targeted)
+        city_query = SECONDARY_FALLBACKS.get(rid)
+        if city_query and all(norm(q)!=norm(city_query) for q in tries):
+            tries.append(city_query)
         best=None
         used=0
         for query in tries:
