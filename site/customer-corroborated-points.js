@@ -1,4 +1,4 @@
-/* Manually cross-checked locations from public sources; curated overrides take priority. */
+/* Independently corroborated customer address and locality markers, with precision retained. */
 window.ATLAS_CORROBORATED_CUSTOMER_POINTS = [
   {
     "id": "cust-087-fast-direct-corp",
@@ -33,5 +33,83 @@ window.ATLAS_CORROBORATED_CUSTOMER_POINTS = [
     "coordinateSourceUrl": "https://mapcarta.com/es/25069916",
     "corroborationUrl": "https://www.entidadeslocales.gva.es/index.php?Itemid=9&id=46255&lang=es&option=com_reglocal_entloc&task=muestraEntidad&tipo=1",
     "countryCode": "es"
+  },
+  {
+    "id": "cust-200-bluerock-sourcing",
+    "checkedAddress": "17D, Duong so 11, Thao Dien, Ho Chi Minh City, Vietnam",
+    "checkedAt": "2026-11-09",
+    "verificationLevel": "administrative",
+    "lat": 10.8068,
+    "lon": 106.7312,
+    "matchedAddress": "Thảo Điền, Thành phố Hồ Chí Minh, Việt Nam",
+    "objectKind": "locality:Thảo Điền",
+    "precisionLabel": "Khu vực Thảo Điền (tọa độ đại diện, không phải số nhà 17D)",
+    "verificationSource": "public-geonames-locality",
+    "sourceUrl": "https://mapcarta.com/29018056",
+    "countryCode": "vn"
+  },
+  {
+    "id": "cust-060-great-saigon",
+    "checkedAddress": "Phòng 3.1 tầng 3 tòa nhà 236 Đinh Bộ Lĩnh, Phường Bình Thạnh, Thành phố Hồ Chí Minh",
+    "checkedAt": "2026-11-09",
+    "verificationLevel": "administrative",
+    "lat": 10.81178,
+    "lon": 106.70495,
+    "osmType": "relation",
+    "osmId": 19260954,
+    "matchedAddress": "Phường Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường Bình Thạnh (tọa độ đại diện, không phải tòa nhà 236 Đinh Bộ Lĩnh)",
+    "verificationSource": "openstreetmap-regional-record-crosscheck",
+    "sourceUrl": "https://www.openstreetmap.org/relation/19260954",
+    "countryCode": "vn"
+  },
+  {
+    "id": "cust-037-li-fung",
+    "checkedAddress": "11th Floor, LiFung Tower 888 Cheung Sha Wan Road Kowloon, Hong Kong SAR",
+    "checkedAt": "2026-11-09",
+    "verificationLevel": "administrative",
+    "lat": 22.33794,
+    "lon": 114.14942,
+    "osmType": "node",
+    "osmId": 8764919487,
+    "matchedAddress": "Cheung Sha Wan Industrial Area, Sham Shui Po, Kowloon, Hong Kong",
+    "objectKind": "place:quarter",
+    "precisionLabel": "Khu vực Cheung Sha Wan, Kowloon (tọa độ đại diện, không phải LiFung Tower)",
+    "verificationSource": "openstreetmap-regional-record-crosscheck",
+    "sourceUrl": "https://www.openstreetmap.org/node/8764919487",
+    "countryCode": "hk"
+  },
+  {
+    "id": "cust-169-mwh-hk-co-ltd",
+    "checkedAddress": "Flat/Room 826, 8/F, Ocean Centre, Harbour City 5 Canton Road, Tsim Sha Tsui Kowloon, Hong Kong",
+    "checkedAt": "2026-11-09",
+    "verificationLevel": "administrative",
+    "lat": 22.29856,
+    "lon": 114.1736,
+    "osmType": "node",
+    "osmId": 12965899037,
+    "matchedAddress": "Tsim Sha Tsui, Kowloon, Hong Kong",
+    "objectKind": "place:quarter",
+    "precisionLabel": "Khu vực Tsim Sha Tsui (tọa độ đại diện, không phải Ocean Centre)",
+    "verificationSource": "openstreetmap-regional-record-crosscheck",
+    "sourceUrl": "https://www.openstreetmap.org/node/12965899037",
+    "countryCode": "hk"
+  },
+  {
+    "id": "cust-025-siam-karrat-international",
+    "checkedAddress": "Add: 1/804 Gardenhome Shopping Plaza Paholyothin Rd., Km. 26 Kookot, Lumlukka, Patumthani 12130 Thailand",
+    "checkedAt": "2026-11-09",
+    "verificationLevel": "administrative",
+    "lat": 13.9508,
+    "lon": 100.6333,
+    "osmType": "node",
+    "osmId": 7359270009,
+    "matchedAddress": "Khu Khot, Lam Luk Ka, Pathum Thani, Thailand",
+    "objectKind": "place:town",
+    "precisionLabel": "Khu Khot, huyện Lam Luk Ka (tọa độ đại diện, không phải Gardenhome Shopping Plaza)",
+    "verificationSource": "openstreetmap-regional-record-crosscheck",
+    "sourceUrl": "https://www.openstreetmap.org/node/7359270009",
+    "countryCode": "th"
   }
 ];
