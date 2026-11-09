@@ -179,8 +179,9 @@
     {
       "id": "cust-087-fast-direct-corp",
       "name": "FAST DIRECT CORP",
-      "status": "cached",
-      "precision": "address"
+      "status": "manually-reconciled",
+      "precision": "address",
+      "source": "https://www.google.com/maps/search/228%20Park%20Ave%20S%20%20New%20York%20NY%2010003"
     },
     {
       "id": "cust-142-flexiload",
@@ -487,7 +488,7 @@
     {
       "id": "cust-154-ove-decors",
       "name": "Ove Decors",
-      "status": "cached",
+      "status": "street-postcode-mismatch",
       "precision": "address"
     },
     {
@@ -567,10 +568,9 @@
     {
       "id": "cust-129-sklum-home-and-deco-s-l",
       "name": "SKLUM HOME AND DECO S.L.",
-      "status": "administrative",
+      "status": "manually-reconciled",
       "queries": 4,
-      "matchedAddress": "Villalonga, Barriada de los Arrayanes, Linares, Jaén, Andalusia, 23700, Spain",
-      "source": "https://www.openstreetmap.org/node/13468558084"
+      "source": "https://www.entidadeslocales.gva.es/index.php?Itemid=9&id=46255&lang=es&option=com_reglocal_entloc&task=muestraEntidad&tipo=1"
     },
     {
       "id": "cust-082-skovby",
@@ -755,13 +755,29 @@
       "precision": "street"
     }
   ],
-  "newLocated": 102,
+  "newLocated": 100,
   "missing": 5,
   "byPrecision": {
-    "address": 33,
-    "street": 28,
+    "address": 31,
+    "street": 29,
     "postal": 0,
+    "administrative": 40
+  },
+  "errors": [],
+  "manuallyReconciled": 2,
+  "publishedLocated": 118,
+  "publishedByPrecision": {
+    "address": 48,
+    "street": 29,
     "administrative": 41
   },
-  "errors": []
+  "qualityControl": {
+    "sourceRowsNotChanged": true,
+    "exceptions": [
+      "FAST DIRECT: Nominatim 228 Park Avenue was in Roosevelt NY 11575; removed and independently checked address 228 Park Avenue South, Manhattan 10003.",
+      "SKLUM: Nominatim Villalonga result was in Jaen/Andalusia 23700; removed and replaced with OSM Villalonga (Valencia 46720).",
+      "Ove Decors: house/street matched Rue Michelin, but OSM postcode H7L 4R9 differs from source H7L 5C1; lowered to street-level precision."
+    ],
+    "lowPrecisionIsNotBusinessOccupancy": true
+  }
 }
