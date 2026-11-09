@@ -8,7 +8,7 @@ Updated: 2026-11-09. Repository: `TPGmail/world-furniture-atlas`.
 - `site/customer-verified-points.js`: 16 previously audited exact building/address markers, preserved.
 - `site/customer-geocoded-points.js`: 100 additional cached results from one-time Nominatim research.
 - `site/customer-corroborated-points.js`: 7 independently reconciled locations or administrative areas. Manual corrections override generated candidates; the 16 original verified points remain authoritative.
-- **123/123 customers have a map reference**: **48** matches at number/building level, **29** road-level reference points, and **46** administrative-area references. A road/ward/city reference is NOT a verified customer office address.
+- **123/123 customers have a map reference**: **48** matches at number/building level, **22** road-level reference points, and **53** administrative-area references. A road/ward/city reference is NOT a verified customer office address.
 - Map markers: **solid red** = number/building match; **hollow amber** = road, town or administrative area representative. Popups disclose the confidence level and link to a geographical source.
 - `CUSTOMER_LOCATION_RESEARCH.json`: per-customer audit status, precision and source references, plus corrections and QA exceptions. All original source rows remain unchanged.
 - Address matching alone does not independently prove that the company currently occupies the building. The coordinates express geographic precision, not guaranteed company tenancy.
