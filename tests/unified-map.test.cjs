@@ -66,4 +66,34 @@ for(const p of window.ATLAS_VERIFIED_CUSTOMER_POINTS) {
   verified++;
 }
 assert.equal(verified,16);
-console.log('Unified map / ISO tests passed: 59 profiles, 123 addresses, 16 validated GPS points.');
+
+const researchContext={window:{}};
+for(const file of ['site/customer-geocoded-points.js','site/customer-corroborated-points.js'])
+  vm.runInNewContext(read(file),researchContext);
+const researched=researchContext.window.ATLAS_RESEARCHED_CUSTOMER_POINTS;
+const corroborated=researchContext.window.ATLAS_CORROBORATED_CUSTOMER_POINTS;
+const allPoints=new Map([...researched,...corroborated,...window.ATLAS_VERIFIED_CUSTOMER_POINTS].map(p=>[p.id,p]));
+assert.equal(researched.length,100,'100 independently sourced Nominatim candidate locations');
+assert.equal(corroborated.length,7,'7 hand-reconciled public-source locations');
+assert.equal(allPoints.size,123,'Every customer has one source-backed map point');
+const categories={address:0,street:0,administrative:0};
+for(const [id,point] of allPoints) {
+  assert.equal(point.checkedAddress,lookup.get(id).address,'Source address must be unchanged: '+id);
+  assert.ok(Number.isFinite(point.lat) && point.lat>=-90 && point.lat<=90,'Latitude: '+id);
+  assert.ok(Number.isFinite(point.lon) && point.lon>=-180 && point.lon<=180,'Longitude: '+id);
+  assert.ok(['address','street','administrative'].includes(point.verificationLevel),'Precision: '+id);
+  categories[point.verificationLevel]++;
+  const hasOsm=point.osmType && Number.isSafeInteger(point.osmId);
+  const hasSource=typeof point.sourceUrl==='string' && point.sourceUrl.startsWith('https://');
+  assert.ok(hasOsm || hasSource,'Geographic source required: '+id);
+}
+assert.deepEqual(categories,{address:48,street:29,administrative:46});
+assert.ok(html.includes('src="customer-corroborated-points.js"'),'Manual source overrides load before the map');
+assert.ok(!allPoints.get('cust-087-fast-direct-corp').matchedAddress.includes('Roosevelt'),'Exclude wrong New York location');
+assert.ok(!allPoints.get('cust-129-sklum-home-and-deco-s-l').matchedAddress.includes('Andalusia'),'Exclude wrong Spanish town');
+assert.equal(allPoints.get('cust-154-ove-decors').verificationLevel,'street','Conflicting postcode is not a rooftop');
+const customerAudit=JSON.parse(read('CUSTOMER_LOCATION_RESEARCH.json'));
+assert.equal(customerAudit.publishedLocated,123);
+assert.equal(customerAudit.missing,0);
+
+console.log('Unified map / ISO tests passed: 123/123 source-linked customers (48 exact, 29 street, 46 administrative).');
