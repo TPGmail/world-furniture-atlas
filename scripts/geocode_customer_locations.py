@@ -83,6 +83,46 @@ COUNTRY_WORDS = [
 ]
 US_STATES = "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split()
 
+
+# Extra queries contain only place names from the supplied source addresses.
+LOCATION_FALLBACKS = {
+  "cust-099-barker-and-stonehouse": "Stockton-on-Tees, United Kingdom",
+  "cust-026-bk-global": "Phuoc Long A, Thu Duc, Ho Chi Minh City, Vietnam",
+  "cust-200-bluerock-sourcing": "Thao Dien, Ho Chi Minh City, Vietnam",
+  "cust-076-cedar-brook-international": "Kelowna, British Columbia, Canada",
+  "cust-175-cosmo-sourcing": "Hoa Phu, Thu Dau Mot, Vietnam",
+  "cust-087-fast-direct-corp": "228 Park Avenue, New York, NY, USA",
+  "cust-160-genesis-sales-asia-limited": "Guicheng, Nanhai, Foshan, China",
+  "cust-151-global-home": "Nguyen Co Thach, Ho Chi Minh City, Vietnam",
+  "cust-060-great-saigon": "Binh Thanh, Ho Chi Minh City, Vietnam",
+  "cust-050-greenhill": "Yinzhou, Ningbo, Zhejiang, China",
+  "cust-166-ivena-international-pte": "Playfair Road, Singapore",
+  "cust-062-jack-juliet": "30 N Gould Street, Sheridan, WY, USA",
+  "cust-061-letright": "Yuhang, Hangzhou, Zhejiang, China",
+  "cust-037-li-fung": "Cheung Sha Wan Road, Kowloon, Hong Kong",
+  "cust-042-mfc": "Stratford upon Avon, Warwickshire, United Kingdom",
+  "cust-056-mmml": "Phu My, Ba Ria Vung Tau, Vietnam",
+  "cust-169-mwh-hk-co-ltd": "Canton Road, Tsim Sha Tsui, Kowloon, Hong Kong",
+  "cust-156-outlook": "Tras Street, Singapore",
+  "cust-010-prestige-fine": "Phu Cuong, Thu Dau Mot, Vietnam",
+  "cust-159-robco-timbers-int-l-pte-ltd": "Ah Hood Road, Singapore",
+  "cust-051-rosco": "Hiep Binh Phuoc, Thu Duc, Vietnam",
+  "cust-185-s2u-design": "Thuan An, Binh Duong, Vietnam",
+  "cust-025-siam-karrat-international": "Khu Khot, Lam Luk Ka, Thailand",
+  "cust-129-sklum-home-and-deco-s-l": "Villalonga, Valencia, Spain",
+  "cust-027-source-of-asia": "An Khanh, Ho Chi Minh City, Vietnam",
+  "cust-039-sourcebynet": "Keppel Road, Singapore",
+  "cust-038-squarehome": "Phuoc Long A, Thu Duc, Ho Chi Minh City, Vietnam",
+  "cust-073-starmerx-innovation": "Bantian, Longgang, Shenzhen, China",
+  "cust-077-sunway-group": "Sunway City, Selangor, Malaysia",
+  "cust-043-syma-co-sourcing": "Thao Dien, Ho Chi Minh City, Vietnam",
+  "cust-008-triwin": "Richards Avenue, Singapore",
+  "cust-204-unique-furniture": "Kolding, Denmark",
+  "cust-158-vanity-art": "Dallas, Texas, USA",
+  "cust-134-world-link-resources-llc-wlr": "Binh Trung, Ho Chi Minh City, Vietnam",
+  "cust-031-yes4all": "Nasa Street, Brea, California, USA"
+}
+
 def expected_country(addr):
     matches = [iso for iso,rgx in COUNTRY_WORDS if re.search(rgx,addr,re.I)]
     if len(set(matches)) == 1: return matches[0]
@@ -108,6 +148,17 @@ def first_level(addr):
     for k in ("house_number","road","neighbourhood","suburb","quarter","city_district","borough","district","municipality","village","town","city","county","state"):
         if addr.get(k): return k,addr[k]
     return "", ""
+
+
+def admin_name_match(value, raw):
+    # Normalize "City / Thành phố" and "Ward / Phường" administrative terms
+    # without changing distinctive names or A/B ward suffixes.
+    generic={"city","thanh","pho","ward","phuong","district","quan","huyen",
+             "municipality","town","village","province","tinh","county","state"}
+    original=norm(raw)
+    tokens=[word for word in norm(value).split() if word not in generic]
+    if not tokens or len("".join(tokens))<5: return False
+    return whole_phrase(" ".join(tokens),original)
 
 def classify(row,result,expected):
     addr=result.get("address") or {}
@@ -148,7 +199,7 @@ def classify(row,result,expected):
         level=None
         for field,label in admin_fields:
             value=addr.get(field,"")
-            if value and whole_phrase(value,raw):
+            if value and (whole_phrase(value,raw) or admin_name_match(value,raw)):
                 # Require an actual small-area search feature, not a business object
                 # which merely contains that district in its address.
                 if category not in ("place","boundary") or int(result.get("place_rank",0))<12 or result.get("addresstype")=="country":
@@ -233,6 +284,9 @@ def main():
         tries=[address]
         more=fallback_query(address)
         if more and norm(more)!=norm(address): tries.append(more)
+        targeted = LOCATION_FALLBACKS.get(rid)
+        if targeted and all(norm(q)!=norm(targeted) for q in tries):
+            tries.append(targeted)
         best=None
         used=0
         for query in tries:
