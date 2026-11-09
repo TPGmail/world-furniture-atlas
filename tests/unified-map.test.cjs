@@ -74,7 +74,7 @@ const researched=researchContext.window.ATLAS_RESEARCHED_CUSTOMER_POINTS;
 const corroborated=researchContext.window.ATLAS_CORROBORATED_CUSTOMER_POINTS;
 const allPoints=new Map([...researched,...corroborated,...window.ATLAS_VERIFIED_CUSTOMER_POINTS].map(p=>[p.id,p]));
 assert.equal(researched.length,100,'100 independently sourced Nominatim candidate locations');
-assert.equal(corroborated.length,7,'7 hand-reconciled public-source locations');
+assert.equal(corroborated.length,22,'22 manually corroborated or corrected locations');
 assert.equal(allPoints.size,123,'Every customer has one source-backed map point');
 const categories={address:0,street:0,administrative:0};
 for(const [id,point] of allPoints) {
@@ -87,7 +87,7 @@ for(const [id,point] of allPoints) {
   const hasSource=typeof point.sourceUrl==='string' && point.sourceUrl.startsWith('https://');
   assert.ok(hasOsm || hasSource,'Geographic source required: '+id);
 }
-assert.deepEqual(categories,{address:48,street:29,administrative:46});
+assert.deepEqual(categories,{address:48,street:22,administrative:53});
 assert.ok(html.includes('src="customer-corroborated-points.js"'),'Manual source overrides load before the map');
 assert.ok(!allPoints.get('cust-087-fast-direct-corp').matchedAddress.includes('Roosevelt'),'Exclude wrong New York location');
 assert.ok(!allPoints.get('cust-129-sklum-home-and-deco-s-l').matchedAddress.includes('Andalusia'),'Exclude wrong Spanish town');
@@ -96,4 +96,4 @@ const customerAudit=JSON.parse(read('CUSTOMER_LOCATION_RESEARCH.json'));
 assert.equal(customerAudit.publishedLocated,123);
 assert.equal(customerAudit.missing,0);
 
-console.log('Unified map / ISO tests passed: 123/123 source-linked customers (48 exact, 29 street, 46 administrative).');
+console.log('Unified map / ISO tests passed: 123/123 source-linked customers (48 exact, 22 street, 53 administrative).');
