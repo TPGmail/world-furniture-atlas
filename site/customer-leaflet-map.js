@@ -7,6 +7,7 @@
     const entries = Array.isArray(window.ATLAS_CUSTOMER_ADDRESSES) ? window.ATLAS_CUSTOMER_ADDRESSES : [];
     const rawPoints = Array.isArray(window.ATLAS_VERIFIED_CUSTOMER_POINTS) ? window.ATLAS_VERIFIED_CUSTOMER_POINTS : [];
     const researchedPoints = Array.isArray(window.ATLAS_RESEARCHED_CUSTOMER_POINTS) ? window.ATLAS_RESEARCHED_CUSTOMER_POINTS : [];
+    const corroboratedPoints = Array.isArray(window.ATLAS_CORROBORATED_CUSTOMER_POINTS) ? window.ATLAS_CORROBORATED_CUSTOMER_POINTS : [];
     const isoResolver = window.FURNIVERSE_COUNTRY_ISO;
     const entryById = new Map(entries.map(row => [row.id, row]));
     const valid = point => point && entryById.has(point.id) &&
@@ -14,13 +15,19 @@
         Number.isFinite(point.lon) && Math.abs(point.lon) <= 180 &&
         (point.verificationLevel === 'address' ||
             (['street','postal','administrative'].includes(point.verificationLevel) &&
-             point.verificationSource === 'OpenStreetMap Nominatim (one-time research)')) &&
+             point.verificationSource === 'OpenStreetMap Nominatim (one-time research)') ||
+            point.verificationSource === 'openstreetmap-regional-record-crosscheck' ||
+            point.verificationSource === 'public-web-address-crosscheck') &&
         point.checkedAddress === entryById.get(point.id).address &&
-        ['node','way','relation'].includes(point.osmType) &&
-        Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0;
-    // Existing manually audited exact matches take precedence over newer research.
+        ((['node','way','relation'].includes(point.osmType) &&
+          Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0) ||
+         (point.verificationSource === 'public-web-address-crosscheck' &&
+          typeof point.sourceUrl === 'string' && /^https:\/\//i.test(point.sourceUrl)));
+    // Preserve originally verified exact addresses; curated corrections override
+    // only newly generated research candidates for the same customer.
     const pointById = new Map([
         ...researchedPoints.filter(valid).map(point => [point.id,point]),
+        ...corroboratedPoints.filter(valid).map(point => [point.id,point]),
         ...rawPoints.filter(valid).map(point => [point.id,point])
     ]);
     const preciseCount = [...pointById.values()].filter(p => p.verificationLevel === 'address').length;
@@ -44,7 +51,8 @@
     const mapStatus = $('customer-osm-status');
     const sizeLabels = {large:'Chuỗi / lớn',medium:'Trading / vừa',small:'Nhỏ / cá nhân'};
     const sizeRadius = {large:5,medium:4,small:3};
-    const osmLink = point => 'https://www.openstreetmap.org/' + point.osmType + '/' + point.osmId;
+    const osmLink = point => point.sourceUrl ||
+        'https://www.openstreetmap.org/' + point.osmType + '/' + point.osmId;
     const osmSearch = address => 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(address);
     const fmt = n => n.toLocaleString('vi-VN');
     const markerById = new Map();
@@ -108,7 +116,8 @@
             if(metadata) container.appendChild(el('small',metadata,'customer-popup-iso'));
         });
         const actions = el('div');
-        actions.appendChild(link('Bản ghi GPS OSM',osmLink(point)));
+        actions.appendChild(link(point.verificationSource === 'public-web-address-crosscheck'
+            ? 'Bản đồ địa chỉ' : 'Nguồn vị trí OSM',osmLink(point)));
         if(rows[0].sourceUrl && /^https:\/\//i.test(rows[0].sourceUrl))
             actions.appendChild(link('Nguồn địa chỉ',rows[0].sourceUrl));
         container.appendChild(actions);
@@ -275,7 +284,7 @@
             button.type='button';
             button.addEventListener('click',()=>openCustomerPin(row));
             actions.appendChild(button);
-            actions.appendChild(link('Bản ghi OSM',osmLink(pointById.get(row.id))));
+            actions.appendChild(link('Nguồn vị trí',osmLink(pointById.get(row.id))));
         } else {
             actions.appendChild(link('Tra cứu OSM',osmSearch(row.address)));
         }
