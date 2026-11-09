@@ -7,34 +7,26 @@
     {
       "id": "cust-035-2-connect-aps",
       "name": "2-Connect ApS",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Lene Haus Vej, Marienlund, Ikast, Ikast-Brande Municipality, Central Denmark Region, 7430, Denmark",
-      "source": "https://www.openstreetmap.org/way/112610780"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-020-acasa",
       "name": "ACASA",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Phường Phước Long, Ho Chi Minh City, 71321, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7342567"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-032-advancer-nb",
       "name": "Advancer-NB",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Phường Tân Sơn Hòa, Ho Chi Minh City, 72122, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/19261234"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-144-ashley",
       "name": "Ashley",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Ashley Way, Ashley Furniture, Arcadia, Trempealeau County, Wisconsin, 54612, United States",
-      "source": "https://www.openstreetmap.org/way/21629421"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-057-asko",
@@ -51,62 +43,52 @@
     {
       "id": "cust-181-aurora-craft",
       "name": "Aurora Craft",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "2465, Pine Lake Road, Tucker, DeKalb County, Georgia, 30084, United States",
-      "source": "https://www.openstreetmap.org/way/9181224"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-099-barker-and-stonehouse",
       "name": "Barker and Stonehouse",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Stockton-on-Tees, Tees Valley, England, United Kingdom",
+      "source": "https://www.openstreetmap.org/relation/150994"
     },
     {
       "id": "cust-118-bensons-for-beds",
       "name": "Bensons for Beds",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Accrington, Hyndburn, Lancashire, England, BB5 1ES, United Kingdom",
-      "source": "https://www.openstreetmap.org/node/26703043"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-135-beo-garden-ag",
       "name": "Beo-Garden AG",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "53, Roosstrasse, Studenbühl, Wollerau, Höfe, Schwyz, 8832, Switzerland",
-      "source": "https://www.openstreetmap.org/way/188312909"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-131-bernhardt-furniture",
       "name": "BERNHARDT FURNITURE",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "1839, Morganton Boulevard, British Woods, Lenoir, Caldwell County, North Carolina, 28645, United States",
-      "source": "https://www.openstreetmap.org/way/722808747"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-138-best-choice-products",
       "name": "Best Choice Products",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "100, Bayview Circle, Upper Bay, Newport Beach, Orange County, California, 92660, United States",
-      "source": "https://www.openstreetmap.org/way/1080366618"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-180-bio-import-eu",
       "name": "Bio Import EU",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "8, Gottlieb-Daimler-Straße, Langweid am Lech, Augsburg (district), Bavaria, 86462, Germany",
-      "source": "https://www.openstreetmap.org/way/195996240"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-026-bk-global",
       "name": "BK Global",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-200-bluerock-sourcing",
@@ -123,16 +105,16 @@
     {
       "id": "cust-064-bunnings",
       "name": "Bunnings",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "16 - 18, Cato Street, Hawthorn East, Melbourne, Victoria, 3123, Australia",
-      "source": "https://www.openstreetmap.org/node/4180146089"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-076-cedar-brook-international",
       "name": "Cedar Brook International",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "administrative",
+      "queries": 2,
+      "matchedAddress": "Kelowna, Westbank First Nation #9, Regional District of Central Okanagan, British Columbia, Canada",
+      "source": "https://www.openstreetmap.org/relation/2221794"
     },
     {
       "id": "cust-049-cinas-a-s",
@@ -144,15 +126,13 @@
       "id": "cust-175-cosmo-sourcing",
       "name": "Cosmo Sourcing",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-164-crest-cabinet-company",
       "name": "CREST CABINET COMPANY",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "1813, Baker Road, High Point, Guilford County, North Carolina, 27263, United States",
-      "source": "https://www.openstreetmap.org/way/50028649"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-084-dan-form-a-s",
@@ -181,48 +161,40 @@
     {
       "id": "cust-018-devries-dekovries",
       "name": "DeVries / DekoVries",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "2, Schultze-Fimmen-Straße, Lengenermoor, Apen, Landkreis Ammerland, Lower Saxony, 26689, Germany",
-      "source": "https://www.openstreetmap.org/way/321576131"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-092-dfs",
       "name": "DFS",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Adwick le Street, Doncaster, South Yorkshire, England, DN6 7UY, United Kingdom",
-      "source": "https://www.openstreetmap.org/node/27330621"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-102-dunelm",
       "name": "Dunelm",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Syston, Charnwood, Leicestershire, England, United Kingdom",
-      "source": "https://www.openstreetmap.org/relation/2407909"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-087-fast-direct-corp",
       "name": "FAST DIRECT CORP",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "address",
+      "queries": 3,
+      "matchedAddress": "228, Park Avenue, Roosevelt, Town of Hempstead, Nassau County, New York, 11575, United States",
+      "source": "https://www.openstreetmap.org/node/8783581069"
     },
     {
       "id": "cust-142-flexiload",
       "name": "Flexiload",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Rugby, Warwickshire, England, United Kingdom",
-      "source": "https://www.openstreetmap.org/relation/173773"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-059-forward-furniture",
       "name": "Forward Furniture",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "2495, Enterprise Way, Midtown, Kelowna, Westbank First Nation #9, Regional District of Central Okanagan, British Columbia, V1X 7X5, Canada",
-      "source": "https://www.openstreetmap.org/node/5800981773"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-207-fourhands",
@@ -233,130 +205,110 @@
     {
       "id": "cust-190-furniture-one",
       "name": "Furniture One",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Kingsgrove, Kingsgrove Road, Kingsgrove, St George, Sydney, New South Wales, 2208, Australia",
-      "source": "https://www.openstreetmap.org/node/1663675831"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-195-gallery-direct",
       "name": "Gallery Direct",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Cheltenham, Gloucestershire, England, GL52 2RX, United Kingdom",
-      "source": "https://www.openstreetmap.org/node/17857979"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-160-genesis-sales-asia-limited",
       "name": "GENESIS SALES ASIA LIMITED",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "street",
+      "queries": 3,
+      "matchedAddress": "Guicheng, Nanhai Avenue North, Dongyuecun, Guicheng Subdistrict, Nanhai District, Foshan, Nanhai, Guangdong, 528000, China",
+      "source": "https://www.openstreetmap.org/way/482167804"
     },
     {
       "id": "cust-011-giga-china",
       "name": "Giga (China)",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "4388, Shirley Avenue, El Monte, Los Angeles County, California, 91731, United States",
-      "source": "https://www.openstreetmap.org/way/24742793"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-151-global-home",
       "name": "Global Home",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "street",
+      "queries": 3,
+      "matchedAddress": "Nguyễn Cơ Thạch, Khu đô thị Sala, Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
+      "source": "https://www.openstreetmap.org/way/732142881"
     },
     {
       "id": "cust-188-globe-west",
       "name": "Globe West",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "20-22, Parsons Avenue, Springvale, Melbourne, Victoria, 3171, Australia",
-      "source": "https://www.openstreetmap.org/node/12419575668"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-060-great-saigon",
       "name": "Great Saigon",
       "status": "no-reliable-match",
-      "queries": 1
+      "queries": 2
     },
     {
       "id": "cust-050-greenhill",
       "name": "Greenhill",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Yinzhou District, Ningbo, Zhejiang, China",
+      "source": "https://www.openstreetmap.org/relation/4571847"
     },
     {
       "id": "cust-194-guide-craft",
       "name": "Guide Craft",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "130, Enterprise Way, Mocksville, Davie County, North Carolina, 27028, United States",
-      "source": "https://www.openstreetmap.org/way/16537387"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-189-harms-import",
       "name": "Harms Import",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "18, Sternkamp, Klamperesch, Fikensolt, Westerstede, Landkreis Ammerland, Lower Saxony, 26655, Germany",
-      "source": "https://www.openstreetmap.org/node/1723300698"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-177-hawa",
       "name": "Hawa",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Đường 7, Khu phố 9, Phường Hiệp Bình, Ho Chi Minh City, 71318, Vietnam",
-      "source": "https://www.openstreetmap.org/way/1170387222"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-123-heritage-furniture",
       "name": "Heritage Furniture",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Lancashire, England, United Kingdom",
-      "source": "https://www.openstreetmap.org/relation/88081"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-170-highbury-furnishings-llc",
       "name": "Highbury Furnishings LLC",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "16, Heathcote Street, Mount Hope, Roslindale, Boston, Suffolk County, Massachusetts, 02131, United States",
-      "source": "https://www.openstreetmap.org/way/29928435"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-022-hmd",
       "name": "HMD",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Nguyễn Oanh, Khu phố 17, Phường Gò Vấp, Ho Chi Minh City, 71422, Vietnam",
-      "source": "https://www.openstreetmap.org/way/1192340792"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-002-homegoods-llc",
       "name": "HomeGoods LLC",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Cochituate Road, Framingham, Middlesex County, Massachusetts, 01701, United States",
-      "source": "https://www.openstreetmap.org/way/298240661"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-009-honey-b-limited",
       "name": "Honey B Limited",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Carryduff, Lisburn and Castlereagh District, County Down, Northern Ireland, BT8 8DN, United Kingdom",
-      "source": "https://www.openstreetmap.org/node/267762401"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-085-innovation-living-tenksom",
       "name": "Innovation Living / Tenksom",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "38, Blommevej, Dronningborg, Randers, Randers Municipality, Central Denmark Region, 8930, Denmark",
-      "source": "https://www.openstreetmap.org/node/956749931"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-143-interfurn",
@@ -367,22 +319,24 @@
     {
       "id": "cust-166-ivena-international-pte",
       "name": "Ivena International Pte",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "street",
+      "queries": 3,
+      "matchedAddress": "Playfair Road, Joo Seng, Toa Payoh, Central Region, Singapore, 369977, Singapore",
+      "source": "https://www.openstreetmap.org/way/752892213"
     },
     {
       "id": "cust-062-jack-juliet",
       "name": "Jack & Juliet",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "address",
+      "queries": 2,
+      "matchedAddress": "Wyoming Virtual Corporate Offices, 30, North Gould Street, Sheridan, Sheridan County, Wyoming, 82801, United States",
+      "source": "https://www.openstreetmap.org/way/1058314901"
     },
     {
       "id": "cust-150-jofran-inc",
       "name": "Jofran Inc",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Jofran Way, Pondville, Norfolk, Norfolk County, Massachusetts, 02071, United States",
-      "source": "https://www.openstreetmap.org/way/9129756"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-101-john-lewis-partners",
@@ -399,86 +353,70 @@
     {
       "id": "cust-070-l-l-furniture",
       "name": "L&L Furniture",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Xã Hóc Môn, Ho Chi Minh City, 71706, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7638093"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-132-la-z-boy-incorporated",
       "name": "LA-Z-BOY INCORPORATED",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Monroe, Monroe County, Michigan, United States",
-      "source": "https://www.openstreetmap.org/relation/134905"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-182-laura-james",
       "name": "Laura James",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Horseshoe Park, Pangbourne, West Berkshire, England, RG8 7JW, United Kingdom",
-      "source": "https://www.openstreetmap.org/way/4673856"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-006-lavanti-usa-lavanti-vanities",
       "name": "Lavanti USA / Lavanti Vanities",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "713, Cherry Street, Gloucester City, Camden County, New Jersey, 08030, United States",
-      "source": "https://www.openstreetmap.org/way/11599950"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-005-legion",
       "name": "Legion",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "6301, Florin Perkins Road, Depot Park, Florin Fruitridge Industrial Park, Sacramento, Sacramento County, California, 95828, United States",
-      "source": "https://www.openstreetmap.org/way/896380497"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-061-letright",
       "name": "Letright",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Yuhang District, Hangzhou City, Zhejiang, China",
+      "source": "https://www.openstreetmap.org/relation/12555971"
     },
     {
       "id": "cust-037-li-fung",
       "name": "Li & Fung",
       "status": "no-reliable-match",
-      "queries": 1
+      "queries": 2
     },
     {
       "id": "cust-136-liberty-furniture-industries-inc",
       "name": "Liberty Furniture Industries, Inc",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Atlanta, Fulton County, Georgia, United States",
-      "source": "https://www.openstreetmap.org/relation/119557"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-127-linon-home-decor",
       "name": "Linon Home Decor",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "22, Jericho Turnpike, Village of Mineola, Town of North Hempstead, Nassau County, New York, 11501, United States",
-      "source": "https://www.openstreetmap.org/way/562153275"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-128-living-spaces-furniture-llc",
       "name": "Living Spaces Furniture, LLC",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "14501, Artesia Boulevard, La Mirada, Los Angeles County, California, 90638, United States",
-      "source": "https://www.openstreetmap.org/way/400888973"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-130-magnussen-home-furnishings-inc",
       "name": "MAGNUSSEN HOME FURNISHINGS INC",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Greensboro, Guilford County, North Carolina, United States",
-      "source": "https://www.openstreetmap.org/relation/180261"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-167-masterbrand-cabinets-llc",
@@ -489,8 +427,10 @@
     {
       "id": "cust-042-mfc",
       "name": "MFC",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Stratford-upon-Avon, Stratford-on-Avon, Warwickshire, England, United Kingdom",
+      "source": "https://www.openstreetmap.org/relation/3558037"
     },
     {
       "id": "cust-056-mmml",
@@ -501,178 +441,154 @@
     {
       "id": "cust-019-modern-sourcing",
       "name": "Modern Sourcing",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "District 1, Ho Chi Minh City, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/2587287"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-169-mwh-hk-co-ltd",
       "name": "MWH (HK) Co., Ltd",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-168-nathan-james",
       "name": "Nathan James",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Reno, Washoe County, Nevada, United States",
-      "source": "https://www.openstreetmap.org/relation/170120"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-125-naturome-australia",
       "name": "Naturome Australia",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "121, King William Street, Adelaide, South Australia, 5000, Australia",
-      "source": "https://www.openstreetmap.org/way/229971528"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-012-next",
       "name": "NEXT",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Desford Road, Lubbesthorpe, New Lubbesthorpe, Blaby, Leicestershire, England, LE9 7TD, United Kingdom",
-      "source": "https://www.openstreetmap.org/way/4883113"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-139-nick-scali-furniture",
       "name": "Nick Scali Furniture",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Sydney, New South Wales, Australia",
-      "source": "https://www.openstreetmap.org/relation/5750005"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-071-nuu-garden-corp",
       "name": "NUU Garden Corp.",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "6366, Corley Road Northwest, Peachtree Corners, Gwinnett County, Georgia, 30071, United States",
-      "source": "https://www.openstreetmap.org/way/9298433"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-161-onceit",
       "name": "Onceit",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "33, George Street, Newmarket, Auckland, Waitematā, Auckland, 1023, New Zealand",
-      "source": "https://www.openstreetmap.org/node/5425868055"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-191-one-world-collection",
       "name": "One World Collection",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Alexandria, Sydney, New South Wales, 2015, Australia",
-      "source": "https://www.openstreetmap.org/relation/2916624"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-156-outlook",
       "name": "Outlook",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "street",
+      "queries": 2,
+      "matchedAddress": "Tras Street, Chinatown, Tanjong Pagar, Outram, Central Region, Singapore, 078989, Singapore",
+      "source": "https://www.openstreetmap.org/way/751804398"
     },
     {
       "id": "cust-154-ove-decors",
       "name": "Ove Decors",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "950, Rue Michelin, Vimont, Laval, Laval (administrative region), Quebec, H7L 4R9, Canada",
-      "source": "https://www.openstreetmap.org/way/234490267"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-124-ozeol",
       "name": "Ozeol",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Chicago, South Chicago Township, Cook County, Illinois, United States",
-      "source": "https://www.openstreetmap.org/relation/122604"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-010-prestige-fine",
       "name": "Prestige Fine",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Khu phố Phú Cường 11, Thu Dau Mot, Ho Chi Minh City, 75123, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/21080499"
     },
     {
       "id": "cust-171-prestige-patio-home",
       "name": "Prestige Patio & Home",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "42, West 38th Street, Midtown South, Manhattan Community Board 5, Manhattan, New York County, New York, 10018, United States",
-      "source": "https://www.openstreetmap.org/node/2709702389"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-081-primo-sourcing",
       "name": "PRIMO Sourcing",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "Digital Constant LLC, 30, North Gould Street, Sheridan, Sheridan County, Wyoming, 82801, United States",
-      "source": "https://www.openstreetmap.org/node/13041176162"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-178-promartinc",
       "name": "Promartinc",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "17421, Von Karman Avenue, Irvine Business Complex, Irvine, Orange County, California, 92614, United States",
-      "source": "https://www.openstreetmap.org/way/503908359"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-086-response-vietnam-coreone",
       "name": "Response Vietnam / CoreOne",
-      "status": "address",
-      "queries": 2,
-      "matchedAddress": "9B, Lene Haus Vej, Marienlund, Ikast, Ikast-Brande Municipality, Central Denmark Region, 7430, Denmark",
-      "source": "https://www.openstreetmap.org/node/3952177136"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-137-riverside-furniture-corporation",
       "name": "Riverside Furniture Corporation",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "401, South Main Street, High Point, Guilford County, North Carolina, 27260, United States",
-      "source": "https://www.openstreetmap.org/way/1394545351"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-159-robco-timbers-int-l-pte-ltd",
       "name": "ROBCO TIMBERS INT'L PTE LTD",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "street",
+      "queries": 2,
+      "matchedAddress": "Ah Hood Road, Balestier, Whampoa, Novena, Central Region, Singapore, 329983, Singapore",
+      "source": "https://www.openstreetmap.org/way/639718921"
     },
     {
       "id": "cust-051-rosco",
       "name": "Rosco",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-074-rusta-ab",
       "name": "Rusta AB",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Chung Cư Central Garden, Võ Văn Kiệt, Phường Cô Giang, Hẻm 149 Cô Giang, Khu phố 14, Phường Cầu Ông Lãnh, Ho Chi Minh City, 71011, Vietnam",
-      "source": "https://www.openstreetmap.org/way/807680663"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-185-s2u-design",
       "name": "S2U Design",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 2,
+      "matchedAddress": "Phường Bình Dương, Ho Chi Minh City, 75121, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/13455518"
     },
     {
       "id": "cust-025-siam-karrat-international",
       "name": "Siam karrat international",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-129-sklum-home-and-deco-s-l",
       "name": "SKLUM HOME AND DECO S.L.",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-082-skovby",
@@ -683,70 +599,72 @@
     {
       "id": "cust-097-sofology",
       "name": "Sofology",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Sofology, Ashton Road, Lowton Heath, Golborne, Warrington, Greater Manchester, England, WA3 3UL, United Kingdom",
-      "source": "https://www.openstreetmap.org/way/32463873"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-027-source-of-asia",
       "name": "Source of Asia",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7351897"
     },
     {
       "id": "cust-039-sourcebynet",
       "name": "Sourcebynet",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "street",
+      "queries": 2,
+      "matchedAddress": "Keppel Road, Greater Southern Waterfront, HarbourFront, Bukit Merah, Central Region, Singapore, 089065, Singapore",
+      "source": "https://www.openstreetmap.org/way/633314351"
     },
     {
       "id": "cust-038-squarehome",
       "name": "SquareHome",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-073-starmerx-innovation",
       "name": "Starmerx Innovation",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Bantian Sub-District, Longgang District, Shenzhen, Guangdong, 518100, China",
+      "source": "https://www.openstreetmap.org/relation/9281969"
     },
     {
       "id": "cust-077-sunway-group",
       "name": "Sunway Group",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Sunway City, Subang Jaya City Council, Petaling, Selangor, 46150, Malaysia",
+      "source": "https://www.openstreetmap.org/relation/17070252"
     },
     {
       "id": "cust-004-superior-brands-corporation",
       "name": "Superior Brands Corporation",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Irving Park Road, Bensenville, Addison Township, DuPage County, Illinois, 60106, United States",
-      "source": "https://www.openstreetmap.org/way/191683598"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-197-swisstec-sourcing",
       "name": "Swisstec sourcing",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Trung tâm Văn hóa - Thông tin Thể thao Thành phố Thủ Dầu Một, Đường Hùng Vương, Phú Mỹ 3, Phường Bình Dương, Ho Chi Minh City, 75111, Vietnam",
-      "source": "https://www.openstreetmap.org/way/1202034573"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-043-syma-co-sourcing",
       "name": "SYMA&CO Sourcing",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 2,
+      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7138136"
     },
     {
       "id": "cust-133-tainoki-fine-furniture",
       "name": "TAINOKI FINE FURNITURE",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Brea, Orange County, California, United States",
-      "source": "https://www.openstreetmap.org/relation/112829"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-140-the-cotswold-company",
@@ -757,84 +675,74 @@
     {
       "id": "cust-003-tjx",
       "name": "TJX",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Cochituate Road, Framingham, Middlesex County, Massachusetts, 01701, United States",
-      "source": "https://www.openstreetmap.org/way/847122703"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-023-tjx-marmaxx",
       "name": "TJX MARMAXX",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Cochituate Road, Framingham, Middlesex County, Massachusetts, 01701, United States",
-      "source": "https://www.openstreetmap.org/way/847122703"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-153-tl-home",
       "name": "TL HOME",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Nanaimo, Regional District of Nanaimo, British Columbia, Canada",
-      "source": "https://www.openstreetmap.org/relation/2221210"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-008-triwin",
       "name": "TRIWIN",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "street",
+      "queries": 2,
+      "matchedAddress": "Richards Avenue, Kovan, Hougang, North-east Region, Singapore, 548775, Singapore",
+      "source": "https://www.openstreetmap.org/way/308020337"
     },
     {
       "id": "cust-204-unique-furniture",
       "name": "Unique Furniture",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "administrative",
+      "queries": 2,
+      "matchedAddress": "Kolding, Kolding Municipality, Region of Southern Denmark, 6000, Denmark",
+      "source": "https://www.openstreetmap.org/node/26559170"
     },
     {
       "id": "cust-121-utopia-brands-inc",
       "name": "Utopia Brands INC",
-      "status": "administrative",
-      "queries": 1,
-      "matchedAddress": "Dallas, Dallas County, Texas, United States",
-      "source": "https://www.openstreetmap.org/relation/6571629"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-021-vanderbilt-home-products",
       "name": "Vanderbilt Home Products",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "261, 5th Avenue, NoMad, Manhattan Community Board 5, Manhattan, New York County, New York, 10016, United States",
-      "source": "https://www.openstreetmap.org/node/2706939843"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-158-vanity-art",
       "name": "Vanity Art",
-      "status": "no-reliable-match",
-      "queries": 1
+      "status": "administrative",
+      "queries": 2,
+      "matchedAddress": "Dallas, Dallas County, Texas, United States",
+      "source": "https://www.openstreetmap.org/relation/6571629"
     },
     {
       "id": "cust-202-venture-design-sweden",
       "name": "Venture Design ( Sweden)",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "Som hund & katt, 10, Deltavägen, Norremark, Växjö, Växjö kommun, Kronoberg County, 352 45, Sweden",
-      "source": "https://www.openstreetmap.org/node/13513845101"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-152-vinnova",
       "name": "Vinnova",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "East Francis Street, Ontario, San Bernardino County, California, 91761, United States",
-      "source": "https://www.openstreetmap.org/way/1083937492"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-067-well-travelled-living",
       "name": "Well Travelled Living",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Amelia Island Museum of History, 233, South 3rd Street, Fernandina Beach, Nassau County, Florida, 32034, United States",
-      "source": "https://www.openstreetmap.org/way/422648562"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-034-william-sonoma",
@@ -845,55 +753,51 @@
     {
       "id": "cust-045-wolly-co-aps",
       "name": "Wolly & Co. ApS",
-      "status": "address",
-      "queries": 1,
-      "matchedAddress": "6, Tinvej, Benløse, Ringsted, Ringsted Municipality, Region Zealand, 4100, Denmark",
-      "source": "https://www.openstreetmap.org/node/751475392"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-041-wood-bros",
       "name": "Wood Bros",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "Marsh Lane, Kings Hill, Ware, Great Amwell, East Hertfordshire, Hertfordshire, England, SG12 4HG, United Kingdom",
-      "source": "https://www.openstreetmap.org/way/4327076"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-040-world-market-management-services-llc",
       "name": "World Market Management Services, LLC",
-      "status": "street",
-      "queries": 1,
-      "matchedAddress": "1201 Marina Village Parkway, Marina Village Parkway, Alameda, Alameda County, California, 94607, United States",
-      "source": "https://www.openstreetmap.org/node/5845159688"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-134-world-link-resources-llc-wlr",
       "name": "World-Link Resources LLC (WLR)",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Phường Bình Trưng, Ho Chi Minh City, 71322, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7364739"
     },
     {
       "id": "cust-198-yamasoro",
       "name": "Yamasoro",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Ono, Hyogo Prefecture, Japan",
-      "source": "https://www.openstreetmap.org/relation/900327"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-031-yes4all",
       "name": "Yes4all",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "street",
+      "queries": 3,
+      "matchedAddress": "Nasa Street, Brea, Orange County, California, 92821, United States",
+      "source": "https://www.openstreetmap.org/way/763521749"
     }
   ],
-  "newLocated": 72,
-  "missing": 35,
+  "newLocated": 96,
+  "missing": 11,
   "byPrecision": {
-    "address": 31,
-    "street": 19,
+    "address": 33,
+    "street": 27,
     "postal": 0,
-    "administrative": 22
+    "administrative": 36
   },
   "errors": []
 }

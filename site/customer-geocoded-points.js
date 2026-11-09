@@ -81,6 +81,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/9181224"
   },
   {
+    "id": "cust-099-barker-and-stonehouse",
+    "checkedAddress": "Haydock Park Road, Teesside Retail Park, Stockton-On-Tees TS17 7BG, United Kingdom",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 54.554578,
+    "lon": -1.3584913,
+    "osmType": "relation",
+    "osmId": 150994,
+    "matchedAddress": "Stockton-on-Tees, Tees Valley, England, United Kingdom",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Huyện: Stockton-on-Tees (tọa độ đại diện)",
+    "countryCode": "gb",
+    "sourceUrl": "https://www.openstreetmap.org/relation/150994"
+  },
+  {
     "id": "cust-118-bensons-for-beds",
     "checkedAddress": "3rd Floor, The Globe Centre, 1 St James Square, Accrington, Lancashire BB5 0RE, United Kingdom",
     "verificationLevel": "administrative",
@@ -177,6 +193,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/node/4180146089"
   },
   {
+    "id": "cust-076-cedar-brook-international",
+    "checkedAddress": "4257 Del Monte Street Kelowna, British Columbia Canada, V1W 2J2",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 49.8879177,
+    "lon": -119.495902,
+    "osmType": "relation",
+    "osmId": 2221794,
+    "matchedAddress": "Kelowna, Westbank First Nation #9, Regional District of Central Okanagan, British Columbia, Canada",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thành phố: Kelowna (tọa độ đại diện)",
+    "countryCode": "ca",
+    "sourceUrl": "https://www.openstreetmap.org/relation/2221794"
+  },
+  {
     "id": "cust-164-crest-cabinet-company",
     "checkedAddress": "1813 Baker Rd, High Point, NC 27263, USA",
     "verificationLevel": "address",
@@ -239,6 +271,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Phường/khu vực: Syston (tọa độ đại diện)",
     "countryCode": "gb",
     "sourceUrl": "https://www.openstreetmap.org/relation/2407909"
+  },
+  {
+    "id": "cust-087-fast-direct-corp",
+    "checkedAddress": "228 Park Ave, Suite #67000, New York, NY 10003, USA",
+    "verificationLevel": "address",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 40.6859887,
+    "lon": -73.5872986,
+    "osmType": "node",
+    "osmId": 8783581069,
+    "matchedAddress": "228, Park Avenue, Roosevelt, Town of Hempstead, Nassau County, New York, 11575, United States",
+    "objectKind": "place:house",
+    "precisionLabel": "Số nhà/tòa nhà",
+    "countryCode": "us",
+    "sourceUrl": "https://www.openstreetmap.org/node/8783581069"
   },
   {
     "id": "cust-142-flexiload",
@@ -305,6 +353,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/node/17857979"
   },
   {
+    "id": "cust-160-genesis-sales-asia-limited",
+    "checkedAddress": "Building 10, 3rd Floor, Units 309 at No. 7 Shugang Road, Guicheng Street, Nanhai District, Foshan City, GD, China",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 23.0341728,
+    "lon": 113.1360432,
+    "osmType": "way",
+    "osmId": 482167804,
+    "matchedAddress": "Guicheng, Nanhai Avenue North, Dongyuecun, Guicheng Subdistrict, Nanhai District, Foshan, Nanhai, Guangdong, 528000, China",
+    "objectKind": "building:train_station",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "cn",
+    "sourceUrl": "https://www.openstreetmap.org/way/482167804"
+  },
+  {
     "id": "cust-011-giga-china",
     "checkedAddress": "4388 Shirley Avenue, El Monte, California 91731, USA",
     "verificationLevel": "address",
@@ -321,6 +385,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/24742793"
   },
   {
+    "id": "cust-151-global-home",
+    "checkedAddress": "Sala City, Tower A1, A100.05, 74 Nguyen Co Thach Street, Ho Chi Minh City, Vietnam",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.7678806,
+    "lon": 106.7256662,
+    "osmType": "way",
+    "osmId": 732142881,
+    "matchedAddress": "Nguyễn Cơ Thạch, Khu đô thị Sala, Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
+    "objectKind": "highway:secondary",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/way/732142881"
+  },
+  {
     "id": "cust-188-globe-west",
     "checkedAddress": "20-22 Parsons Avenue, Springvale, VIC 3171, Australia",
     "verificationLevel": "address",
@@ -335,6 +415,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Số nhà/tòa nhà",
     "countryCode": "au",
     "sourceUrl": "https://www.openstreetmap.org/node/12419575668"
+  },
+  {
+    "id": "cust-050-greenhill",
+    "checkedAddress": "Building A6, No. 98 Chuangyuan Road, Yinzhou District, Ningbo, Zhejiang, China",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 29.8197049,
+    "lon": 121.5428103,
+    "osmType": "relation",
+    "osmId": 4571847,
+    "matchedAddress": "Yinzhou District, Ningbo, Zhejiang, China",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thành phố: Yinzhou District (tọa độ đại diện)",
+    "countryCode": "cn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/4571847"
   },
   {
     "id": "cust-194-guide-craft",
@@ -481,6 +577,38 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/node/956749931"
   },
   {
+    "id": "cust-166-ivena-international-pte",
+    "checkedAddress": "82 Playfair Road, #05-02, D'Lithium, Singapore 368001",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 1.3358109,
+    "lon": 103.8859023,
+    "osmType": "way",
+    "osmId": 752892213,
+    "matchedAddress": "Playfair Road, Joo Seng, Toa Payoh, Central Region, Singapore, 369977, Singapore",
+    "objectKind": "highway:residential",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "sg",
+    "sourceUrl": "https://www.openstreetmap.org/way/752892213"
+  },
+  {
+    "id": "cust-062-jack-juliet",
+    "checkedAddress": "Saavi Holdings LLC ꞏ 30 N Gould St, Sheridan WY 82801, Mỹ ꞏ",
+    "verificationLevel": "address",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 44.7977595,
+    "lon": -106.9549842,
+    "osmType": "way",
+    "osmId": 1058314901,
+    "matchedAddress": "Wyoming Virtual Corporate Offices, 30, North Gould Street, Sheridan, Sheridan County, Wyoming, 82801, United States",
+    "objectKind": "office:company",
+    "precisionLabel": "Số nhà/tòa nhà",
+    "countryCode": "us",
+    "sourceUrl": "https://www.openstreetmap.org/way/1058314901"
+  },
+  {
     "id": "cust-150-jofran-inc",
     "checkedAddress": "1 Jofran Way Norfolk, MA 02056 United States",
     "verificationLevel": "street",
@@ -577,6 +705,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/896380497"
   },
   {
+    "id": "cust-061-letright",
+    "checkedAddress": "169 Wuchang Avenue, Yuhang District, Hangzhou, Zhejiang, China",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 30.2762431,
+    "lon": 119.9746471,
+    "osmType": "relation",
+    "osmId": 12555971,
+    "matchedAddress": "Yuhang District, Hangzhou City, Zhejiang, China",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thành phố: Yuhang District (tọa độ đại diện)",
+    "countryCode": "cn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/12555971"
+  },
+  {
     "id": "cust-136-liberty-furniture-industries-inc",
     "checkedAddress": "6021 Greensboro Dr SW, Atlanta, Georgia 30336, USA",
     "verificationLevel": "administrative",
@@ -639,6 +783,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Thành phố: Greensboro (tọa độ đại diện)",
     "countryCode": "us",
     "sourceUrl": "https://www.openstreetmap.org/relation/180261"
+  },
+  {
+    "id": "cust-042-mfc",
+    "checkedAddress": "United Kingdom Unit 17, Shottery Brook Office Park Timothys Bridge Road, Stratford upon Avon, Warwickshire. CV37 – 9NR",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 52.1927803,
+    "lon": -1.70634,
+    "osmType": "relation",
+    "osmId": 3558037,
+    "matchedAddress": "Stratford-upon-Avon, Stratford-on-Avon, Warwickshire, England, United Kingdom",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thị trấn: Stratford-upon-Avon (tọa độ đại diện)",
+    "countryCode": "gb",
+    "sourceUrl": "https://www.openstreetmap.org/relation/3558037"
   },
   {
     "id": "cust-019-modern-sourcing",
@@ -769,6 +929,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/relation/2916624"
   },
   {
+    "id": "cust-156-outlook",
+    "checkedAddress": "100 Tras Street, #16-01Singapore, 079027",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 1.2780717,
+    "lon": 103.8443661,
+    "osmType": "way",
+    "osmId": 751804398,
+    "matchedAddress": "Tras Street, Chinatown, Tanjong Pagar, Outram, Central Region, Singapore, 078989, Singapore",
+    "objectKind": "highway:residential",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "sg",
+    "sourceUrl": "https://www.openstreetmap.org/way/751804398"
+  },
+  {
     "id": "cust-154-ove-decors",
     "checkedAddress": "950 Rue Michelin, Laval, Quebec H7L 5C1, Canada",
     "verificationLevel": "address",
@@ -799,6 +975,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Thành phố: Chicago (tọa độ đại diện)",
     "countryCode": "us",
     "sourceUrl": "https://www.openstreetmap.org/relation/122604"
+  },
+  {
+    "id": "cust-010-prestige-fine",
+    "checkedAddress": "Address: 173, Huynh Van Cu, Phu Cuong Ward, City. Thu Dau Mot, Binh Duong Province",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.9862959,
+    "lon": 106.6481224,
+    "osmType": "relation",
+    "osmId": 21080499,
+    "matchedAddress": "Khu phố Phú Cường 11, Thu Dau Mot, Ho Chi Minh City, 75123, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Thu Dau Mot (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/21080499"
   },
   {
     "id": "cust-171-prestige-patio-home",
@@ -881,6 +1073,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/1394545351"
   },
   {
+    "id": "cust-159-robco-timbers-int-l-pte-ltd",
+    "checkedAddress": "18 Ah Hood Road #12-51, Hiap Hoe Building at Zhongshan Park, Singapore 329983",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 1.3276345,
+    "lon": 103.8464923,
+    "osmType": "way",
+    "osmId": 639718921,
+    "matchedAddress": "Ah Hood Road, Balestier, Whampoa, Novena, Central Region, Singapore, 329983, Singapore",
+    "objectKind": "highway:residential",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "sg",
+    "sourceUrl": "https://www.openstreetmap.org/way/639718921"
+  },
+  {
     "id": "cust-074-rusta-ab",
     "checkedAddress": "Rusta AB Vietnam (publ) MB Sunny Tower, lau 7 259 Trần Hưng Đạo, Phường Cô Giang, Quận 1, TP.HCM",
     "verificationLevel": "street",
@@ -897,6 +1105,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/807680663"
   },
   {
+    "id": "cust-185-s2u-design",
+    "checkedAddress": "5/219 tổ 4A, Khu phố Hòa Lân 1, Thuận An, Bình Dương, TP HCM, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 11.0603116,
+    "lon": 106.6879506,
+    "osmType": "relation",
+    "osmId": 13455518,
+    "matchedAddress": "Phường Bình Dương, Ho Chi Minh City, 75121, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Bình Dương (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/13455518"
+  },
+  {
     "id": "cust-097-sofology",
     "checkedAddress": "Golborne Point, Ashton Road, Golborne, Warrington WA3 3UL, United Kingdom",
     "verificationLevel": "street",
@@ -911,6 +1135,70 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
     "countryCode": "gb",
     "sourceUrl": "https://www.openstreetmap.org/way/32463873"
+  },
+  {
+    "id": "cust-027-source-of-asia",
+    "checkedAddress": "The Galleria Metro 6 Office Tower, 59 Vo Nguyen Giap Street, An Khanh Ward, Ho Chi Minh City, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.7850885,
+    "lon": 106.7293654,
+    "osmType": "relation",
+    "osmId": 7351897,
+    "matchedAddress": "Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường An Khánh (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7351897"
+  },
+  {
+    "id": "cust-039-sourcebynet",
+    "checkedAddress": "19 Keppel Road, #03-03 Jit Poh Building, Singapore 089058",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 1.2722522,
+    "lon": 103.8358411,
+    "osmType": "way",
+    "osmId": 633314351,
+    "matchedAddress": "Keppel Road, Greater Southern Waterfront, HarbourFront, Bukit Merah, Central Region, Singapore, 089065, Singapore",
+    "objectKind": "highway:trunk",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "sg",
+    "sourceUrl": "https://www.openstreetmap.org/way/633314351"
+  },
+  {
+    "id": "cust-073-starmerx-innovation",
+    "checkedAddress": "Room 601, Tầng 6, Tòa 5, Yunli Intelligent Park, số 5 Changfa Middle Rd, Bantian, Longgang District, Shenzhen, Guangdong, Trung Quốc",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 22.6222425,
+    "lon": 114.0725819,
+    "osmType": "relation",
+    "osmId": 9281969,
+    "matchedAddress": "Bantian Sub-District, Longgang District, Shenzhen, Guangdong, 518100, China",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thành phố: Longgang District (tọa độ đại diện)",
+    "countryCode": "cn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/9281969"
+  },
+  {
+    "id": "cust-077-sunway-group",
+    "checkedAddress": "Menara Sunway,Jalan Lagoon Timur, Sunway City, 47500, Selangor D.E",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 3.0713838,
+    "lon": 101.6089714,
+    "osmType": "relation",
+    "osmId": 17070252,
+    "matchedAddress": "Sunway City, Subang Jaya City Council, Petaling, Selangor, 46150, Malaysia",
+    "objectKind": "place:suburb",
+    "precisionLabel": "Phường/khu vực: Sunway City (tọa độ đại diện)",
+    "countryCode": "my",
+    "sourceUrl": "https://www.openstreetmap.org/relation/17070252"
   },
   {
     "id": "cust-004-superior-brands-corporation",
@@ -943,6 +1231,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
     "countryCode": "vn",
     "sourceUrl": "https://www.openstreetmap.org/way/1202034573"
+  },
+  {
+    "id": "cust-043-syma-co-sourcing",
+    "checkedAddress": "Tầng 3, Tower 08, Đường 66, Thảo Điền, Thủ Đức, TP HCM, Việt Nam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.8505674,
+    "lon": 106.7585291,
+    "osmType": "relation",
+    "osmId": 7138136,
+    "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Thủ Đức (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7138136"
   },
   {
     "id": "cust-133-tainoki-fine-furniture",
@@ -1009,6 +1313,38 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/relation/2221210"
   },
   {
+    "id": "cust-008-triwin",
+    "checkedAddress": "Headquarters (Singapore): 18 Richards Avenue, Singapore (Reg. No. 201503327R)",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 1.3612248,
+    "lon": 103.8821374,
+    "osmType": "way",
+    "osmId": 308020337,
+    "matchedAddress": "Richards Avenue, Kovan, Hougang, North-east Region, Singapore, 548775, Singapore",
+    "objectKind": "highway:residential",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "sg",
+    "sourceUrl": "https://www.openstreetmap.org/way/308020337"
+  },
+  {
+    "id": "cust-204-unique-furniture",
+    "checkedAddress": "Petersbjerggaard 10, DK-6000 Kolding, Denmark",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 55.4894999,
+    "lon": 9.47905,
+    "osmType": "node",
+    "osmId": 26559170,
+    "matchedAddress": "Kolding, Kolding Municipality, Region of Southern Denmark, 6000, Denmark",
+    "objectKind": "place:city",
+    "precisionLabel": "Đô thị: Kolding Municipality (tọa độ đại diện)",
+    "countryCode": "dk",
+    "sourceUrl": "https://www.openstreetmap.org/node/26559170"
+  },
+  {
     "id": "cust-121-utopia-brands-inc",
     "checkedAddress": "Dallas, TX 75201, USA",
     "verificationLevel": "administrative",
@@ -1039,6 +1375,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Số nhà/tòa nhà",
     "countryCode": "us",
     "sourceUrl": "https://www.openstreetmap.org/node/2706939843"
+  },
+  {
+    "id": "cust-158-vanity-art",
+    "checkedAddress": "2261 Morgan Pkwy Ste 100 Dallas, TX 75234",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 32.7762719,
+    "lon": -96.7968559,
+    "osmType": "relation",
+    "osmId": 6571629,
+    "matchedAddress": "Dallas, Dallas County, Texas, United States",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Thành phố: Dallas (tọa độ đại diện)",
+    "countryCode": "us",
+    "sourceUrl": "https://www.openstreetmap.org/relation/6571629"
   },
   {
     "id": "cust-202-venture-design-sweden",
@@ -1137,6 +1489,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/node/5845159688"
   },
   {
+    "id": "cust-134-world-link-resources-llc-wlr",
+    "checkedAddress": "Apartment A11.05, Block A, Centana Thu Thiem Building, 36 Mai Chi Tho Street, Binh Trung Ward, Ho Chi Minh City, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.7887654,
+    "lon": 106.7551053,
+    "osmType": "relation",
+    "osmId": 7364739,
+    "matchedAddress": "Phường Bình Trưng, Ho Chi Minh City, 71322, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Bình Trưng (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7364739"
+  },
+  {
     "id": "cust-198-yamasoro",
     "checkedAddress": "887 Shimokishi-cho, Ono, Hyogo 675-1344, Japan",
     "verificationLevel": "administrative",
@@ -1151,5 +1519,21 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Thành phố: Ono (tọa độ đại diện)",
     "countryCode": "jp",
     "sourceUrl": "https://www.openstreetmap.org/relation/900327"
+  },
+  {
+    "id": "cust-031-yes4all",
+    "checkedAddress": "3172 Nasa street, Unit A, Brea, CA 92821",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 33.9130303,
+    "lon": -117.8514314,
+    "osmType": "way",
+    "osmId": 763521749,
+    "matchedAddress": "Nasa Street, Brea, Orange County, California, 92821, United States",
+    "objectKind": "highway:unclassified",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "us",
+    "sourceUrl": "https://www.openstreetmap.org/way/763521749"
   }
 ];
