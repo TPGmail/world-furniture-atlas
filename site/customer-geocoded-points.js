@@ -1,4 +1,4 @@
-/* One-time Nominatim research. Area markers are NOT office locations. */
+/* Cached one-time research. Invalid postcode/region matches excluded in manual QA. */
 window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
   {
     "id": "cust-035-2-connect-aps",
@@ -303,22 +303,6 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Phường/khu vực: Syston (tọa độ đại diện)",
     "countryCode": "gb",
     "sourceUrl": "https://www.openstreetmap.org/relation/2407909"
-  },
-  {
-    "id": "cust-087-fast-direct-corp",
-    "checkedAddress": "228 Park Ave, Suite #67000, New York, NY 10003, USA",
-    "verificationLevel": "address",
-    "checkedAt": "2026-11-09",
-    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
-    "lat": 40.6859887,
-    "lon": -73.5872986,
-    "osmType": "node",
-    "osmId": 8783581069,
-    "matchedAddress": "228, Park Avenue, Roosevelt, Town of Hempstead, Nassau County, New York, 11575, United States",
-    "objectKind": "place:house",
-    "precisionLabel": "Số nhà/tòa nhà",
-    "countryCode": "us",
-    "sourceUrl": "https://www.openstreetmap.org/node/8783581069"
   },
   {
     "id": "cust-142-flexiload",
@@ -995,7 +979,7 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
   {
     "id": "cust-154-ove-decors",
     "checkedAddress": "950 Rue Michelin, Laval, Quebec H7L 5C1, Canada",
-    "verificationLevel": "address",
+    "verificationLevel": "street",
     "checkedAt": "2026-11-09",
     "verificationSource": "OpenStreetMap Nominatim (one-time research)",
     "lat": 45.5928264,
@@ -1004,9 +988,10 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "osmId": 234490267,
     "matchedAddress": "950, Rue Michelin, Vimont, Laval, Laval (administrative region), Quebec, H7L 4R9, Canada",
     "objectKind": "place:house",
-    "precisionLabel": "Số nhà/tòa nhà",
+    "precisionLabel": "Đường Rue Michelin, Laval (tọa độ tham chiếu)",
     "countryCode": "ca",
-    "sourceUrl": "https://www.openstreetmap.org/way/234490267"
+    "sourceUrl": "https://www.openstreetmap.org/way/234490267",
+    "qualityNote": "Số nhà và đường khớp, mã bưu chính OSM khác mã trong dữ liệu gốc; không phân loại tọa độ chính xác."
   },
   {
     "id": "cust-124-ozeol",
@@ -1183,22 +1168,6 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Phường/khu vực: Phường Bình Dương (tọa độ đại diện)",
     "countryCode": "vn",
     "sourceUrl": "https://www.openstreetmap.org/relation/13455518"
-  },
-  {
-    "id": "cust-129-sklum-home-and-deco-s-l",
-    "checkedAddress": "Partida Tancaes S/N, 46720 Villalonga, Valencia, Spain",
-    "verificationLevel": "administrative",
-    "checkedAt": "2026-11-09",
-    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
-    "lat": 38.1141244,
-    "lon": -3.6385285,
-    "osmType": "node",
-    "osmId": 13468558084,
-    "matchedAddress": "Villalonga, Barriada de los Arrayanes, Linares, Jaén, Andalusia, 23700, Spain",
-    "objectKind": "place:quarter",
-    "precisionLabel": "Khu vực: Villalonga (tọa độ đại diện)",
-    "countryCode": "es",
-    "sourceUrl": "https://www.openstreetmap.org/node/13468558084"
   },
   {
     "id": "cust-097-sofology",
