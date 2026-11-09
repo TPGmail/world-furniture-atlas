@@ -17,11 +17,12 @@
             (['street','postal','administrative'].includes(point.verificationLevel) &&
              point.verificationSource === 'OpenStreetMap Nominatim (one-time research)') ||
             point.verificationSource === 'openstreetmap-regional-record-crosscheck' ||
-            point.verificationSource === 'public-web-address-crosscheck') &&
+            point.verificationSource === 'public-web-address-crosscheck' ||
+            point.verificationSource === 'public-geonames-locality') &&
         point.checkedAddress === entryById.get(point.id).address &&
         ((['node','way','relation'].includes(point.osmType) &&
           Number.isSafeInteger(Number(point.osmId)) && Number(point.osmId) > 0) ||
-         (point.verificationSource === 'public-web-address-crosscheck' &&
+         (['public-web-address-crosscheck','public-geonames-locality'].includes(point.verificationSource) &&
           typeof point.sourceUrl === 'string' && /^https:\/\//i.test(point.sourceUrl)));
     // Preserve originally verified exact addresses; curated corrections override
     // only newly generated research candidates for the same customer.
@@ -108,7 +109,7 @@
                     (rowPoint.precisionLabel || 'Vị trí tham chiếu khu vực');
                 container.appendChild(el('small',label,'customer-popup-precision'));
                 if (rowPoint.verificationLevel !== 'address') {
-                    container.appendChild(el('small','Điểm đại diện khu vực, không xác nhận vị trí chính xác của doanh nghiệp.','customer-popup-precision-note'));
+                    container.appendChild(el('small','Tọa độ đại diện cho tuyến đường hoặc khu vực, không phải vị trí chính xác của doanh nghiệp.','customer-popup-precision-note'));
                 }
             }
             const country = isoFor(row);
