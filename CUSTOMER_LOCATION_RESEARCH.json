@@ -49,10 +49,8 @@
     {
       "id": "cust-099-barker-and-stonehouse",
       "name": "Barker and Stonehouse",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Stockton-on-Tees, Tees Valley, England, United Kingdom",
-      "source": "https://www.openstreetmap.org/relation/150994"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-118-bensons-for-beds",
@@ -87,14 +85,16 @@
     {
       "id": "cust-026-bk-global",
       "name": "BK Global",
-      "status": "no-reliable-match",
-      "queries": 3
+      "status": "administrative",
+      "queries": 4,
+      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7138136"
     },
     {
       "id": "cust-200-bluerock-sourcing",
       "name": "Bluerock Sourcing",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-083-bodahl-mbler",
@@ -111,10 +111,8 @@
     {
       "id": "cust-076-cedar-brook-international",
       "name": "Cedar Brook International",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Kelowna, Westbank First Nation #9, Regional District of Central Okanagan, British Columbia, Canada",
-      "source": "https://www.openstreetmap.org/relation/2221794"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-049-cinas-a-s",
@@ -125,8 +123,10 @@
     {
       "id": "cust-175-cosmo-sourcing",
       "name": "Cosmo Sourcing",
-      "status": "no-reliable-match",
-      "queries": 3
+      "status": "street",
+      "queries": 4,
+      "matchedAddress": "Ho Chi Minh City - Thu Dau Mot - Chon Thanh Expressway, Khu phố Tân Hội, Phường Tân Hiệp, Ho Chi Minh City, Vietnam",
+      "source": "https://www.openstreetmap.org/way/1433890535"
     },
     {
       "id": "cust-164-crest-cabinet-company",
@@ -179,10 +179,8 @@
     {
       "id": "cust-087-fast-direct-corp",
       "name": "FAST DIRECT CORP",
-      "status": "address",
-      "queries": 3,
-      "matchedAddress": "228, Park Avenue, Roosevelt, Town of Hempstead, Nassau County, New York, 11575, United States",
-      "source": "https://www.openstreetmap.org/node/8783581069"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-142-flexiload",
@@ -217,10 +215,8 @@
     {
       "id": "cust-160-genesis-sales-asia-limited",
       "name": "GENESIS SALES ASIA LIMITED",
-      "status": "street",
-      "queries": 3,
-      "matchedAddress": "Guicheng, Nanhai Avenue North, Dongyuecun, Guicheng Subdistrict, Nanhai District, Foshan, Nanhai, Guangdong, 528000, China",
-      "source": "https://www.openstreetmap.org/way/482167804"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-011-giga-china",
@@ -231,10 +227,8 @@
     {
       "id": "cust-151-global-home",
       "name": "Global Home",
-      "status": "street",
-      "queries": 3,
-      "matchedAddress": "Nguyễn Cơ Thạch, Khu đô thị Sala, Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
-      "source": "https://www.openstreetmap.org/way/732142881"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-188-globe-west",
@@ -246,15 +240,13 @@
       "id": "cust-060-great-saigon",
       "name": "Great Saigon",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-050-greenhill",
       "name": "Greenhill",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Yinzhou District, Ningbo, Zhejiang, China",
-      "source": "https://www.openstreetmap.org/relation/4571847"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-194-guide-craft",
@@ -319,18 +311,14 @@
     {
       "id": "cust-166-ivena-international-pte",
       "name": "Ivena International Pte",
-      "status": "street",
-      "queries": 3,
-      "matchedAddress": "Playfair Road, Joo Seng, Toa Payoh, Central Region, Singapore, 369977, Singapore",
-      "source": "https://www.openstreetmap.org/way/752892213"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-062-jack-juliet",
       "name": "Jack & Juliet",
-      "status": "address",
-      "queries": 2,
-      "matchedAddress": "Wyoming Virtual Corporate Offices, 30, North Gould Street, Sheridan, Sheridan County, Wyoming, 82801, United States",
-      "source": "https://www.openstreetmap.org/way/1058314901"
+      "status": "cached",
+      "precision": "address"
     },
     {
       "id": "cust-150-jofran-inc",
@@ -383,16 +371,14 @@
     {
       "id": "cust-061-letright",
       "name": "Letright",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Yuhang District, Hangzhou City, Zhejiang, China",
-      "source": "https://www.openstreetmap.org/relation/12555971"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-037-li-fung",
       "name": "Li & Fung",
       "status": "no-reliable-match",
-      "queries": 2
+      "queries": 3
     },
     {
       "id": "cust-136-liberty-furniture-industries-inc",
@@ -427,16 +413,16 @@
     {
       "id": "cust-042-mfc",
       "name": "MFC",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Stratford-upon-Avon, Stratford-on-Avon, Warwickshire, England, United Kingdom",
-      "source": "https://www.openstreetmap.org/relation/3558037"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-056-mmml",
       "name": "MMML",
-      "status": "no-reliable-match",
-      "queries": 2
+      "status": "administrative",
+      "queries": 3,
+      "matchedAddress": "Phường Phú Mỹ, Ho Chi Minh City, 78706, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/5485644"
     },
     {
       "id": "cust-019-modern-sourcing",
@@ -448,7 +434,7 @@
       "id": "cust-169-mwh-hk-co-ltd",
       "name": "MWH (HK) Co., Ltd",
       "status": "no-reliable-match",
-      "queries": 3
+      "queries": 4
     },
     {
       "id": "cust-168-nathan-james",
@@ -495,10 +481,8 @@
     {
       "id": "cust-156-outlook",
       "name": "Outlook",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Tras Street, Chinatown, Tanjong Pagar, Outram, Central Region, Singapore, 078989, Singapore",
-      "source": "https://www.openstreetmap.org/way/751804398"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-154-ove-decors",
@@ -515,10 +499,8 @@
     {
       "id": "cust-010-prestige-fine",
       "name": "Prestige Fine",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Khu phố Phú Cường 11, Thu Dau Mot, Ho Chi Minh City, 75123, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/21080499"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-171-prestige-patio-home",
@@ -553,16 +535,16 @@
     {
       "id": "cust-159-robco-timbers-int-l-pte-ltd",
       "name": "ROBCO TIMBERS INT'L PTE LTD",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Ah Hood Road, Balestier, Whampoa, Novena, Central Region, Singapore, 329983, Singapore",
-      "source": "https://www.openstreetmap.org/way/639718921"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-051-rosco",
       "name": "Rosco",
-      "status": "no-reliable-match",
-      "queries": 3
+      "status": "administrative",
+      "queries": 4,
+      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7138136"
     },
     {
       "id": "cust-074-rusta-ab",
@@ -573,22 +555,22 @@
     {
       "id": "cust-185-s2u-design",
       "name": "S2U Design",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Phường Bình Dương, Ho Chi Minh City, 75121, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/13455518"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-025-siam-karrat-international",
       "name": "Siam karrat international",
       "status": "no-reliable-match",
-      "queries": 3
+      "queries": 4
     },
     {
       "id": "cust-129-sklum-home-and-deco-s-l",
       "name": "SKLUM HOME AND DECO S.L.",
-      "status": "no-reliable-match",
-      "queries": 3
+      "status": "administrative",
+      "queries": 4,
+      "matchedAddress": "Villalonga, Barriada de los Arrayanes, Linares, Jaén, Andalusia, 23700, Spain",
+      "source": "https://www.openstreetmap.org/node/13468558084"
     },
     {
       "id": "cust-082-skovby",
@@ -605,40 +587,34 @@
     {
       "id": "cust-027-source-of-asia",
       "name": "Source of Asia",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Phường An Khánh, Ho Chi Minh City, 71108, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7351897"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-039-sourcebynet",
       "name": "Sourcebynet",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Keppel Road, Greater Southern Waterfront, HarbourFront, Bukit Merah, Central Region, Singapore, 089065, Singapore",
-      "source": "https://www.openstreetmap.org/way/633314351"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-038-squarehome",
       "name": "SquareHome",
-      "status": "no-reliable-match",
-      "queries": 3
+      "status": "administrative",
+      "queries": 4,
+      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+      "source": "https://www.openstreetmap.org/relation/7138136"
     },
     {
       "id": "cust-073-starmerx-innovation",
       "name": "Starmerx Innovation",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Bantian Sub-District, Longgang District, Shenzhen, Guangdong, 518100, China",
-      "source": "https://www.openstreetmap.org/relation/9281969"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-077-sunway-group",
       "name": "Sunway Group",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Sunway City, Subang Jaya City Council, Petaling, Selangor, 46150, Malaysia",
-      "source": "https://www.openstreetmap.org/relation/17070252"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-004-superior-brands-corporation",
@@ -655,10 +631,8 @@
     {
       "id": "cust-043-syma-co-sourcing",
       "name": "SYMA&CO Sourcing",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7138136"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-133-tainoki-fine-furniture",
@@ -693,18 +667,14 @@
     {
       "id": "cust-008-triwin",
       "name": "TRIWIN",
-      "status": "street",
-      "queries": 2,
-      "matchedAddress": "Richards Avenue, Kovan, Hougang, North-east Region, Singapore, 548775, Singapore",
-      "source": "https://www.openstreetmap.org/way/308020337"
+      "status": "cached",
+      "precision": "street"
     },
     {
       "id": "cust-204-unique-furniture",
       "name": "Unique Furniture",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Kolding, Kolding Municipality, Region of Southern Denmark, 6000, Denmark",
-      "source": "https://www.openstreetmap.org/node/26559170"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-121-utopia-brands-inc",
@@ -721,10 +691,8 @@
     {
       "id": "cust-158-vanity-art",
       "name": "Vanity Art",
-      "status": "administrative",
-      "queries": 2,
-      "matchedAddress": "Dallas, Dallas County, Texas, United States",
-      "source": "https://www.openstreetmap.org/relation/6571629"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-202-venture-design-sweden",
@@ -771,10 +739,8 @@
     {
       "id": "cust-134-world-link-resources-llc-wlr",
       "name": "World-Link Resources LLC (WLR)",
-      "status": "administrative",
-      "queries": 3,
-      "matchedAddress": "Phường Bình Trưng, Ho Chi Minh City, 71322, Vietnam",
-      "source": "https://www.openstreetmap.org/relation/7364739"
+      "status": "cached",
+      "precision": "administrative"
     },
     {
       "id": "cust-198-yamasoro",
@@ -785,19 +751,17 @@
     {
       "id": "cust-031-yes4all",
       "name": "Yes4all",
-      "status": "street",
-      "queries": 3,
-      "matchedAddress": "Nasa Street, Brea, Orange County, California, 92821, United States",
-      "source": "https://www.openstreetmap.org/way/763521749"
+      "status": "cached",
+      "precision": "street"
     }
   ],
-  "newLocated": 96,
-  "missing": 11,
+  "newLocated": 102,
+  "missing": 5,
   "byPrecision": {
     "address": 33,
-    "street": 27,
+    "street": 28,
     "postal": 0,
-    "administrative": 36
+    "administrative": 41
   },
   "errors": []
 }

@@ -177,6 +177,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/195996240"
   },
   {
+    "id": "cust-026-bk-global",
+    "checkedAddress": "39/9 Ho Ba Phan, Phuoc Long A Ward, Thu Duc City, Ho Chi Minh City, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.8505674,
+    "lon": 106.7585291,
+    "osmType": "relation",
+    "osmId": 7138136,
+    "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Thủ Đức (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7138136"
+  },
+  {
     "id": "cust-064-bunnings",
     "checkedAddress": "16-18 Cato Street, Hawthorn East, Victoria 3123, Australia",
     "verificationLevel": "address",
@@ -207,6 +223,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Thành phố: Kelowna (tọa độ đại diện)",
     "countryCode": "ca",
     "sourceUrl": "https://www.openstreetmap.org/relation/2221794"
+  },
+  {
+    "id": "cust-175-cosmo-sourcing",
+    "checkedAddress": "Lot C17, Hung Vuong Boulevard, Hoa Phu Ward, Thu Dau Mot City, Binh Duong Province, Vietnam",
+    "verificationLevel": "street",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 11.0392618,
+    "lon": 106.7306477,
+    "osmType": "way",
+    "osmId": 1433890535,
+    "matchedAddress": "Ho Chi Minh City - Thu Dau Mot - Chon Thanh Expressway, Khu phố Tân Hội, Phường Tân Hiệp, Ho Chi Minh City, Vietnam",
+    "objectKind": "highway:construction",
+    "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/way/1433890535"
   },
   {
     "id": "cust-164-crest-cabinet-company",
@@ -801,6 +833,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/relation/3558037"
   },
   {
+    "id": "cust-056-mmml",
+    "checkedAddress": "Street P, Group 4, Song Vinh Commune, Tan Phuoc Ward, Phu My, Ba Ria Vung Tau, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.6234749,
+    "lon": 107.0545699,
+    "osmType": "relation",
+    "osmId": 5485644,
+    "matchedAddress": "Phường Phú Mỹ, Ho Chi Minh City, 78706, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Phú Mỹ (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/5485644"
+  },
+  {
     "id": "cust-019-modern-sourcing",
     "checkedAddress": "6th Floor, 27B Nguyen Dinh Chieu, Da Kao Ward, District 1, Ho Chi Minh City, Vietnam",
     "verificationLevel": "administrative",
@@ -1089,6 +1137,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "sourceUrl": "https://www.openstreetmap.org/way/639718921"
   },
   {
+    "id": "cust-051-rosco",
+    "checkedAddress": "Number 31, street 39, Van Phuc residence, Hiep Binh Phuoc ward, Thu Duc city, HCMc",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.8505674,
+    "lon": 106.7585291,
+    "osmType": "relation",
+    "osmId": 7138136,
+    "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Thủ Đức (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7138136"
+  },
+  {
     "id": "cust-074-rusta-ab",
     "checkedAddress": "Rusta AB Vietnam (publ) MB Sunny Tower, lau 7 259 Trần Hưng Đạo, Phường Cô Giang, Quận 1, TP.HCM",
     "verificationLevel": "street",
@@ -1119,6 +1183,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Phường/khu vực: Phường Bình Dương (tọa độ đại diện)",
     "countryCode": "vn",
     "sourceUrl": "https://www.openstreetmap.org/relation/13455518"
+  },
+  {
+    "id": "cust-129-sklum-home-and-deco-s-l",
+    "checkedAddress": "Partida Tancaes S/N, 46720 Villalonga, Valencia, Spain",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 38.1141244,
+    "lon": -3.6385285,
+    "osmType": "node",
+    "osmId": 13468558084,
+    "matchedAddress": "Villalonga, Barriada de los Arrayanes, Linares, Jaén, Andalusia, 23700, Spain",
+    "objectKind": "place:quarter",
+    "precisionLabel": "Khu vực: Villalonga (tọa độ đại diện)",
+    "countryCode": "es",
+    "sourceUrl": "https://www.openstreetmap.org/node/13468558084"
   },
   {
     "id": "cust-097-sofology",
@@ -1167,6 +1247,22 @@ window.ATLAS_RESEARCHED_CUSTOMER_POINTS = [
     "precisionLabel": "Đường (vị trí đại diện, không phải số nhà)",
     "countryCode": "sg",
     "sourceUrl": "https://www.openstreetmap.org/way/633314351"
+  },
+  {
+    "id": "cust-038-squarehome",
+    "checkedAddress": "30 Do Xuan Hop Street, Phuoc Long A Ward, Thu Duc City, Ho Chi Minh City 700000, Vietnam",
+    "verificationLevel": "administrative",
+    "checkedAt": "2026-11-09",
+    "verificationSource": "OpenStreetMap Nominatim (one-time research)",
+    "lat": 10.8505674,
+    "lon": 106.7585291,
+    "osmType": "relation",
+    "osmId": 7138136,
+    "matchedAddress": "Phường Thủ Đức, Ho Chi Minh City, 71319, Vietnam",
+    "objectKind": "boundary:administrative",
+    "precisionLabel": "Phường/khu vực: Phường Thủ Đức (tọa độ đại diện)",
+    "countryCode": "vn",
+    "sourceUrl": "https://www.openstreetmap.org/relation/7138136"
   },
   {
     "id": "cust-073-starmerx-innovation",
