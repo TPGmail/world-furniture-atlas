@@ -397,9 +397,9 @@
       "name": "Li & Fung",
       "status": "manually-reconciled",
       "queries": 3,
-      "source": "https://www.openstreetmap.org/node/8764919487",
-      "matchedAddress": "Cheung Sha Wan Industrial Area, Sham Shui Po, Kowloon, Hong Kong",
-      "precision": "administrative"
+      "source": "https://www.openstreetmap.org/way/354995756",
+      "matchedAddress": "LiFung Tower, 888 Cheung Sha Wan Road, Lai Chi Kok, Kowloon, Hong Kong",
+      "precision": "address"
     },
     {
       "id": "cust-136-liberty-furniture-industries-inc",
@@ -811,9 +811,9 @@
   "manuallyReconciled": 22,
   "publishedLocated": 123,
   "publishedByPrecision": {
-    "address": 48,
+    "address": 49,
     "street": 22,
-    "administrative": 53
+    "administrative": 52
   },
   "qualityControl": {
     "sourceRowsNotChanged": true,
@@ -822,7 +822,8 @@
       "SKLUM: Nominatim Villalonga result was in Jaen/Andalusia 23700; removed and replaced with OSM Villalonga (Valencia 46720).",
       "Ove Decors: house/street matched Rue Michelin, but OSM postcode H7L 4R9 differs from source H7L 5C1; lowered to street-level precision.",
       "5 khách còn thiếu được đặt tại địa danh cấp thấp nhất có nguồn kiểm chứng: Thảo Điền, Bình Thạnh, Cheung Sha Wan, Tsim Sha Tsui, Khu Khot. Đây là điểm tham chiếu, không phải tòa nhà.",
-      "15 vị trí có kết quả geocoder khớp nhầm tuyến đường/phường hoặc chỉ ở cấp thành phố đã được sửa thành khu vực có tên đúng trong địa chỉ và nguồn tham chiếu; hạ mức chính xác về hành chính."
+      "15 vị trí có kết quả geocoder khớp nhầm tuyến đường/phường hoặc chỉ ở cấp thành phố đã được sửa thành khu vực có tên đúng trong địa chỉ và nguồn tham chiếu; hạ mức chính xác về hành chính.",
+      "Li & Fung: formerly a Cheung Sha Wan district reference; corrected to LiFung Tower at 888 Cheung Sha Wan Road using official company contact and OSM office-building way 354995756."
     ],
     "lowPrecisionIsNotBusinessOccupancy": true
   }
