@@ -87,13 +87,17 @@ for(const [id,point] of allPoints) {
   const hasSource=typeof point.sourceUrl==='string' && point.sourceUrl.startsWith('https://');
   assert.ok(hasOsm || hasSource,'Geographic source required: '+id);
 }
-assert.deepEqual(categories,{address:48,street:22,administrative:53});
+assert.deepEqual(categories,{address:49,street:22,administrative:52});
 assert.ok(html.includes('src="customer-corroborated-points.js"'),'Manual source overrides load before the map');
 assert.ok(!allPoints.get('cust-087-fast-direct-corp').matchedAddress.includes('Roosevelt'),'Exclude wrong New York location');
 assert.ok(!allPoints.get('cust-129-sklum-home-and-deco-s-l').matchedAddress.includes('Andalusia'),'Exclude wrong Spanish town');
 assert.equal(allPoints.get('cust-154-ove-decors').verificationLevel,'street','Conflicting postcode is not a rooftop');
 const customerAudit=JSON.parse(read('CUSTOMER_LOCATION_RESEARCH.json'));
 assert.equal(customerAudit.publishedLocated,123);
+const liFung=allPoints.get('cust-037-li-fung');
+assert.equal(liFung.verificationLevel,'address','Li & Fung must point at the verified building');
+assert.equal(liFung.osmId,354995756,'LiFung Tower OSM way');
+assert.equal(liFung.osmType,'way');
 assert.equal(customerAudit.missing,0);
 
-console.log('Unified map / ISO tests passed: 123/123 source-linked customers (48 exact, 22 street, 53 administrative).');
+console.log('Unified map / ISO tests passed: 123/123 source-linked customers (49 exact, 22 street, 52 administrative).');
