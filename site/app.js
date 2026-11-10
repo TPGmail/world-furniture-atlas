@@ -333,7 +333,7 @@ function setPanelOpen(isOpen) {
     panelBackdrop.classList.toggle('is-open', isOpen && mobilePanelQuery.matches);
     // On desktop the map region changes width. ResizeObserver recalculates the geometry.
 }
-function alignPanelWithViewport() { setPanelOpen(!mobilePanelQuery.matches); }
+function alignPanelWithViewport() { setPanelOpen(false); }
 mobilePanelQuery.addEventListener?.('change', alignPanelWithViewport);
 alignPanelWithViewport();
 togglePanelBtn.addEventListener('click', () => setPanelOpen(controlPanel.classList.contains('hidden')));
