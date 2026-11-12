@@ -19,7 +19,7 @@ assert.ok(Object.entries(d.profiles).filter(([id,p])=>p.trade).every(([id,p])=>p
 const html = fs.readFileSync(path.join(site,"index.html"),"utf8");
 for (const x of ["industry-role-filter","industry-panel","country-intelligence.css",
                   "country-intelligence-data.js","country-intelligence.js"]) assert.ok(html.includes(x),x);
-assert.ok(html.indexOf('src="app.js"') < html.indexOf('src="country-intelligence.js"'));
+assert.ok(html.indexOf('src="app.js"') < html.indexOf('src="country-intelligence.js?v=20261112-compact-drawer"'));
 assert.ok(html.includes('customer-addresses.js') && !html.includes('customer-points.js'));
 assert.ok(html.indexOf('src="country-intelligence-data.js"') < html.indexOf('src="app.js"'));
 const app = fs.readFileSync(path.join(site,"app.js"),"utf8");
