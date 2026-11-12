@@ -140,6 +140,7 @@ function render() {
       ["industry","Ngành nội thất",renderIndustry(id)],
       ["trade","Thương mại",renderTrade(id)],
       ["market","Thị trường",renderMarket(id)],
+      ["learn","Kiến thức chuyên sâu",window.FurniverseKnowledge?.countryHTML(id) || ""],
       ["compare","So sánh",renderCompare()]
     ].filter(([_,__,content]) => Boolean(content && content.trim()));
     const body = '<div class="ic-body" role="region" aria-label="Thông tin tổng hợp quốc gia">' +
