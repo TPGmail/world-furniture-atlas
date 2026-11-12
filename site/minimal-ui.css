@@ -103,36 +103,51 @@ header .subtitle { margin-top:.25rem; }
 .country-expand:hover {
   background:var(--btn-secondary-hover); border-color:var(--accent);
 }
+/* Compact country drawer: content-sized on desktop; scroll inside when expanded. */
 .industry-panel {
-  top:1rem; right:1rem; bottom:1rem;
-  width:min(560px,calc(100% - 2rem));
-  border-radius:18px;
+  top:1rem; right:1rem; bottom:auto;
+  width:min(430px,calc(100vw - 2rem));
+  height:auto; max-height:calc(100dvh - 2rem);
+  border-radius:14px;
   background:var(--panel-bg);
 }
-.ic-header { padding:1.12rem 1.15rem .95rem; }
-.ic-name h2 {font-size:1.22rem;}
-.ic-body { padding:1rem 1.05rem; line-height:1.62; }
+.ic-header {padding:.6rem .75rem; align-items:center; gap:.45rem;}
+.ic-name {gap:.5rem;}
+.ic-flag {font-size:1.55rem;}
+.ic-name h2 {font-size:1.06rem;line-height:1.2;}
+.ic-name p {font-size:.72rem;margin:.12rem 0 0;}
+.ic-close {font-size:1.4rem;}
+.ic-body {flex:0 1 auto; padding:.65rem .7rem; line-height:1.42; overflow-y:auto;}
 .ic-unified-section {
   border:1px solid var(--panel-border);
   background:var(--note-bg);
-  border-radius:12px;
-  margin:0 0 .8rem;
+  border-radius:10px;
+  margin:0 0 .42rem;
   overflow:hidden;
 }
+.ic-unified-section:last-child {margin-bottom:0;}
 .ic-unified-section > summary {
-  min-height:52px; display:list-item;
-  padding:.85rem 1rem;
+  min-height:44px; display:list-item;
+  padding:.55rem .7rem;
   align-content:center; font-weight:700;
-  font-size:.94rem; cursor:pointer;
+  font-size:.85rem; cursor:pointer;
   color:var(--text-main);
 }
 .ic-unified-section[open] > summary {border-bottom:1px solid var(--panel-border);}
 .ic-unified-section > summary:hover {background:var(--btn-secondary-hover);}
-.ic-unified-content {padding:.95rem .95rem .65rem;}
-.ic-unified-content > .ic-section:last-child {margin-bottom:.45rem;}
-.ic-unified-content .ic-section h3 {font-size:.84rem; color:var(--text-main);}
+.ic-unified-content {padding:.65rem .72rem .4rem;}
+.ic-section {margin:0 0 .7rem;}
+.ic-section h3 {font-size:.8rem;margin:0 0 .35rem;}
+.ic-tag {font-size:.72rem;line-height:1.25;padding:.22rem .45rem;margin:0 .2rem .22rem 0;border-radius:7px;}
+.ic-facts li {font-size:.8rem;margin-bottom:.5rem;}
+.ic-source {font-size:.72rem;margin-top:.12rem;}
+.ic-stats {gap:.4rem;}
+.ic-stat {padding:.55rem;gap:.28rem;}
+.ic-unified-content > .ic-section:last-child {margin-bottom:.2rem;}
+.ic-unified-content .ic-section h3 {font-size:.8rem;color:var(--text-main);}
 .ic-unified-content .ic-caution {border-radius:6px;}
-.ic-footer {padding:.75rem 1rem;}
+.ic-footer {padding:.5rem .7rem;gap:.4rem;}
+.ic-footer button {min-height:44px;font-size:.78rem;padding:.35rem .5rem;}
 .atlas-unified-ready .atlas-customer-pane,
 .atlas-unified-ready .leaflet-map-canvas {
   background:var(--map-sea);
@@ -157,19 +172,19 @@ header .subtitle { margin-top:.25rem; }
     gap:.72rem;
   }
   .industry-panel {
-    inset:0; width:100%; height:100dvh; border-radius:0;
+    inset:0; width:100%; height:100dvh; max-height:100dvh; border-radius:0;
     padding-top:env(safe-area-inset-top);
     padding-bottom:env(safe-area-inset-bottom);
   }
-  .ic-body {padding:.85rem .78rem;}
-  .ic-unified-section > summary {min-height:50px;}
+  .ic-body {flex:1 1 auto;padding:.65rem .7rem;}
+  .ic-unified-section > summary {min-height:44px;}
   .settings-content {padding:.7rem .6rem;}
 }
 @media (max-width:440px) {
   .country-list-row {padding:.52rem .6rem;}
   .country-list-name {font-size:.82rem;}
   .country-expand {min-width:73px;}
-  .ic-header {padding:.8rem .7rem;}
-  .ic-footer {gap:.35rem;padding:.6rem;}
-  .ic-unified-content {padding:.72rem;}
+  .ic-header {padding:.6rem .7rem;}
+  .ic-footer {gap:.35rem;padding:.5rem .6rem;}
+  .ic-unified-content {padding:.6rem;}
 }
