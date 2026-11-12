@@ -5,6 +5,10 @@
   const mapArea = document.querySelector(".map-area");
   if (!db || !mapArea || !Array.isArray(db.topics)) return;
   const topicMap = Object.fromEntries(db.topics.map(t => [t.id,t]));
+  /* Reuse the existing, editorial Country Intelligence role overlay: no new coordinates. */
+  const topicRole = {wood:"resource",dna:"design",trade:"trading",
+    manufacturing:"manufacturing",history:"design",logistics:"trading",
+    sustainability:"resource",retail:"consumer",opportunity:"trading"};
   const safe = v => String(v == null ? "" : v).replace(/[&<>"']/g, c =>
     ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const normalize = v => /^\d{1,3}$/.test(String(v)) ? String(v).padStart(3,"0") : String(v);
@@ -190,10 +194,16 @@
       !terms || [topic.title,topic.label,e.title,e.body].join(" ").toLocaleLowerCase("vi").includes(terms));
     const header = terms ? '<h3>Kết quả tìm kiếm</h3>' : '<div class="fvk-topic-top"><span>'+safe(selected.icon)+'</span>'+
       '<div><h3>'+safe(selected.title)+'</h3><p>'+safe(selected.summary)+'</p></div></div>';
+    const role = terms ? "" : topicRole[selected.id];
+    const roleFilter = document.getElementById("industry-role-filter");
+    const layer = role && roleFilter ?
+      '<div class="fvk-layer"><span>Lớp bản đồ: vai trò ngành theo hồ sơ biên tập, không phải điểm phân bố hoặc số liệu GPS</span>'+
+      '<div><button type="button" data-fvk="map-layer" data-role="'+safe(role)+'">Xem lớp liên quan</button>'+
+      '<button type="button" data-fvk="map-clear">Xóa lớp</button></div></div>' : "";
     const special = terms ? "" : (features[selected.id]?.() || "");
     const countryHint = state.country ? '<p class="fvk-note">Hồ sơ đang tham chiếu: '+safe(labelFor(state.country))+
       '. Các bài học chung không đại diện cho dữ liệu riêng của quốc gia.</p>' : "";
-    contentEl.innerHTML = header + countryHint + special + (entries.length ?
+    contentEl.innerHTML = header + countryHint + layer + special + (entries.length ?
       '<div class="fvk-articles">'+entries.map(({topic,e}) =>
         (terms ? '<small>'+safe(topic.icon+" "+topic.title)+'</small>' : "")+itemCard(e)).join("")+'</div>' :
       '<p class="fvk-note">Không tìm thấy bài học theo từ khóa này.</p>');
@@ -233,6 +243,14 @@
     if (action === "step") {state.step=Math.min(db.anatomy.length-1,Number(btn.dataset.step)||0);renderContent();return;}
     if (action === "time-prev") {state.time=Math.max(0,state.time-1);renderContent();return;}
     if (action === "time-next") {state.time=Math.min(db.timeline.length-1,state.time+1);renderContent();return;}
+    if (action === "map-layer" || action === "map-clear") {
+      const control=document.getElementById("industry-role-filter");
+      if (control) {
+        control.value=action==="map-clear"?"":btn.dataset.role;
+        control.dispatchEvent(new Event("change",{bubbles:true}));
+      }
+      close();return;
+    }
     if (action === "flow-run") {loadTradeFlow();return;}
     if (action === "map") {
       const id = btn.dataset.id;
