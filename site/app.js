@@ -101,10 +101,6 @@ function parseMarkdown(text) {
     return output.join('');
 }
 
-const atlasMetaSummary = document.getElementById('atlas-meta-summary');
-const atlasMetaTags = document.getElementById('atlas-meta-tags');
-const atlasVariants = document.getElementById('atlas-variants');
-const atlasVariantText = document.getElementById('atlas-variant-text');
 const knowledgeSummary = document.getElementById('knowledge-summary');
 const mergeCatalogBtn = document.getElementById('merge-catalog-btn');
 // Step 3: Faceted search and mobile-first map controls.
@@ -161,9 +157,6 @@ function appendBrief(id) {
     const label = document.createElement('p');
     label.className = 'brief-eyebrow';
     label.textContent = item.category;
-    const summary = document.createElement('p');
-    summary.className = 'brief-summary';
-    summary.textContent = item.summary;
     const list = document.createElement('ul');
     list.className = 'brief-points';
     for (const fact of item.facts) {
@@ -173,66 +166,20 @@ function appendBrief(id) {
         if (src) {
             const a = document.createElement('a');
             a.href = src.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-            a.textContent = 'Nguồn chính thức'; a.title = src.title;
+            a.textContent = 'Nguồn'; a.title = src.title;
             li.appendChild(a);
         }
         list.appendChild(li);
     }
-    verifiedBrief.append(label, summary, list);
+    verifiedBrief.append(label, list);
 }
 
-
-function renderAtlasMetadata(id, displayedText) {
-    const record = atlasKnowledgeV2.records[id];
-    atlasMetaTags.replaceChildren();
-    atlasVariants.classList.add('hidden');
-    atlasVariantText.textContent = '';
-    if (!record) {
-        atlasMetaSummary.textContent = 'Ghi chú riêng';
-        return;
-    }
-    const origin = record.provenance.primary === 'user_export'
-        ? 'Bản JSON người dùng đã xuất' : 'Ghi chú mặc định của dự án';
-    const edited = record.text !== displayedText;
-    const warning = record.provenance.comparison === 'conflict' ? ' • 2 phiên bản nguồn' : '';
-    atlasMetaSummary.textContent = `Nguồn ưu tiên: ${origin}${warning}` +
-        (edited ? ' • Nội dung trên trình duyệt khác bản tham chiếu' : '') +
-        '';
-    const categories = {
-        materials: 'Vật liệu', products: 'Sản phẩm', design_styles: 'Phong cách',
-        standards_and_certifications: 'Tiêu chuẩn', geographies_mentioned: 'Địa danh nhắc đến'
-    };
-    for (const [field, label] of Object.entries(categories)) {
-        const values = record.taxonomy[field] || [];
-        if (!values.length) continue;
-        const item = document.createElement('div');
-        item.className = 'atlas-taxonomy-row';
-        const title = document.createElement('strong');
-        title.textContent = label + ': ';
-        item.append(title, document.createTextNode(values.join(' · ')));
-        atlasMetaTags.appendChild(item);
-    }
-    if (record.review.flags && record.review.flags.length) {
-        const flag = document.createElement('p');
-        flag.className = 'atlas-review-warning';
-        flag.textContent = 'Cần rà soát: ' + record.review.flags.join(' | ');
-        atlasMetaTags.appendChild(flag);
-    }
-    const conflict = atlasKnowledgeV2.conflicts[id];
-    if (conflict) {
-        atlasVariants.classList.remove('hidden');
-        atlasVariantText.textContent =
-            'BẢN MẶC ĐỊNH (lưu riêng, không ghi đè):\n' + conflict.default.text +
-            '\n\nBẢN JSON XUẤT (nguồn ưu tiên khi cài mới):\n' + conflict.export.text;
-    }
-}
 
 function openModal(id, title, text) {
     currentModalCountryId = id;
     modalTitle.textContent = title;
     modalText.innerHTML = parseMarkdown(text);
     modalTextarea.value = text;
-    renderAtlasMetadata(id, text);
     appendBrief(id);
     
     modalText.classList.remove('hidden');
@@ -266,7 +213,6 @@ modalSaveBtn.addEventListener('click', () => {
             };
             if (!persistNotes(nextNotes)) return;
             modalText.innerHTML = parseMarkdown(newText);
-            renderAtlasMetadata(currentModalCountryId, newText);
             
             if (currentSelection.length === 1 && currentSelection[0].id === currentModalCountryId) {
                 noteInput.value = newText;
