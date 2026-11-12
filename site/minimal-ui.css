@@ -16,6 +16,7 @@
 }
 header .subtitle { margin-top:.25rem; }
 .settings-panel {
+  margin-top: auto;
   flex:0 0 auto;
   background:var(--note-bg);
   border:1px solid var(--panel-border);
