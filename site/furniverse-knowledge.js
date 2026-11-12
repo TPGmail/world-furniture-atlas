@@ -55,7 +55,7 @@
   const contentEl = drawer.querySelector("#fvk-content");
   const nav = drawer.querySelector("#fvk-nav");
   const search = drawer.querySelector("#fvk-search");
-  const state = {topic:"wood",q:"",species:"oak",time:2,step:0,country:"",check:new Set()};
+  const state = {topic:"wood",q:"",species:"oak",time:2,step:0,country:"",check:new Set(),flow:{r:"704",p:"840",year:"2025",loading:false,result:""}};
   let previousFocus = null;
   const labelFor = id => {
     const brief = window.ATLAS_BRIEFS_V15?.records?.[id];
@@ -107,7 +107,23 @@
     const list = Object.entries(window.FURNIVERSE_INDUSTRY?.profiles || {}).filter(([id,p]) =>
       p.trade && p.trade.some(t => t.year && t.value && window.ATLAS_BRIEFS_V15?.sources?.[t.source]?.url));
     if (!list.length) return "";
-    return '<div class="fvk-feature"><h4>🌐 Dữ liệu thương mại được công bố</h4>'+
+    const flowCountries = [["704","Việt Nam"],["840","Mỹ"],["276","Đức"],["826","Anh"],
+      ["124","Canada"],["036","Australia"],["380","Italy"],["392","Nhật Bản"],
+      ["458","Malaysia"],["076","Brazil"],["528","Hà Lan"],["752","Thụy Điển"]];
+    const options = chosen => flowCountries.map(([id,name]) =>
+      '<option value="'+id+'"'+(chosen===id?" selected":"")+'>'+safe(name)+'</option>').join("");
+    const flow = '<div class="fvk-flow"><h4>Tra cứu luồng thương mại song phương · HS 9403</h4>'+
+      '<div class="fvk-flow-controls"><label>Nước xuất khẩu<select id="fvk-flow-from">'+options(state.flow.r)+'</select></label>'+
+      '<label>Nước nhập khẩu<select id="fvk-flow-to">'+options(state.flow.p)+'</select></label>'+
+      '<label>Năm<select id="fvk-flow-year">'+["2025","2024","2023"].map(y =>
+        '<option value="'+y+'"'+(state.flow.year===y?" selected":"")+'>'+y+'</option>').join("")+'</select></label></div>'+
+      '<div class="fvk-flow-arrow"><b>'+safe(labelFor(state.flow.r))+'</b><span>→</span><b>'+safe(labelFor(state.flow.p))+'</b></div>'+
+      '<button type="button" data-fvk="flow-run" '+(state.flow.loading?"disabled":"")+'>'+
+      (state.flow.loading?"Đang tra dữ liệu...":"Tra UN Comtrade")+'</button>'+
+      (state.flow.result?'<div class="fvk-flow-result" role="status">'+safe(state.flow.result)+'</div>':"")+
+      '<p class="fvk-note">Truy vấn API preview công khai của UN Comtrade theo HS 9403, chiều xuất khẩu. '+
+      'Kết quả chỉ hiển thị nếu tìm được bản ghi tổng hợp đúng quốc gia, năm và mã HS.</p></div>';
+    return '<div class="fvk-feature"><h4>🌐 Dữ liệu thương mại được công bố</h4>'+flow+
       '<p class="fvk-note">Các chỉ tiêu có phạm vi khác nhau, không phải số liệu giao thương song phương. Chọn quốc gia để mở trên bản đồ.</p>'+
       '<div class="fvk-trade-list">'+list.map(([id,p]) =>
       '<article><strong>'+safe(labelFor(id))+'</strong>'+
@@ -117,6 +133,38 @@
       '" target="_blank" rel="noopener noreferrer">'+safe(window.ATLAS_BRIEFS_V15.sources[t.source].title)+'</a></div>').join("")+
       '<button type="button" data-fvk="map" data-id="'+safe(id)+'">Xem quốc gia trên bản đồ</button></article>').join("")+'</div>'+
       '<p class="fvk-note">Phân tích luồng song phương và HS: <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer">UN Comtrade</a>.</p></div>';
+  }
+  async function loadTradeFlow() {
+    if (state.flow.loading) return;
+    if (state.flow.r === state.flow.p) {
+      state.flow.result = "Hãy chọn hai quốc gia khác nhau.";
+      renderContent();return;
+    }
+    state.flow.loading=true;state.flow.result="";renderContent();
+    try {
+      const q = new URL("https://comtradeapi.un.org/public/v1/preview/C/A/HS");
+      for(const [k,v] of Object.entries({
+        period:state.flow.year,reporterCode:state.flow.r,partnerCode:state.flow.p,
+        cmdCode:"9403",flowCode:"X",maxRecords:"500"
+      }))q.searchParams.set(k,v);
+      const response=await fetch(q.toString(),{headers:{Accept:"application/json"}});
+      if(!response.ok)throw new Error("HTTP "+response.status);
+      const body=await response.json();
+      const rows=Array.isArray(body.data)?body.data:[];
+      const found=rows.find(row => String(row.cmdCode)==="9403" &&
+        String(row.reporterCode)===state.flow.r && String(row.partnerCode)===state.flow.p &&
+        String(row.flowCode)==="X" && Number.isFinite(Number(row.primaryValue)));
+      if(found) {
+        const number=Number(found.primaryValue);
+        state.flow.result="UN Comtrade · "+state.flow.year+" · HS 9403: "+
+          number.toLocaleString("vi-VN",{maximumFractionDigits:0})+
+          " USD (giá trị xuất khẩu báo cáo; dữ liệu preview, không phải dự báo).";
+      } else {
+        state.flow.result="Không tìm thấy bản ghi tổng hợp trong API preview. Xem nguồn UN Comtrade để tra cứu chi tiết.";
+      }
+    } catch (_) {
+      state.flow.result="Không truy cập được API preview từ trình duyệt. Có thể tra cứu trực tiếp tại UN Comtrade theo cùng bộ lọc.";
+    } finally {state.flow.loading=false;renderContent();}
   }
   function renderOpportunity() {
     const labels=["Đã đối chiếu số liệu nhập khẩu theo HS và năm","Đã xem năng lực sản xuất phù hợp",
@@ -185,6 +233,7 @@
     if (action === "step") {state.step=Math.min(db.anatomy.length-1,Number(btn.dataset.step)||0);renderContent();return;}
     if (action === "time-prev") {state.time=Math.max(0,state.time-1);renderContent();return;}
     if (action === "time-next") {state.time=Math.min(db.timeline.length-1,state.time+1);renderContent();return;}
+    if (action === "flow-run") {loadTradeFlow();return;}
     if (action === "map") {
       const id = btn.dataset.id;
       close();
@@ -193,11 +242,18 @@
   });
   drawer.addEventListener("input", e => {
     if (e.target === search) {state.q = search.value;renderContent();}
-    if (e.target.id === "fvk-time-range") {state.time=Math.min(db.timeline.length-1,Number(e.target.value)||0);renderContent();}
+    if (e.target.id === "fvk-time-range") {state.time=Math.min(db.timeline.length-1,Number(e.target.value)||0);}
     if (e.target.matches("[data-fvk-check]")) {
       const i=Number(e.target.getAttribute("data-fvk-check"));
       if(e.target.checked)state.check.add(i); else state.check.delete(i);
     }
+  });
+  drawer.addEventListener("change", e => {
+    if (e.target.id === "fvk-time-range") {renderContent();return;}
+    if (e.target.id === "fvk-flow-from") state.flow.r=e.target.value;
+    if (e.target.id === "fvk-flow-to") state.flow.p=e.target.value;
+    if (e.target.id === "fvk-flow-year") state.flow.year=e.target.value;
+    if (/^fvk-flow-/.test(e.target.id)) state.flow.result="";
   });
   document.addEventListener("click", e => {
     const btn = e.target.closest("[data-knowledge-open]");
