@@ -18,7 +18,10 @@ assert.ok(html.includes('aria-controls="control-panel" aria-expanded="false"'),'
 assert.ok(app.includes('function alignPanelWithViewport() { setPanelOpen(false); }'),'Default closed on all viewport sizes');
 assert.ok(app.includes("togglePanelBtn.addEventListener('click', () => setPanelOpen(controlPanel.classList.contains('hidden')))"),'Navigation pane remains manually reopenable');
 assert.ok(html.includes('id="appearance-mode"'),'Appearance selector must exist');
-assert.ok(html.includes('href="minimal-ui.css"'),'UI stylesheet must be included');
+assert.ok(html.includes('href="minimal-ui.css?v=20261112-compact-drawer"'),'Compact UI stylesheet must be refreshed');
+assert.ok(css.includes('width:min(430px,calc(100vw - 2rem))'),'Country panel should be compact');
+assert.ok(css.includes('height:auto; max-height:calc(100dvh - 2rem)'),'Desktop panel should fit its content');
+assert.ok(country.includes('new Set(["overview"]);'),'Only overview should open by default');
 assert.ok(html.includes('src="map-dateline.js"'),'Dateline fix must load');
 assert.ok(!html.includes('Bộ lọc nâng cao'),'Advanced filter copy removed');
 assert.ok(!html.includes('Hồ sơ thị trường'),'Market profile header removed');
