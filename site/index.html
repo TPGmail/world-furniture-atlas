@@ -31,67 +31,7 @@
                 
                 
             </header>
-<details id="settings-panel" class="settings-panel quiet-tools">
-    <summary aria-label="Mở cài đặt Furniverse">⚙ Cài đặt</summary>
-    <div class="settings-content">
-      <div class="settings-appearance">
-  <label for="appearance-mode">Giao diện sáng / tối</label>
-  <div class="settings-theme-row">
-    <select id="appearance-mode" aria-label="Chọn chế độ giao diện">
-      <option value="system">Theo thiết bị</option>
-      <option value="light">Sáng</option>
-      <option value="dark">Tối</option>
-    </select>
-    <button id="theme-toggle-btn" class="btn-icon" style="background: transparent; border: 1px solid var(--panel-border); cursor: pointer; color: var(--text-muted);" title="Chuyển nhanh sáng / tối" aria-label="Chuyển nhanh sáng / tối">
-                    <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <svg class="icon-moon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-  </div>
-  <p class="settings-hint">Theo thiết bị tự cập nhật khi hệ điều hành đổi Day / Night.</p>
-</div>
-      <div class="settings-sync"><div class="header-sync" role="status" aria-live="polite"><span class="header-sync-dot" aria-hidden="true"></span><span id="header-sync-status">Drive chưa kết nối</span></div></div>
-      <details class="knowledge-section quiet-tools" aria-labelledby="knowledge-heading">
-                <summary id="knowledge-heading">Kho ghi chú lưu trữ</summary>
-                <p id="knowledge-summary" class="knowledge-summary">Đang kiểm tra danh mục...</p>
-                <button id="merge-catalog-btn" class="btn-secondary" type="button">Bổ sung hồ sơ còn thiếu</button>
-                <p class="knowledge-disclaimer">Bổ sung dữ liệu nhưng vẫn giữ nguyên các ghi chú của bạn.</p>
-            </details>
-      <details id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
-                <summary>Đồng bộ Google Drive T.MN</summary>
-                <div class="cloud-title"><h3>Cấu hình đồng bộ riêng</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
-                <p id="cloud-details" class="cloud-details" role="status">Ghi chú vẫn lưu trên thiết bị.</p>
-                <div class="form-group">
-                    <label for="cloud-client-id">Google OAuth Client ID (Web application)</label>
-                    <input id="cloud-client-id" type="text" inputmode="url" autocomplete="off"
-                           placeholder="123456789-xxxx.apps.googleusercontent.com" aria-describedby="cloud-privacy">
-                </div>
-                <p id="cloud-privacy" class="cloud-privacy">Kết nối riêng tài khoản T.MN; chỉ xin quyền dữ liệu riêng của ứng dụng và email để xác nhận tài khoản. Mã OAuth Client ID không phải mật khẩu.</p>
-                <div class="cloud-buttons">
-                    <button id="cloud-connect" type="button" class="btn-primary">Kết nối Google</button>
-                    <button id="cloud-sync" type="button" class="btn-secondary" disabled>Đồng bộ ngay</button>
-                    <button id="cloud-disconnect" type="button" class="btn-secondary" disabled>Ngắt kết nối</button>
-                </div>
-                <label class="cloud-auto-line"><input id="cloud-auto" type="checkbox" checked> Tự đồng bộ khi trang đang mở và còn phiên đăng nhập</label>
-                <div id="cloud-conflicts" class="cloud-conflicts" aria-live="polite"></div>
-                <details class="cloud-history" id="cloud-history-panel">
-                    <summary>Lịch sử và khôi phục dữ liệu</summary>
-                    <button id="cloud-history-refresh" class="btn-secondary" type="button" disabled>Tải lịch sử</button>
-                    <div id="cloud-history" aria-live="polite">Kết nối để xem bản sao lưu.</div>
-                </details>
-            </details>
-      <details class="quiet-tools"><summary>Sao lưu và khôi phục JSON</summary>
-                        <div class="data-actions">
-                            <button id="import-btn" class="btn-icon" title="Nhập dữ liệu JSON" aria-label="Nhập dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            </button>
-                            <button id="export-btn" class="btn-icon" title="Xuất dữ liệu JSON" aria-label="Xuất dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            </button>
-                            <input type="file" id="import-file" accept=".json" style="display: none;">
-                        </div>
-                        </details>
-    </div>
-</details>
+
 
             <section class="input-section">
                 <div class="form-group" style="position: relative;">
@@ -147,6 +87,69 @@
 
 
             
+        <!-- Settings remain last in navigation, below all country entries. -->
+        <details id="settings-panel" class="settings-panel quiet-tools">
+            <summary aria-label="Mở cài đặt Furniverse">⚙ Cài đặt</summary>
+            <div class="settings-content">
+              <div class="settings-appearance">
+          <label for="appearance-mode">Giao diện sáng / tối</label>
+          <div class="settings-theme-row">
+            <select id="appearance-mode" aria-label="Chọn chế độ giao diện">
+              <option value="system">Theo thiết bị</option>
+              <option value="light">Sáng</option>
+              <option value="dark">Tối</option>
+            </select>
+            <button id="theme-toggle-btn" class="btn-icon" style="background: transparent; border: 1px solid var(--panel-border); cursor: pointer; color: var(--text-muted);" title="Chuyển nhanh sáng / tối" aria-label="Chuyển nhanh sáng / tối">
+                            <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg class="icon-moon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </button>
+          </div>
+          <p class="settings-hint">Theo thiết bị tự cập nhật khi hệ điều hành đổi Day / Night.</p>
+        </div>
+              <div class="settings-sync"><div class="header-sync" role="status" aria-live="polite"><span class="header-sync-dot" aria-hidden="true"></span><span id="header-sync-status">Drive chưa kết nối</span></div></div>
+              <details class="knowledge-section quiet-tools" aria-labelledby="knowledge-heading">
+                        <summary id="knowledge-heading">Kho ghi chú lưu trữ</summary>
+                        <p id="knowledge-summary" class="knowledge-summary">Đang kiểm tra danh mục...</p>
+                        <button id="merge-catalog-btn" class="btn-secondary" type="button">Bổ sung hồ sơ còn thiếu</button>
+                        <p class="knowledge-disclaimer">Bổ sung dữ liệu nhưng vẫn giữ nguyên các ghi chú của bạn.</p>
+                    </details>
+              <details id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
+                        <summary>Đồng bộ Google Drive T.MN</summary>
+                        <div class="cloud-title"><h3>Cấu hình đồng bộ riêng</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
+                        <p id="cloud-details" class="cloud-details" role="status">Ghi chú vẫn lưu trên thiết bị.</p>
+                        <div class="form-group">
+                            <label for="cloud-client-id">Google OAuth Client ID (Web application)</label>
+                            <input id="cloud-client-id" type="text" inputmode="url" autocomplete="off"
+                                   placeholder="123456789-xxxx.apps.googleusercontent.com" aria-describedby="cloud-privacy">
+                        </div>
+                        <p id="cloud-privacy" class="cloud-privacy">Kết nối riêng tài khoản T.MN; chỉ xin quyền dữ liệu riêng của ứng dụng và email để xác nhận tài khoản. Mã OAuth Client ID không phải mật khẩu.</p>
+                        <div class="cloud-buttons">
+                            <button id="cloud-connect" type="button" class="btn-primary">Kết nối Google</button>
+                            <button id="cloud-sync" type="button" class="btn-secondary" disabled>Đồng bộ ngay</button>
+                            <button id="cloud-disconnect" type="button" class="btn-secondary" disabled>Ngắt kết nối</button>
+                        </div>
+                        <label class="cloud-auto-line"><input id="cloud-auto" type="checkbox" checked> Tự đồng bộ khi trang đang mở và còn phiên đăng nhập</label>
+                        <div id="cloud-conflicts" class="cloud-conflicts" aria-live="polite"></div>
+                        <details class="cloud-history" id="cloud-history-panel">
+                            <summary>Lịch sử và khôi phục dữ liệu</summary>
+                            <button id="cloud-history-refresh" class="btn-secondary" type="button" disabled>Tải lịch sử</button>
+                            <div id="cloud-history" aria-live="polite">Kết nối để xem bản sao lưu.</div>
+                        </details>
+                    </details>
+              <details class="quiet-tools"><summary>Sao lưu và khôi phục JSON</summary>
+                                <div class="data-actions">
+                                    <button id="import-btn" class="btn-icon" title="Nhập dữ liệu JSON" aria-label="Nhập dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </button>
+                                    <button id="export-btn" class="btn-icon" title="Xuất dữ liệu JSON" aria-label="Xuất dữ liệu JSON" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                    </button>
+                                    <input type="file" id="import-file" accept=".json" style="display: none;">
+                                </div>
+                                </details>
+            </div>
+        </details>
+
         </aside>
 
         <button id="toggle-panel-btn" class="toggle-panel-btn" type="button" title="Ẩn/Hiện Bảng điều khiển" aria-controls="control-panel" aria-expanded="false" aria-label="Ẩn hoặc hiện bảng điều khiển">
