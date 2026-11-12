@@ -71,6 +71,23 @@
 .fvk-anatomy {display:grid;grid-template-columns:150px minmax(0,1fr);gap:.7rem;align-items:center;}
 .fvk-anatomy svg {width:100%;color:var(--accent-hover);}
 .fvk-step {font-size:.73rem!important;color:var(--text-muted);}
+.fvk-flow {border:1px solid var(--panel-border);background:var(--panel-bg);
+  border-radius:12px;padding:.8rem;margin:.65rem 0 1rem;}
+.fvk-flow h4 {font-size:.84rem;margin:.1rem 0 .65rem;}
+.fvk-flow-controls {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;}
+.fvk-flow-controls label {font-size:.72rem;color:var(--text-muted);display:flex;flex-direction:column;gap:.33rem;}
+.fvk-flow-controls select {min-width:0;min-height:44px;box-sizing:border-box;padding:.4rem .35rem;
+  font:inherit;font-size:.79rem;border-radius:8px;border:1px solid var(--panel-border);
+  color:var(--text-main);background:var(--input-bg);}
+.fvk-flow-arrow {display:flex;justify-content:space-around;align-items:center;gap:.6rem;
+  text-align:center;margin:.8rem 0;padding:.7rem;border-radius:9px;background:var(--note-bg);}
+.fvk-flow-arrow b {font-size:.8rem;}
+.fvk-flow-arrow span {font-size:1.35rem;color:var(--accent-hover);}
+.fvk-flow > button {width:100%;min-height:44px;border-radius:9px;cursor:pointer;font:inherit;
+  background:var(--accent);color:white;border:1px solid var(--accent);font-size:.81rem;font-weight:650;}
+.fvk-flow > button:disabled {opacity:.6;cursor:wait;}
+.fvk-flow-result {font-size:.78rem;line-height:1.6;margin:.65rem 0;padding:.65rem;
+  border-left:3px solid var(--accent);background:var(--note-bg);border-radius:5px;}
 .fvk-trade-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;}
 .fvk-trade-list article {padding:.75rem;border:1px solid var(--panel-border);border-radius:10px;background:var(--panel-bg);}
 .fvk-trade-list strong {font-size:.84rem;}
@@ -95,6 +112,9 @@
   .fvk-scroll {padding:.8rem .82rem 1rem;}
   .fvk-nav {grid-template-columns:repeat(2,minmax(0,1fr));}
   .fvk-trade-list {grid-template-columns:1fr;}
+}
+@media (max-width:420px) {
+  .fvk-flow-controls {grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:380px) {
   .fvk-specimen {grid-template-columns:1fr;}
