@@ -27,7 +27,7 @@
                     <span class="atlas-brand-mark" aria-hidden="true">◎</span>
                     <h1>World Wood &amp; Furniture Atlas</h1>
                 </div>
-                <p class="subtitle">made by TMN with <span class="glow-text">Antigravity</span></p>
+                
                 
                 
             </header>
@@ -35,30 +35,30 @@
 
             <section class="input-section">
                 <div class="form-group" style="position: relative;">
-                    <label for="country-search">Tìm kiếm quốc gia / vùng lãnh thổ</label>
-                    <input type="search" id="country-search" placeholder="Quốc gia, gỗ, sản phẩm, tiêu chuẩn..." autocomplete="off" aria-controls="search-results" aria-label="Tìm trong toàn bộ hồ sơ">
+                    <label for="country-search">Tìm quốc gia / vùng lãnh thổ</label>
+                    <input type="search" id="country-search" placeholder="Tìm quốc gia, vật liệu, sản phẩm..." autocomplete="off" aria-controls="search-results" aria-label="Tìm trong toàn bộ hồ sơ">
                     <ul id="search-results" class="search-results hidden" role="listbox" aria-label="Gợi ý tìm kiếm"></ul>
                 </div>
 
                 
 
-                <details id="editor-tools" class="quiet-tools"><summary>Thêm / chỉnh sửa ghi chú của tôi</summary>
+                <details id="editor-tools" class="quiet-tools"><summary>Ghi chú cá nhân</summary>
                 <div class="form-group">
                     <label for="country-select">Chọn từ danh sách</label>
                     <select id="country-select">
-                        <option value="" disabled selected>-- Đang tải dữ liệu bản đồ... --</option>
+                        <option value="" disabled selected>Đang tải...</option>
                     </select>
                     <div id="selected-chips" class="chips-container"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="note-input">Ghi chú thế mạnh / đặc điểm</label>
-                    <textarea id="note-input" rows="4" placeholder="Ví dụ: Thiết kế tối giản, sản xuất gỗ sồi tự nhiên..."></textarea>
+                    <textarea id="note-input" rows="4" placeholder="Ghi chú về thị trường, sản phẩm..."></textarea>
                 </div>
 
                 <div class="button-group">
-                    <button id="edit-btn" class="btn-secondary" style="display: none;">Edit</button>
-                    <button id="save-btn" class="btn-primary" disabled>Save</button>
+                    <button id="edit-btn" class="btn-secondary" style="display: none;">Sửa</button>
+                    <button id="save-btn" class="btn-primary" disabled>Lưu</button>
                 </div>
                 </details>
             </section>
@@ -104,31 +104,31 @@
                             <svg class="icon-moon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                         </button>
           </div>
-          <p class="settings-hint">Theo thiết bị tự cập nhật khi hệ điều hành đổi Day / Night.</p>
+          
         </div>
               <div class="settings-sync"><div class="header-sync" role="status" aria-live="polite"><span class="header-sync-dot" aria-hidden="true"></span><span id="header-sync-status">Drive chưa kết nối</span></div></div>
               <details class="knowledge-section quiet-tools" aria-labelledby="knowledge-heading">
                         <summary id="knowledge-heading">Kho ghi chú lưu trữ</summary>
                         <p id="knowledge-summary" class="knowledge-summary">Đang kiểm tra danh mục...</p>
                         <button id="merge-catalog-btn" class="btn-secondary" type="button">Bổ sung hồ sơ còn thiếu</button>
-                        <p class="knowledge-disclaimer">Bổ sung dữ liệu nhưng vẫn giữ nguyên các ghi chú của bạn.</p>
+                        
                     </details>
               <details id="cloud-panel" class="cloud-panel" aria-label="Đồng bộ Google Drive">
                         <summary>Đồng bộ Google Drive T.MN</summary>
-                        <div class="cloud-title"><h3>Cấu hình đồng bộ riêng</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
+                        <div class="cloud-title"><h3>Google Drive</h3><span id="cloud-status" class="cloud-status" aria-live="polite">Chưa kết nối</span></div>
                         <p id="cloud-details" class="cloud-details" role="status">Ghi chú vẫn lưu trên thiết bị.</p>
                         <div class="form-group">
                             <label for="cloud-client-id">Google OAuth Client ID (Web application)</label>
                             <input id="cloud-client-id" type="text" inputmode="url" autocomplete="off"
                                    placeholder="123456789-xxxx.apps.googleusercontent.com" aria-describedby="cloud-privacy">
                         </div>
-                        <p id="cloud-privacy" class="cloud-privacy">Kết nối riêng tài khoản T.MN; chỉ xin quyền dữ liệu riêng của ứng dụng và email để xác nhận tài khoản. Mã OAuth Client ID không phải mật khẩu.</p>
+                        <p id="cloud-privacy" class="cloud-privacy">Client ID không phải mật khẩu.</p>
                         <div class="cloud-buttons">
                             <button id="cloud-connect" type="button" class="btn-primary">Kết nối Google</button>
                             <button id="cloud-sync" type="button" class="btn-secondary" disabled>Đồng bộ ngay</button>
                             <button id="cloud-disconnect" type="button" class="btn-secondary" disabled>Ngắt kết nối</button>
                         </div>
-                        <label class="cloud-auto-line"><input id="cloud-auto" type="checkbox" checked> Tự đồng bộ khi trang đang mở và còn phiên đăng nhập</label>
+                        <label class="cloud-auto-line"><input id="cloud-auto" type="checkbox" checked> Tự đồng bộ khi mở trang</label>
                         <div id="cloud-conflicts" class="cloud-conflicts" aria-live="polite"></div>
                         <details class="cloud-history" id="cloud-history-panel">
                             <summary>Lịch sử và khôi phục dữ liệu</summary>
@@ -195,7 +195,7 @@
             <div id="map-fallback" class="map-fallback hidden" role="status">
                 <div class="map-fallback-symbol" aria-hidden="true">◎</div>
                 <strong>Không tải được bản đồ</strong>
-                <p>Danh sách thị trường có dữ liệu vẫn có thể tra cứu. Kiểm tra Internet rồi bấm <b>Tải lại bản đồ</b>, hoặc tải lại trang nếu nút này không hiển thị.</p>
+                <p>Kiểm tra kết nối Internet rồi tải lại trang.</p>
             </div>
             <aside id="industry-panel" class="industry-panel" aria-label="Hồ sơ ngành nội thất quốc gia và vùng lãnh thổ" hidden></aside>
             <!-- Tooltip -->
@@ -246,23 +246,14 @@
                 <h2 id="modal-title" class="modal-title">Tên quốc gia</h2>
                 <section id="verified-brief" class="verified-brief" aria-label="Thông tin thị trường"></section>
                 <details id="raw-note-panel" class="raw-note-panel">
-                    <summary>Ghi chú gốc</summary>
+                    <summary>Ghi chú</summary>
                     <div id="modal-text" class="modal-text">Nội dung ghi chú...</div>
                     <textarea id="modal-textarea" class="modal-textarea hidden" rows="10"></textarea>
                 </details>
-                <section class="atlas-meta" aria-label="Thông tin danh mục và nguồn dữ liệu">
-                    <h3>Thông tin ghi chú</h3>
-                    <p id="atlas-meta-summary"></p>
-                    <div id="atlas-meta-tags"></div>
-                    <details id="atlas-variants" class="atlas-variants hidden">
-                        <summary>Xem cả hai phiên bản dữ liệu gốc</summary>
-                        <pre id="atlas-variant-text"></pre>
-                    </details>
-                </section>
 
                 <div class="modal-actions button-group">
-                    <button id="modal-edit-btn" class="btn-secondary">Edit</button>
-                    <button id="modal-save-btn" class="btn-primary hidden">Save</button>
+                    <button id="modal-edit-btn" class="btn-secondary">Sửa</button>
+                    <button id="modal-save-btn" class="btn-primary hidden">Lưu</button>
                 </div>
             </div>
         </div>
