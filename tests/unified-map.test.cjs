@@ -27,7 +27,10 @@ assert.ok(map.includes('point.checkedAddress === entryById.get(point.id).address
 assert.ok(map.includes("point.verificationLevel === 'address'"));
 assert.ok(html.includes('src="customer-geocoded-points.js"'),'New research data loaded');
 assert.ok(map.includes("['street','postal','administrative']"),'Non-rooftop precision supported');
-assert.ok(map.includes("'Khu vực tham chiếu'"),'Area reference locations are clearly identified');
+assert.ok(!map.includes("'Khu vực tham chiếu'"),'Customer UI should not show reference-area labels');
+assert.ok(map.includes("function popupFor(rows)"),'Customer popups only use customer records');
+assert.ok(map.includes("container.appendChild(el('strong',row.name))") && map.includes("container.appendChild(el('p',row.address))"),'Customer popup shows name and address');
+assert.ok(!map.includes("customer-popup-precision") && !map.includes("customer-popup-iso"),'Customer popup has no extra metadata');
 assert.ok(map.includes("const preciseCount"),'Exact and approximate counts split');
 
 assert.ok(map.includes("feature.id !== 'intl-island'"));
