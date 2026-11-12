@@ -94,35 +94,15 @@
     }
     function updateMapStatus() {
         if(!mapStatus) return;
-        mapStatus.textContent = fmt(preciseCount) + ' địa chỉ khớp · ' +
-            fmt(areaCount) + ' khu vực gần đúng';
+        mapStatus.textContent = fmt(pointById.size) + ' khách hàng';
     }
-    function popupFor(rows,point) {
+    function popupFor(rows) {
         const container = el('div','','atlas-leaflet-popup');
         rows.forEach((row,index) => {
             if(index) container.appendChild(document.createElement('hr'));
             container.appendChild(el('strong',row.name));
             container.appendChild(el('p',row.address));
-            const rowPoint = pointById.get(row.id);
-            if (rowPoint) {
-                const label = rowPoint.verificationLevel === 'address'
-                    ? 'Khớp số nhà/tòa nhà' :
-                    (rowPoint.precisionLabel || 'Khu vực tham chiếu');
-                container.appendChild(el('small',label,'customer-popup-precision'));
-                if (rowPoint.verificationLevel !== 'address') {
-                    container.appendChild(el('small','Vị trí gần đúng, không xác nhận trụ sở doanh nghiệp.','customer-popup-precision-note'));
-                }
-            }
-            const country = isoFor(row);
-            const metadata = [isoLabel(country),sizeLabels[row.sizeCategory]].filter(Boolean).join(' · ');
-            if(metadata) container.appendChild(el('small',metadata,'customer-popup-iso'));
         });
-        const actions = el('div');
-        actions.appendChild(link(point.verificationSource === 'public-web-address-crosscheck'
-            ? 'Xem địa chỉ' : 'Nguồn bản đồ',osmLink(point)));
-        if(rows[0].sourceUrl && /^https:\/\//i.test(rows[0].sourceUrl))
-            actions.appendChild(link('Nguồn địa chỉ',rows[0].sourceUrl));
-        container.appendChild(actions);
         return container;
     }
     function buildMarkers() {
@@ -149,9 +129,8 @@
                 fillColor:exact ? '#ef4444' : '#fbbf24',
                 fillOpacity:exact ? 1 : 0.25,interactive:false
             }).addTo(customersLayer);
-            hit.bindPopup(popupFor(group.rows,point),{maxWidth:300,closeButton:true});
-            const tooltip = el('span',group.rows.map(row => row.name).join(' · ') +
-                (point.verificationLevel === 'address' ? '' : ' · gần đúng'));
+            hit.bindPopup(popupFor(group.rows),{maxWidth:300,closeButton:true});
+            const tooltip = el('span',group.rows.map(row => row.name).join(' · '));
             hit.bindTooltip(tooltip,{direction:'top',offset:[0,-12]});
             group.rows.forEach(row => markerById.set(row.id,hit));
         }
@@ -213,8 +192,7 @@
     function updateLayerStatus() {
         const label = $('map-layer-status');
         if(!label) return;
-        label.textContent = (countriesLayer ? 'Biên giới sẵn sàng' : 'Đang tải biên giới') +
-            ' · ' + fmt(preciseCount) + ' địa chỉ · ' + fmt(areaCount) + ' khu vực';
+        label.textContent = fmt(pointById.size) + ' khách hàng';
     }
     function applyLayerVisibility() {
         if(!map) return;
@@ -268,29 +246,11 @@
     }
     function makeItem(row,located) {
         const item = el('li','','customer-card');
-        const head = el('div','','customer-card-head');
-        head.appendChild(el('strong',row.name));
-        const code = isoFor(row);
-        if(code) head.appendChild(el('span',code,'customer-iso-tag'));
-        item.appendChild(head);
+        item.appendChild(el('strong',row.name));
         item.appendChild(el('span',row.address,'customer-address-text'));
-        const location = row.locationType || 'Địa chỉ';
-        const point = pointById.get(row.id);
-        const precision = point ? point.verificationLevel === 'address' ?
-            'Địa chỉ chính xác' : 'Khu vực tham chiếu' : '';
-        const meta = [sizeLabels[row.sizeCategory],location,precision].filter(Boolean).join(' · ');
-        if(meta) item.appendChild(el('small',meta,'customer-card-meta'));
-        const actions = el('div','','customer-list-actions');
         if(located) {
-            const button = el('button','Xem trên bản đồ');
-            button.type='button';
-            button.addEventListener('click',()=>openCustomerPin(row));
-            actions.appendChild(button);
-            actions.appendChild(link('Nguồn vị trí',osmLink(pointById.get(row.id))));
-        } else {
-            actions.appendChild(link('Tìm trên bản đồ',osmSearch(row.address)));
+            item.addEventListener('click',()=>openCustomerPin(row));
         }
-        item.appendChild(actions);
         return item;
     }
     function renderDirectory() {
