@@ -128,7 +128,7 @@ function render() {
     const previousSections = sameCountry ? Array.from(panel.querySelectorAll(".ic-unified-section")) : [];
     const expanded = previousSections.length ?
       new Set(previousSections.filter(item => item.open).map(item => item.dataset.section)) :
-      new Set(["overview","industry"]);
+      new Set(["overview"]);
     const p = profile(id);
     const name = state.name || record(id) && record(id).name || id;
     const heading = '<header class="ic-header"><div class="ic-name"><span class="ic-flag" aria-hidden="true">' +
