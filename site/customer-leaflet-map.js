@@ -94,8 +94,8 @@
     }
     function updateMapStatus() {
         if(!mapStatus) return;
-        mapStatus.textContent = fmt(preciseCount) + ' địa chỉ chính xác · ' +
-            fmt(areaCount) + ' vị trí tham chiếu khu vực';
+        mapStatus.textContent = fmt(preciseCount) + ' địa chỉ khớp · ' +
+            fmt(areaCount) + ' khu vực gần đúng';
     }
     function popupFor(rows,point) {
         const container = el('div','','atlas-leaflet-popup');
@@ -106,11 +106,11 @@
             const rowPoint = pointById.get(row.id);
             if (rowPoint) {
                 const label = rowPoint.verificationLevel === 'address'
-                    ? 'Vị trí địa chỉ (số nhà/tòa nhà)' :
-                    (rowPoint.precisionLabel || 'Vị trí tham chiếu khu vực');
+                    ? 'Khớp số nhà/tòa nhà' :
+                    (rowPoint.precisionLabel || 'Khu vực tham chiếu');
                 container.appendChild(el('small',label,'customer-popup-precision'));
                 if (rowPoint.verificationLevel !== 'address') {
-                    container.appendChild(el('small','Tọa độ đại diện cho tuyến đường hoặc khu vực, không phải vị trí chính xác của doanh nghiệp.','customer-popup-precision-note'));
+                    container.appendChild(el('small','Vị trí gần đúng, không xác nhận trụ sở doanh nghiệp.','customer-popup-precision-note'));
                 }
             }
             const country = isoFor(row);
@@ -119,7 +119,7 @@
         });
         const actions = el('div');
         actions.appendChild(link(point.verificationSource === 'public-web-address-crosscheck'
-            ? 'Bản đồ địa chỉ' : 'Nguồn vị trí OSM',osmLink(point)));
+            ? 'Xem địa chỉ' : 'Nguồn bản đồ',osmLink(point)));
         if(rows[0].sourceUrl && /^https:\/\//i.test(rows[0].sourceUrl))
             actions.appendChild(link('Nguồn địa chỉ',rows[0].sourceUrl));
         container.appendChild(actions);
@@ -151,7 +151,7 @@
             }).addTo(customersLayer);
             hit.bindPopup(popupFor(group.rows,point),{maxWidth:300,closeButton:true});
             const tooltip = el('span',group.rows.map(row => row.name).join(' · ') +
-                (point.verificationLevel === 'address' ? '' : ' · khu vực tham chiếu'));
+                (point.verificationLevel === 'address' ? '' : ' · gần đúng'));
             hit.bindTooltip(tooltip,{direction:'top',offset:[0,-12]});
             group.rows.forEach(row => markerById.set(row.id,hit));
         }
@@ -288,7 +288,7 @@
             actions.appendChild(button);
             actions.appendChild(link('Nguồn vị trí',osmLink(pointById.get(row.id))));
         } else {
-            actions.appendChild(link('Tra cứu OSM',osmSearch(row.address)));
+            actions.appendChild(link('Tìm trên bản đồ',osmSearch(row.address)));
         }
         item.appendChild(actions);
         return item;
