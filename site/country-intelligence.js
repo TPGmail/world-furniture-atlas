@@ -64,19 +64,14 @@ const facts = id => {
     return (window.ATLAS_CUSTOMER_ADDRESSES || []).filter(row => geo.forCustomer(row) === iso2);
   }
 function renderOverview(id) {
-    const p = profile(id), b = factBrief(id);
-    const roleText = badges(rolesFor(id),"role");
-    const summaryText = b && b.summary ? '<p>' + html(b.summary) + '</p>' : '';
-    const regionText = p && p.region ? '<p class="ic-muted">Khu vực: ' + html(p.region) + '</p>' : '';
-    return section("Vai trò trong ngành nội thất",roleText) +
-      section("Tổng quan thị trường",summaryText + regionText);
+    return section("Vai trò",badges(rolesFor(id),"role"));
   }
   function renderIndustry(id) {
     const p = profile(id);
-    return section("Lĩnh vực trọng tâm",badges(p && p.focus || [],"term")) +
-      section("Nguyên liệu từ ghi chú",listTerms(id,"materials")) +
-      section("Nhóm sản phẩm từ ghi chú",listTerms(id,"products")) +
-      section("Phong cách từ ghi chú",listTerms(id,"design_styles"));
+    return section("Lĩnh vực",badges(p && p.focus || [],"term")) +
+      section("Nguyên liệu",listTerms(id,"materials")) +
+      section("Sản phẩm",listTerms(id,"products")) +
+      section("Phong cách",listTerms(id,"design_styles"));
   }
   function renderTrade(id) {
     const p = profile(id);
@@ -90,8 +85,8 @@ function renderOverview(id) {
       stats + '</div>') : "";
   }
   function renderMarket(id) {
-    return section("Quy định và lưu ý thương mại",facts(id)) +
-      section("Tiêu chuẩn được nhắc trong ghi chú",listTerms(id,"standards_and_certifications"));
+    return section("Quy định thương mại",facts(id)) +
+      section("Tiêu chuẩn",listTerms(id,"standards_and_certifications"));
   }
   function addCompare(id) {
     const v = key(id);
@@ -145,7 +140,7 @@ function render() {
       ["industry","Ngành nội thất",renderIndustry(id)],
       ["trade","Thương mại",renderTrade(id)],
       ["market","Thị trường",renderMarket(id)],
-      ["compare","So sánh quốc gia",renderCompare()]
+      ["compare","So sánh",renderCompare()]
     ].filter(([_,__,content]) => Boolean(content && content.trim()));
     const body = '<div class="ic-body" role="region" aria-label="Thông tin tổng hợp quốc gia">' +
       views.map(([key,label,content]) => '<details class="ic-unified-section" data-section="' + key + '"' +
@@ -156,7 +151,7 @@ function render() {
       (comparisonActive ? "removecompare" : "addcompare") + '" data-id="' + html(id) + '"' +
       (!comparisonActive && state.comparison.length >= 3 ? " disabled" : "") + '>' +
       (comparisonActive ? "Bỏ so sánh" : "＋ Thêm so sánh") + ' (' + state.comparison.length + '/3)</button>' +
-      '<button type="button" data-action="legacy">Ghi chú / Chỉnh sửa</button></footer>';
+      '<button type="button" data-action="legacy">Ghi chú</button></footer>';
     panel.innerHTML = heading + body + footer;
     panel.hidden = false;
     panel.dataset.renderedCountry = id;
